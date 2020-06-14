@@ -52,6 +52,16 @@ export const RealNavBar = (props) => {
     setAnchorEl(null)
   }
 
+  //cart
+  const [anchorElCart, setAnchorElCart] = React.useState(null)
+
+  const handleClickCart = (event) => {
+    setAnchorElCart(event.currentTarget)
+  }
+
+  const handleCloseCart = () => {
+    setAnchorElCart(null)
+  }
   const classes = useStyles()
   const isloggedin = false
   return (
@@ -97,10 +107,27 @@ export const RealNavBar = (props) => {
           <IconButton
             edge='start'
             className={classes.menuButton}
-            aria-label='menu'
+            aria-controls='simple-menu-cart'
+            aria-haspopup='true'
+            onClick={handleClickCart}
           >
             <ShoppingCart />
           </IconButton>
+          <Menu
+            id='simple-menu-cart'
+            anchorEl={anchorElCart}
+            keepMounted
+            open={Boolean(anchorElCart)}
+            onClose={handleCloseCart}
+          >
+            <MenuItem
+              onClick={() => {
+                console.log('cart')
+              }}
+            >
+              Cart is Empty
+            </MenuItem>
+          </Menu>
         </Typography>
         <Button
           color='inherit'

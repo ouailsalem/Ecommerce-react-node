@@ -69,12 +69,7 @@ export const Header = () => {
         >
           معلومات أكثـر
         </Typography>
-        <IconButton
-          aria-label='delete'
-          size='large'
-          component={Link}
-          to='/features'
-        >
+        <IconButton aria-label='delete' component={Link} to='/features'>
           <ArrowDownward fontSize='inherit' />
         </IconButton>
       </Grid>
