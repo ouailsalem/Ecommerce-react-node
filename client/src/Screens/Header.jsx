@@ -14,7 +14,7 @@ export const Header = () => {
   const classes = useStyles()
 
   return (
-    <Grid container spacing={3} style={{ minHeight: 750, height: '80vh' }}>
+    <Grid container spacing={3} style={{ minHeight: 700, height: '70vh' }}>
       <Grid
         md={6}
         xs={12}
@@ -102,7 +102,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: mainFont,
   },
   curvyLines: {
-    height: 400,
+    height: 300,
   },
   noLink: {
     textDecoration: 'none',

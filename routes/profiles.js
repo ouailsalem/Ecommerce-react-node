@@ -78,7 +78,7 @@ router.delete('/delete/:userId', auth, async (req, res) => {
         try {
             await Review.destroy({ where: { userId: req.params.userId } })
         } catch (err) {
-            console.log("revie error")
+            console.log("review error")
         }
         res.status(200).json({ message: 'deleted' })
 

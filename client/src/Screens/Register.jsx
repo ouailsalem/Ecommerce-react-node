@@ -8,18 +8,15 @@ import {
   Button,
   CssBaseline,
   TextField,
-  FormControlLabel,
-  Checkbox,
   makeStyles,
 } from '@material-ui/core'
 import { Link } from 'react-router-dom'
-import {
-  SupervisedUserCircle,
-  ArrowBack,
-  AlternateEmailTwoTone,
-} from '@material-ui/icons/'
+import { SupervisedUserCircle, ArrowBack } from '@material-ui/icons/'
 import { mainFont } from '../customize/font'
-import Axios from 'axios'
+import { useDispatch } from 'react-redux'
+import { register } from '../redux/actions/auth'
+import { validateEmail } from '../utils/validateEmail'
+import { setAlert } from '../redux/actions/alert'
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
@@ -63,16 +60,18 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: mainFont,
     textDecoration: 'none',
   },
+  error: {
+    fontFamily: mainFont,
+    fontSize: 15,
+  },
   icon: {
     color: '#222222',
   },
 }))
-function validateEmail(email) {
-  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  return re.test(String(email).toLowerCase())
-}
+
 ////////////////////////////////////////
 export const Register = () => {
+  const dispatch = useDispatch()
   const classes = useStyles()
   const [formData, setFormData] = useState({
     name: '',
@@ -90,38 +89,41 @@ export const Register = () => {
       [e.target.name]: e.target.value,
     })
   }
-  const onSubmit = (e) => {
-    e.preventDefault()
+  const onBlurName = () => {
     if (formData.name.trim().length < 3) {
       setNameError(true)
     } else {
       setNameError(false)
     }
+  }
+  const onBlurEmail = () => {
     if (!validateEmail(email)) {
       setEmailError(true)
     } else {
       setEmailError(false)
     }
+  }
+  const onBlurPassword = () => {
     if (formData.password.trim().length < 6) {
       setPasswordError(true)
     } else {
       setPasswordError(false)
     }
-    if (nameError || emailError || passwordError) {
-      console.log('hey')
+  }
+  const onSubmit = (e) => {
+    e.preventDefault()
+
+    if (
+      nameError === false &&
+      emailError === false &&
+      passwordError === false &&
+      name !== '' &&
+      email !== '' &&
+      password !== ''
+    ) {
+      dispatch(register({ name, email, password }))
     } else {
-      Axios.post('/users/register', {
-        name,
-        email,
-        password,
-      })
-        .then(function (response) {
-          console.log(response)
-        })
-        .catch(function (error) {
-          console.log('err' + error)
-          console.log(error.message)
-        })
+      dispatch(setAlert('تأكد من أن معلوماتك صحيحة', 'warning', true))
     }
   }
   return (
@@ -153,50 +155,70 @@ export const Register = () => {
               margin='normal'
               fullWidth
               id='name'
+              onBlur={onBlurName}
               label={
-                <Typography alignRight className={classes.text}>
+                <Typography component={'span'} className={classes.text}>
                   اسم المتسخدم
                 </Typography>
               }
               name='name'
               autoComplete='username'
-              autoFocus
               value={name}
               error={nameError}
               helperText={
-                nameError ? 'name should be longer than 3 characters' : ''
+                nameError ? (
+                  <Typography component={'span'} className={classes.error}>
+                    اسم المتسخدم يجب أن يحتوي على ثلاث حروف على الأقل
+                  </Typography>
+                ) : (
+                  ''
+                )
               }
               onChange={(e) => onChange(e)}
             />
             <TextField
               error={emailError}
-              helperText={emailError ? 'please enter a valid email' : ''}
+              helperText={
+                emailError ? (
+                  <Typography component={'span'} className={classes.error}>
+                    تأكد من أن بريدك الإلكتروني صحيح
+                  </Typography>
+                ) : (
+                  ''
+                )
+              }
               variant='outlined'
               margin='normal'
               fullWidth
               id='email'
               label={
-                <Typography alignRight className={classes.text}>
+                <Typography component={'span'} className={classes.text}>
                   البريد الإلكتروني
                 </Typography>
               }
               name='email'
               autoComplete='email'
-              autoFocus
               value={email}
+              onBlur={onBlurEmail}
               onChange={(e) => onChange(e)}
             />
             <TextField
               error={passwordError}
               helperText={
-                passwordError ? 'password shoulda be at least 5 characters' : ''
+                passwordError ? (
+                  <Typography component={'span'} className={classes.error}>
+                    كلمة المرور يجب أن تحتوي على ستة حروف على الأقل
+                  </Typography>
+                ) : (
+                  ''
+                )
               }
               variant='outlined'
               margin='normal'
               fullWidth
               name='password'
               label={
-                <Typography alignRight className={classes.text}>
+                <Typography component={'span'} className={classes.text}>
                   كلمة المرور
                 </Typography>
               }
@@ -204,6 +226,7 @@ export const Register = () => {
               id='password'
               autoComplete='current-password'
               value={password}
+              onBlur={onBlurPassword}
               onChange={(e) => onChange(e)}
             />
 

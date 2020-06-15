@@ -25,7 +25,7 @@ router.post('/register', validator, async (req, res) => {
         let checkingUser = await User.findOne({ where: { email } })
 
         if (checkingUser) {
-            res.status(400).json({ error: 'email already in use' })
+            res.status(400).json({ message: 'email already in use' })
         } else {
             try {
                 let salt = await bcrypt.genSalt(10)
@@ -68,7 +68,7 @@ router.post('/register', validator, async (req, res) => {
 
     } catch (error) {
         console.error(error)
-        res.status(500).json({ error: 'something went wrong' })
+        res.status(500).json({ message: 'something went wrong' })
     }
 
 
@@ -82,12 +82,14 @@ router.post('/login', async (req, res) => {
             password: req.body.password,
         }
         const { email, password } = user
-
         let loadedUser = await User.findOne({ where: { email } })
-
-
-        bcrypt.compare(password, loadedUser.password, function (err, response) {
-            if (err) res.status(403).json({ message: "invalid passwod" })
+        if (!loadedUser) {
+            res.status(400).json({ message: "invalid credentiels" })
+        }
+        console.log(loadedUser.dataValues.password)
+        bcrypt.compare(password, loadedUser.dataValues.password, function (err, response) {
+            if (err) res.status(500).json({ message: "server error" })
+            if (!response) res.status(400).json({ message: "invalid credentiels" })
             const payload = {
                 user: {
                     id: loadedUser.id,
@@ -96,14 +98,16 @@ router.post('/login', async (req, res) => {
             }
 
             jwt.sign(payload, process.env.JWT_SEC, { expiresIn: 36000 }, (err, token) => {
-                if (err) throw err;
+                if (err) {
+                    res.status(400).json({ message: "invalid credentiels" })
+                }
                 res.status(200).json({ token: "Bearer " + token })
             })
 
         })
     } catch (error) {
         console.error(error)
-        res.status(500).json({ error: 'invalid email' })
+        res.status(500).json({ error: 'something went wrong' })
     }
 })
 

@@ -1,8 +1,4 @@
 html {
     scroll-behavior: smooth;
-}
-
-.MuiInputBase-input {
-    font-family: "Tajawal";
-    color: red;
+    overflow-x: hidden;
 }

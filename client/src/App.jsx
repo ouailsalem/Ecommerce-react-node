@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { Navbar } from './components/Navbar'
 import { Header } from './Screens/Header'
@@ -9,11 +9,21 @@ import { Allproducts } from './Screens/Allproducts'
 import { Footer } from './Screens/Footer'
 import { Login } from './Screens/Login'
 import { Register } from './Screens/Register'
+import { Alerts } from './components/Alerts'
 //redux
 import { Provider } from 'react-redux'
 import store from './redux/store'
+import { loadUser } from './redux/actions/auth'
+import setAuthToken from './utils/setAuthToken'
+
+if (localStorage && localStorage.token) {
+  setAuthToken(localStorage.token)
+}
 
 export default function Album() {
+  useEffect(() => {
+    store.dispatch(loadUser())
+  }, [])
   return (
     <Provider store={store}>
       <Router>
@@ -27,8 +37,9 @@ export default function Album() {
           <Route exact path='/profile' component={Profile} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/register' component={Register} />
+          <Alerts />
 
-          <Footer />
+          {/* <Footer /> */}
         </Fragment>
       </Router>
     </Provider>

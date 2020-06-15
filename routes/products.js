@@ -33,7 +33,6 @@ router.get('/:productId', async (req, res) => {
         res.status(404).json({ message: 'product not found' })
 
     } catch (error) {
-        console.log(error)
         res.status(500).json({ message: 'something went wrongs' })
     }
 
@@ -113,7 +112,6 @@ router.delete('/:productId', async (req, res) => {
         res.status(404).json({ message: 'product deleted' })
 
     } catch (error) {
-        console.log(error)
         res.status(500).json({ message: 'something went wrongs' })
     }
 

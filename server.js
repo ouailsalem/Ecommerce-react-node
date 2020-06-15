@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
 //
 app.use('/products', require('./routes/products'))
 app.use('/users', require('./routes/users'))
-app.use('/protected', require('./routes/auth'))
+app.use('/auth', require('./routes/auth'))
 app.use('/profile', require('./routes/profiles'))
 app.use('/reviews', require('./routes/reviews'))
 

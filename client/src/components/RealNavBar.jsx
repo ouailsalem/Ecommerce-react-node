@@ -11,9 +11,6 @@ import { mainFont } from '../customize/font'
 import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
   menuButton: {
     marginRight: theme.spacing(2),
     color: '#FFCC33',
@@ -32,10 +29,16 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: '3%',
   },
   navItemText: {
-    fontSize: 18,
+    fontSize: 22,
     fontFamily: mainFont,
     cursor: 'pointer',
     color: '#fff',
+  },
+  menuItem: {
+    fontSize: 16,
+    fontFamily: mainFont,
+    cursor: 'pointer',
+    color: '#000',
   },
   appBar: {
     backgroundColor: '#222222',
@@ -68,7 +71,7 @@ export const RealNavBar = (props) => {
     <AppBar ref={props.goback} className={classes.appBar} position={'sticky'}>
       <Toolbar className={classes.tool}>
         <Typography variant='h6' className={classes.title}>
-          {isloggedin ? (
+          {!isloggedin ? (
             <Fragment>
               <IconButton
                 edge='start'
@@ -89,9 +92,11 @@ export const RealNavBar = (props) => {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose} component={Link} to='/profile'>
-                  حسابي
+                  <Typography className={classes.menuItem}>حسابي</Typography>
                 </MenuItem>
-                <MenuItem onClick={handleClose}>خروج</MenuItem>
+                <MenuItem onClick={handleClose}>
+                  <Typography className={classes.menuItem}>حسابي</Typography>
+                </MenuItem>
               </Menu>
             </Fragment>
           ) : (
@@ -125,7 +130,7 @@ export const RealNavBar = (props) => {
                 console.log('cart')
               }}
             >
-              Cart is Empty
+              السلة فارغــة
             </MenuItem>
           </Menu>
         </Typography>
@@ -135,7 +140,7 @@ export const RealNavBar = (props) => {
           to='/'
           className={classes.text}
         >
-          متجري
+          <Typography className={classes.navItemText}>متجري</Typography>
         </Button>
       </Toolbar>
     </AppBar>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   IconButton,
   Avatar,
@@ -8,13 +8,14 @@ import {
   Button,
   CssBaseline,
   TextField,
-  FormControlLabel,
-  Checkbox,
   makeStyles,
 } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import { Lock, ArrowBack } from '@material-ui/icons/'
 import { mainFont } from '../customize/font'
+import { useDispatch } from 'react-redux'
+import { login } from '../redux/actions/auth'
+import { setAlert } from '../redux/actions/alert'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,8 +66,27 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export const Login = () => {
+  const dispatch = useDispatch()
   const classes = useStyles()
-
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  })
+  const { email, password } = formData
+  const onChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    })
+  }
+  const onSubmit = (e) => {
+    e.preventDefault()
+    if (email !== '' && password !== '') {
+      dispatch(login({ email, password }))
+    } else {
+      dispatch(setAlert('الخانات لا يمكن أن تكون فارغـة', 'warning', true))
+    }
+  }
   return (
     <Grid container component='main' className={classes.root}>
       <CssBaseline />
@@ -87,33 +107,41 @@ export const Login = () => {
               justifyContent: 'center',
               alignItems: 'center',
             }}
+            onSubmit={onSubmit}
           >
             <TextField
               variant='outlined'
               margin='normal'
-              required
               fullWidth
               id='email'
-              label='EMAIL'
+              label={
+                <Typography className={classes.text}>
+                  البريد الإلكتروني
+                </Typography>
+              }
+              value={email}
               name='email'
               autoComplete='email'
               autoFocus
+              onChange={(e) => onChange(e)}
             />
             <TextField
               variant='outlined'
               margin='normal'
-              required
               fullWidth
               name='password'
-              label='PASSWORD'
+              label={
+                <Typography className={classes.text}>كلمة المرور</Typography>
+              }
+              value={password}
               type='password'
               id='password'
               autoComplete='current-password'
+              onChange={(e) => onChange(e)}
             />
 
             <Button
-              component={Link}
-              to='/'
+              type='submit'
               variant='contained'
               size='large'
               className={classes.submit}
