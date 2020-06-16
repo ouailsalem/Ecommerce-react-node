@@ -4,17 +4,61 @@ const Review = require('../models/Reviews')
 const uniqid = require('uniqid');
 const auth = require('../middlewares/auth');
 const User = require('../models/Users');
+const adminAuth = require('../middlewares/adminAuth');
 
-
-//api/Reviews
-router.get('/', async (req, res) => {
+//!admin
+//api/reviews/
+router.get('/', adminAuth, async (req, res) => {
     try {
         let reviews = await Review.findAll()
         res.status(200).json(reviews)
     } catch (error) {
+        res.status(500).json({ message: "something went wrong" })
 
     }
 })
+//!admin
+//api/reviews/reviewId
+
+router.get('/:reviewId', adminAuth, async (req, res) => {
+    try {
+        let review = await Review.findOne({ where: { id: req.params.reviewId } })
+        res.status(200).json(review)
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: "something went wrong" })
+
+    }
+})
+
+
+//!admin
+//api/reviews/:reviewId
+// delete a review
+router.delete('/:reviewId', adminAuth, async (req, res) => {
+    try {
+        await Review.destroy({
+            where: { id: req.params.reviewId }
+        })
+        res.status(404).json({ message: 'review deleted' })
+
+    } catch (error) {
+        res.status(500).json({ message: 'something went wrongs' })
+    }
+
+})
+//api/reviews/myReviews
+
+router.get('/myreviews', auth, async (req, res) => {
+    try {
+        let reviews = await Review.findAll({ where: { userId: req.user.id } })
+        res.status(200).json({ payload: reviews })
+    } catch (error) {
+        res.status(500).json({ message: "something went wrong" })
+
+    }
+})
+//api/reviews/:postId
 router.post('/:productId', auth, async (req, res) => {
 
     try {
@@ -26,11 +70,11 @@ router.post('/:productId', auth, async (req, res) => {
             rating: req.body.rating,
             time: new Date().toISOString()
         }
+        //TODO: validate if there's a post
         const { id, userId, productId, review, rating, time } = formReview
-        let us = await User.findOne({ where: { id: req.user.id }, attributes: ['name'], })
-        console.log(us.name)
+        let user = await User.findOne({ where: { id: req.user.id }, attributes: ['name'], })
         let reviewPosted = await Review.create({
-            name: us.name,
+            name: user.name,
             id,
             userId,
             productId,

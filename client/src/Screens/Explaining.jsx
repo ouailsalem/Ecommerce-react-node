@@ -60,13 +60,10 @@ export const Explaining = () => {
         container
         item
         direction='column'
-        justifyContent='center'
         justify='center'
         alignItems='center'
       >
-        <Typography alignCenter className={classes.mainText}>
-          لماذا تختارنا
-        </Typography>
+        <Typography className={classes.mainText}>لماذا تختارنا</Typography>
         <IconButton aria-label='delete' size='large'>
           <ArrowDownward fontSize='inherit' />
         </IconButton>
@@ -76,7 +73,6 @@ export const Explaining = () => {
         container
         item
         direction='row'
-        justifyContent='center'
         justify='center'
         alignItems='center'
       >

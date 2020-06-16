@@ -1,23 +1,79 @@
-// get all products GET  notprotected  [DONE]
-// get one product  GET  notprotected  [DONE] // with reviews
-// post an order    POST notprotected  [DONE] 
-// register         POST notprotected  [DONE]
-// login            POST notprotected  [DONE]
-// profile          GET protected      [DONE]
-// any user profile GET protected      [DONE]
-// 
+/*
+?Public routes
+TODO:  all products       @get      notprotected
+TODO:  one product        @get      notprotected     with reviews
+TODO:  order              @post     notprotected
+TODO:  register           @post     notprotected
+TODO:  login              @post     notprotected
+TODO:  profile            @get      protected
+TODO:  any user profile   @get      protected
+TODO:  any user profile   @update   protected
+=================================================================
+?Admin routes
 
-// admin
-// add products    GET protectedADMIN  [PROGRESS]
-// get all orders  GET protectedADMIN  [PROGRESS]
-// ban users       GET protectedADMIN  [PROGRESS]
-// get all orders  GET protectedADMIN  [PROGRESS]
+  !admin
+TODO:  protected admin auth
 
-//review , add review  GET protected   [PROGRESS]
+  !users
+TODO: all users            @get        ADMINPROTECTED
+TODO:  :user               @get        ADMINPROTECTED
+TODO:  :user               @put        ADMINPROTECTED
+TODO:  :user               @delete     ADMINPROTECTED
 
-// landing screen    // static
-// login screen      // static @post /user/login
-// regiser screen    // static @post /user/register
-// products          // static @get /products
-// single product    // static @get /products/:productId
-// profile           // static @get /profile/:userId
+  !reviews
+TODO:  all reviews         @get        ADMINPROTECTED
+TODO:  :reviews            @get        ADMINPROTECTED
+TODO:  :review             @delete     ADMINPROTECTED
+
+  !products
+TODO:  all orders          @get        ADMINPROTECTED
+TODO:  :order              @get        ADMINPROTECTED
+TODO:  :order              @update     ADMINPROTECTED
+
+TODO:  all products        @get        ADMINPROTECTED
+TODO:  :product            @get        ADMINPROTECTED
+TODO:  :product            @post       ADMINPROTECTED
+TODO:  :product            @delete     ADMINPROTECTED
+TODO:  :product            @update     ADMINPROTECTED
+
+
+ ================================================================
+
+  !FRONT END
+TODO:  landing screen
+TODO:  login screen
+TODO:  regiser screen
+TODO:  products
+TODO:  single product
+TODO:  profile
+TODO:  any profile
+TODO:  add order
+TODO:  my orders
+
+
+
+==================================================================
+!-root
+?-->landing
+?-->login
+?-->register
+?-->profile
+?-->products
+     -> singleproduct
+                     --> order
+?-->any profile
+
+!-->admin
+?----> products (delete)
+     -> edit product
+     -> add product
+?----> orders ()
+     -> edit order
+?----> reviews
+     -> single review
+?----> users (delete)
+     -> edi user
+
+
+
+*/

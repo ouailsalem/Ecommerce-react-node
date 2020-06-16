@@ -10,13 +10,14 @@ import {
   TextField,
   makeStyles,
 } from '@material-ui/core'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { SupervisedUserCircle, ArrowBack } from '@material-ui/icons/'
 import { mainFont } from '../customize/font'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { register } from '../redux/actions/auth'
 import { validateEmail } from '../utils/validateEmail'
 import { setAlert } from '../redux/actions/alert'
+import { Loading } from './Loading'
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
@@ -126,7 +127,14 @@ export const Register = () => {
       dispatch(setAlert('تأكد من أن معلوماتك صحيحة', 'warning', true))
     }
   }
-  return (
+  const { isAuthenticated, loading } = useSelector((state) => state.auth)
+  if (isAuthenticated) {
+    return <Redirect to='/' />
+  }
+
+  const rendered = loading ? (
+    <Loading />
+  ) : (
     <Grid container component='main' className={classes.root}>
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
@@ -146,7 +154,6 @@ export const Register = () => {
             style={{
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'center',
               alignItems: 'center',
             }}
           >
@@ -255,4 +262,5 @@ export const Register = () => {
       </Grid>
     </Grid>
   )
+  return rendered
 }

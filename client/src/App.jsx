@@ -15,6 +15,7 @@ import { Provider } from 'react-redux'
 import store from './redux/store'
 import { loadUser } from './redux/actions/auth'
 import setAuthToken from './utils/setAuthToken'
+import PrivateRoute from './Screens/routing/PrivateRoute'
 
 if (localStorage && localStorage.token) {
   setAuthToken(localStorage.token)
@@ -30,15 +31,15 @@ export default function Album() {
         <Fragment>
           <CssBaseline />
           <Navbar />
-
-          <Route exact path='/' component={Header} />
-          <Route exact path='/features' component={Explaining} />
-          <Route exact path='/products' component={Allproducts} />
-          <Route exact path='/profile' component={Profile} />
-          <Route exact path='/login' component={Login} />
-          <Route exact path='/register' component={Register} />
+          <Switch>
+            <Route exact path='/' component={Header} />
+            <Route exact path='/features' component={Explaining} />
+            <Route exact path='/products' component={Allproducts} />
+            <Route exact path='/login' component={Login} />
+            <Route exact path='/register' component={Register} />
+            <PrivateRoute exact path='/profile' component={Profile} />
+          </Switch>
           <Alerts />
-
           {/* <Footer /> */}
         </Fragment>
       </Router>

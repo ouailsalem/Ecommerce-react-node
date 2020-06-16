@@ -9,6 +9,8 @@ import { ShoppingCart, Person } from '@material-ui/icons/'
 import { Menu, MenuItem } from '@material-ui/core'
 import { mainFont } from '../customize/font'
 import { Link } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { logout } from '../redux/actions/auth'
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -29,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: '3%',
   },
   navItemText: {
-    fontSize: 22,
+    fontSize: 16,
     fontFamily: mainFont,
     cursor: 'pointer',
     color: '#fff',
@@ -55,8 +57,7 @@ export const RealNavBar = (props) => {
     setAnchorEl(null)
   }
 
-  //cart
-  const [anchorElCart, setAnchorElCart] = React.useState(null)
+  const [anchorElCart, setAnchorElCart] = React.useState(0)
 
   const handleClickCart = (event) => {
     setAnchorElCart(event.currentTarget)
@@ -66,12 +67,13 @@ export const RealNavBar = (props) => {
     setAnchorElCart(null)
   }
   const classes = useStyles()
-  const isloggedin = false
+  const { isAuthenticated } = useSelector((state) => state.auth)
+  const dispatch = useDispatch()
   return (
     <AppBar ref={props.goback} className={classes.appBar} position={'sticky'}>
       <Toolbar className={classes.tool}>
         <Typography variant='h6' className={classes.title}>
-          {!isloggedin ? (
+          {isAuthenticated ? (
             <Fragment>
               <IconButton
                 edge='start'
@@ -94,8 +96,14 @@ export const RealNavBar = (props) => {
                 <MenuItem onClick={handleClose} component={Link} to='/profile'>
                   <Typography className={classes.menuItem}>حسابي</Typography>
                 </MenuItem>
-                <MenuItem onClick={handleClose}>
-                  <Typography className={classes.menuItem}>حسابي</Typography>
+                <MenuItem
+                  onClick={() => {
+                    dispatch(logout())
+                  }}
+                >
+                  <Typography className={classes.menuItem}>
+                    تسجيل الخروج
+                  </Typography>
                 </MenuItem>
               </Menu>
             </Fragment>
@@ -140,7 +148,7 @@ export const RealNavBar = (props) => {
           to='/'
           className={classes.text}
         >
-          <Typography className={classes.navItemText}>متجري</Typography>
+          <Typography className={classes.text}>متجري</Typography>
         </Button>
       </Toolbar>
     </AppBar>

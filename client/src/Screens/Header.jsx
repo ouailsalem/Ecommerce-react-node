@@ -21,7 +21,6 @@ export const Header = () => {
         container
         item
         direction='column'
-        justifyContent='center'
         justify='center'
         alignItems='center'
       >
@@ -34,7 +33,6 @@ export const Header = () => {
         container
         item
         direction='column'
-        justifyContent='center'
         justify='center'
         alignItems='center'
       >

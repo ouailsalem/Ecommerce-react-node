@@ -5,24 +5,38 @@ import {
     USER_LOADED,
     AUTH_ERROR,
     LOGIN_SUCCESS,
-    LOGIN_FAIL
+    LOGIN_FAIL,
+    LOGOUT
 } from "./actionTypes"
 import { setAlert } from "./alert"
 import setAuthToken from "../../utils/setAuthToken"
 
 // Load user
 export const loadUser = () => async dispatch => {
-    if (localStorage && localStorage.token) {
+    if (localStorage.token) {
         setAuthToken(localStorage.token)
-    }
-    try {
-        const res = await Axios.get('/auth')
-        dispatch({
-            type: USER_LOADED,
-            payload: res.data
-        })
 
-    } catch (err) {
+        try {
+            const res = await Axios.get('/auth')
+            if (res.status === 200) {
+                dispatch({
+                    type: USER_LOADED,
+                    payload: res.data.user
+                })
+            }
+            else {
+                dispatch({
+                    type: AUTH_ERROR
+                })
+            }
+
+
+        } catch (err) {
+            dispatch({
+                type: AUTH_ERROR
+            })
+        }
+    } else {
         dispatch({
             type: AUTH_ERROR
         })
@@ -47,7 +61,9 @@ export const register = ({ name, email, password }) => async dispatch => {
             type: REGISTER_SUCCESS,
             payload: res.data
         })
-        dispatch(setAlert("تم تسجيلك بنجاح", "success", true, 3000))
+        localStorage.setItem('token', res.data.token);
+
+        dispatch(setAlert("تم تسجيلك بنجـاح", "success", true, 3000))
         dispatch(loadUser())
 
     } catch (err) {
@@ -75,7 +91,9 @@ export const login = ({ email, password }) => async dispatch => {
             type: LOGIN_SUCCESS,
             payload: res.data
         })
-        dispatch(setAlert("تم تسجيلك بنجاح", "success", true, 3000))
+        localStorage.setItem('token', res.data.token);
+
+        dispatch(setAlert("مرحبًا بك", "success", true, 3000))
         dispatch(loadUser())
     } catch (err) {
         if (err.response.status === 400) {
@@ -87,4 +105,13 @@ export const login = ({ email, password }) => async dispatch => {
             type: LOGIN_FAIL
         })
     }
+}
+
+export const logout = () => async dispatch => {
+
+    dispatch({
+        type: LOGOUT
+    })
+    dispatch(setAlert("تم تسجيل خروجك", "success", true, 3000))
+
 }

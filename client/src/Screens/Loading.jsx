@@ -8,7 +8,6 @@ export const Loading = () => {
       xs={12}
       container
       item
-      justifyContent='center'
       justify='center'
       alignItems='center'
       style={{ minHeight: 750, height: '70vh' }}

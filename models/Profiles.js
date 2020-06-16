@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
-const db = require('../config/database')
+const db = require('../config/database');
+const User = require('./Users');
 require('dotenv').config()
 
 const Profile = db.define('profile', {
@@ -19,5 +20,7 @@ const Profile = db.define('profile', {
 
 
 }, { timestamps: false });
+
+
 //
 module.exports = Profile

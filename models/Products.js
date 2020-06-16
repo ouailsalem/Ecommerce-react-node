@@ -7,6 +7,9 @@ const Product = db.define('product', {
     name: {
         type: Sequelize.STRING,
     },
+    smallDescription: {
+        type: Sequelize.STRING,
+    },
     description: {
         type: Sequelize.STRING
     },
@@ -14,6 +17,9 @@ const Product = db.define('product', {
         type: Sequelize.STRING
     },
     pictures: {
+        type: Sequelize.STRING
+    },
+    mainPicture: {
         type: Sequelize.STRING
     },
     available: {
@@ -29,8 +35,5 @@ const Product = db.define('product', {
 
 }, { timestamps: false });
 
-Product.hasMany(Review, {
-    onDelete: "cascade"
-})
-//
+
 module.exports = Product

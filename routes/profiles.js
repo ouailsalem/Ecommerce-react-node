@@ -3,6 +3,7 @@ const router = express.Router()
 const Review = require('../models/Reviews');
 const auth = require('../middlewares/auth');
 const User = require('../models/Users');
+const Profile = require('../models/Profiles');
 
 //api/profile
 //@myprofile

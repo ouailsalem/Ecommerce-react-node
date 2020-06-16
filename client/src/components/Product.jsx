@@ -13,11 +13,11 @@ import {
 } from '@material-ui/core'
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
+    maxWidth: 250,
     margin: 'auto',
   },
   media: {
-    height: 350,
+    height: 250,
   },
   button: {
     background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
@@ -30,7 +30,8 @@ const useStyles = makeStyles({
   },
 })
 
-export const Product = () => {
+export const Product = (props) => {
+  console.log(props)
   const classes = useStyles()
   return (
     <Grid item lg={3} md={4} sm={6} xs={12}>
@@ -39,12 +40,12 @@ export const Product = () => {
           <CardActionArea>
             <CardMedia
               className={classes.media}
-              image='https://cdn.pocket-lint.com/r/s/970x/assets/images/149387-smartwatches-review-fossil-gen-5-smartwatch-review-image12-7npt61zeui-jpg.webp'
+              image={props.imageUrl}
               title='Contemplative Reptile'
             />
             <CardContent>
               <Typography dir='rtl' gutterBottom variant='h5' component='h2'>
-                ساعـة إيطاليـة
+                {props.name}
               </Typography>
               <Typography
                 dir='rtl'
@@ -52,8 +53,15 @@ export const Product = () => {
                 color='textSecondary'
                 component='p'
               >
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
+                {props.description}
+              </Typography>
+              <Typography
+                dir='rtl'
+                variant='body2'
+                color='textSecondary'
+                component='p'
+              >
+                {props.price}
               </Typography>
             </CardContent>
           </CardActionArea>

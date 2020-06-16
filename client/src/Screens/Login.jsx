@@ -10,13 +10,13 @@ import {
   TextField,
   makeStyles,
 } from '@material-ui/core'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { Lock, ArrowBack } from '@material-ui/icons/'
 import { mainFont } from '../customize/font'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../redux/actions/auth'
 import { setAlert } from '../redux/actions/alert'
-
+import { Loading } from '../Screens/Loading'
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
@@ -87,7 +87,14 @@ export const Login = () => {
       dispatch(setAlert('الخانات لا يمكن أن تكون فارغـة', 'warning', true))
     }
   }
-  return (
+  const { isAuthenticated, loading } = useSelector((state) => state.auth)
+  if (isAuthenticated) {
+    return <Redirect to='/' />
+  }
+
+  const rendered = loading ? (
+    <Loading />
+  ) : (
     <Grid container component='main' className={classes.root}>
       <CssBaseline />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
@@ -104,7 +111,6 @@ export const Login = () => {
             style={{
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'center',
               alignItems: 'center',
             }}
             onSubmit={onSubmit}
@@ -163,4 +169,5 @@ export const Login = () => {
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
     </Grid>
   )
+  return rendered
 }
