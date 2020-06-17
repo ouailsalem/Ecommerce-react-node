@@ -25,21 +25,20 @@ router.get('/', async (req, res) => {
 
 router.get('/:productId', async (req, res) => {
     try {
-        let foundProduct = await Product.findOne({
-            where: { id: req.params.productId },
-            include: [{
-                model: Review,
-                where: { productId: req.params.productId },
-                required: false,
-            }]
+        let product = await Product.findOne({
+            where: { id: req.params.productId }
         })
-        if (foundProduct) {
-            res.status(200).json({ payload: foundProduct })
+        if (product) {
+            let reviews = await Review.findAll({
+                where: { productId: req.params.productId }
+            })
+            res.status(200).json({ payload: { product, reviews } })
         }
         res.status(404).json({ message: 'product not found' })
 
     } catch (error) {
-        res.status(500).json({ message: 'something went wrongs' })
+        console.error(error)
+        res.status(501).json({ message: 'something went wrong' })
     }
 
 })
@@ -190,7 +189,7 @@ router.put('/orders/:orderId', adminAuth, async (req, res) => {
 
 //api/products/:product_id
 //post order
-router.get('/:product_id/order/:refer', async (req, res) => {
+router.get('/order/:product_id/:refer', async (req, res) => {
     const data = {
         productId: req.params.product_id,
         product: req.params.product,

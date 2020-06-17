@@ -55,7 +55,8 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   footer: {
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: '#222222',
+    marginTop: '5%',
     padding: theme.spacing(6),
   },
 }))

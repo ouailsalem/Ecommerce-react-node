@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Grid, makeStyles } from '@material-ui/core'
 import { Product } from '../components/Product'
 import { useState, useEffect } from 'react'
@@ -53,21 +53,33 @@ export const Allproducts = () => {
   useEffect(() => {
     dispatch(getProducts())
     console.log(products)
-  }, [])
+  }, [getProducts])
   const rendered = loading ? (
     <Loading />
   ) : (
     <div className={classes.root}>
       <Grid className={classes.container} container spacing={3}>
         {products.map((product) => (
-          <Product
-            key={product.id}
-            name={product.name}
-            imageUrl={product.pictures}
-            available={product.available}
-            description={product.description}
-            price={product.price}
-          />
+          <Fragment>
+            <Product
+              key={product.id}
+              id={product.id}
+              name={product.name}
+              imageUrl={product.mainPicture}
+              available={product.available}
+              description={product.description}
+              price={product.price}
+            />
+            <Product
+              key={product.id}
+              id={product.id}
+              name={product.name}
+              imageUrl={product.mainPicture}
+              available={product.available}
+              description={product.description}
+              price={product.price}
+            />
+          </Fragment>
         ))}
       </Grid>
     </div>

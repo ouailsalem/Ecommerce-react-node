@@ -67,13 +67,10 @@ TODO:  my orders
 ?----> products (delete)
      -> edit product
      -> add product
-?----> orders ()
+     ?-> orders
      -> edit order
-?----> reviews
+     ?-> reviews
      -> single review
-?----> users (delete)
-     -> edi user
-
-
-
+     ?-> users (delete)
+     -> edit user
 */

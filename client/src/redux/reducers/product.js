@@ -1,17 +1,17 @@
-import { GET_PRODUCTS, LOAD_ERROR } from "../actions/actionTypes"
+import { GET_PRODUCT, LOAD_ERROR } from "../actions/actionTypes"
 
-const initialState = { loading: true, products: [] }
+const initialState = { loading: true, product: null }
 
 export default (state = initialState, action) => {
     const { type, payload } = action
     switch (type) {
-        case GET_PRODUCTS:
+
+        case GET_PRODUCT:
             return {
                 ...state,
-                products: payload,
+                product: payload,
                 loading: false
             }
-
         case LOAD_ERROR:
             return {
                 ...state,

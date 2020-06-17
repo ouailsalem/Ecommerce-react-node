@@ -16,15 +16,17 @@ import store from './redux/store'
 import { loadUser } from './redux/actions/auth'
 import setAuthToken from './utils/setAuthToken'
 import PrivateRoute from './Screens/routing/PrivateRoute'
+import { SingleProduct } from './Screens/SingleProduct'
 
 if (localStorage && localStorage.token) {
   setAuthToken(localStorage.token)
 }
 
-export default function Album() {
+export default function App() {
   useEffect(() => {
     store.dispatch(loadUser())
   }, [])
+
   return (
     <Provider store={store}>
       <Router>
@@ -35,12 +37,17 @@ export default function Album() {
             <Route exact path='/' component={Header} />
             <Route exact path='/features' component={Explaining} />
             <Route exact path='/products' component={Allproducts} />
+            <Route
+              exact
+              path='/products/:productId'
+              component={SingleProduct}
+            />
             <Route exact path='/login' component={Login} />
             <Route exact path='/register' component={Register} />
             <PrivateRoute exact path='/profile' component={Profile} />
           </Switch>
           <Alerts />
-          {/* <Footer /> */}
+          <Footer />
         </Fragment>
       </Router>
     </Provider>

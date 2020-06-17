@@ -44,9 +44,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 40,
     padding: 10,
   },
-  root: {
-    height: '80vh',
-  },
 }))
 
 export const Explaining = () => {
