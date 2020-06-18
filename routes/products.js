@@ -28,13 +28,14 @@ router.get('/:productId', async (req, res) => {
         let product = await Product.findOne({
             where: { id: req.params.productId }
         })
-        if (product) {
-            let reviews = await Review.findAll({
-                where: { productId: req.params.productId }
-            })
+        if (!product) { res.status(404).json({ message: 'product not found' }) }
+        try {
+            let reviews = await Review.findAll({ where: { id: req.params.productId } })
             res.status(200).json({ payload: { product, reviews } })
+
+        } catch (error) {
+
         }
-        res.status(404).json({ message: 'product not found' })
 
     } catch (error) {
         console.error(error)

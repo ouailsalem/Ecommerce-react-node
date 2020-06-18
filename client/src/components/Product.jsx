@@ -44,7 +44,6 @@ const useStyles = makeStyles({
 })
 
 export const Product = (props) => {
-  console.log(props)
   const classes = useStyles()
   return (
     <Grid item lg={3} md={4} sm={6} xs={12}>

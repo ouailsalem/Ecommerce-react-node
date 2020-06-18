@@ -53,7 +53,7 @@ export const Allproducts = () => {
   useEffect(() => {
     dispatch(getProducts())
     console.log(products)
-  }, [getProducts])
+  }, [])
   const rendered = loading ? (
     <Loading />
   ) : (

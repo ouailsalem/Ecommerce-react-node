@@ -17,6 +17,7 @@ import { loadUser } from './redux/actions/auth'
 import setAuthToken from './utils/setAuthToken'
 import PrivateRoute from './Screens/routing/PrivateRoute'
 import { SingleProduct } from './Screens/SingleProduct'
+import './App.css'
 
 if (localStorage && localStorage.token) {
   setAuthToken(localStorage.token)
