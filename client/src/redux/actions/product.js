@@ -9,7 +9,7 @@ export const getProduct = (productId) => async dispatch => {
 
     try {
         const res = await Axios.get(`/products/${productId}`)
-        console.log(res.data.payload)
+        console.log(res.data)
         let imgdata = res.data.payload.product.pictures
         let manyPics = imgdata.split(",")
         const pictures = [

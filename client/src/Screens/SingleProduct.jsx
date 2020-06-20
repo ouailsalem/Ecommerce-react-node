@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import {
   Grid,
   makeStyles,
@@ -14,25 +14,32 @@ import { useState, useEffect } from 'react'
 import { getProduct } from '../redux/actions/product'
 import { useDispatch, useSelector } from 'react-redux'
 import { setAlert } from '../redux/actions/alert'
+import { addReview } from '../redux/actions/review'
 import { Loading } from '../Screens/Loading'
 import { mainFont } from '../customize/font'
-import { Link } from 'react-router-dom'
 import ImageGallery from 'react-image-gallery'
 import Rating from '@material-ui/lab/Rating'
-import { Send } from '@material-ui/icons/'
+import { Send, BorderStyle } from '@material-ui/icons/'
 
 export const SingleProduct = ({ match }) => {
   const classes = useStyles()
-  const [value, setValue] = React.useState(2)
+  const [rating, setRating] = React.useState(2)
+  const [review, setReview] = React.useState('')
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getProduct(match.params.productId))
   }, [])
 
+  const onSubmit = (e) => {
+    e.preventDefault()
+    let productId = match.params.productId
+    console.log(rating, review, productId, match.params.productId)
+    dispatch(addReview({ rating, review, productId }))
+  }
   const { loading } = useSelector((state) => state.product)
   const { product } = useSelector((state) => state.product)
   const { pictures } = useSelector((state) => state.product)
-
+  const { reviews } = useSelector((state) => state.product)
   let rendered = loading ? (
     <Loading />
   ) : (
@@ -56,11 +63,14 @@ export const SingleProduct = ({ match }) => {
         </Grid>
         <Grid item className={classes.root} md={6} xs={12}>
           <ImageGallery
-            flickThreshold={true}
             lazyLoad={true}
             showPlayButton={false}
             thumbnailPosition={'bottom'}
             items={pictures}
+            showFullscreenButton={true}
+            onScreenChange={() => console.log('hello')}
+            additionalClass={true ? 'additional' : ''}
+            useBrowserFullscreen={false}
           />
           <Typography className={classes.text}>
             <Button className={classes.button}>اطلب هذا المنتج</Button>
@@ -76,10 +86,15 @@ export const SingleProduct = ({ match }) => {
               variant='outlined'
               margin='normal'
               fullWidth
-              id='email'
-              name='email'
+              id='review'
+              name='review'
               autoComplete='email'
+              value={review}
+              onChange={(e) => {
+                setReview(e.target.value)
+              }}
               autoFocus
+              dir='rtl'
             />
           </div>
           <div
@@ -94,9 +109,7 @@ export const SingleProduct = ({ match }) => {
                 className={classes.buttonsmall}
                 aria-controls='simple-menu-cart'
                 aria-haspopup='true'
-                onClick={() => {
-                  console.log('clicked')
-                }}
+                onClick={onSubmit}
               >
                 <Send />
               </Button>
@@ -104,13 +117,29 @@ export const SingleProduct = ({ match }) => {
             <div>
               <Rating
                 name='simple-controlled'
-                value={value}
+                value={rating}
                 onChange={(event, newValue) => {
-                  setValue(newValue)
+                  setRating(newValue)
                 }}
               />
             </div>
           </div>
+          {reviews.map((review) => {
+            return (
+              <Grid className={classes.reviews} item xs={12}>
+                <Typography className={classes.text3}>
+                  {'★'.repeat(review.rating) + '☆'.repeat(5 - review.rating)} |{' '}
+                  {review.name}
+                </Typography>
+                <Typography className={classes.text3}>
+                  {review.review}
+                </Typography>
+                <Typography variant={'overline'}>
+                  {review.time.slice(0, 10) + '|' + review.time.slice(11, 16)}
+                </Typography>
+              </Grid>
+            )
+          })}
         </Grid>
       </Grid>
     </div>
@@ -124,6 +153,19 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  reviews: {
+    width: '100%',
+    minWidth: '300px',
+    maxWidth: '600px',
+    margin: '10px',
+    border: 1,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: '#AAAAAA',
+    borderRadius: 4,
+    padding: 4,
   },
   row: {
     padding: '0px !important',
@@ -196,7 +238,11 @@ const useStyles = makeStyles({
     padding: '20px',
     maxWidth: '600px',
   },
-
+  text3: {
+    fontFamily: mainFont,
+    direction: 'rtl',
+    maxWidth: '600px',
+  },
   commentbox: {
     fontFamily: mainFont,
     width: '100%',

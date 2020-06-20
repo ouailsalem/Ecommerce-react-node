@@ -21,6 +21,7 @@ const useStyles = makeStyles({
   },
   media: {
     height: 250,
+    backgroundSize: 'contain',
   },
   buttonContainer: {
     justifyContent: 'center',

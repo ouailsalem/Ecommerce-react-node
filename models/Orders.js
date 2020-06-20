@@ -10,7 +10,7 @@ const Order = db.define('order', {
         type: Sequelize.STRING
     },
     quantity: {
-        type: Sequelize.NUMBER
+        type: Sequelize.INTEGER
     },
     name: {
         type: Sequelize.STRING

@@ -13,7 +13,7 @@ db
     .catch(err => {
         console.error('Unable to connect to the database:', err);
     });
-
+// db.sync({ force: true })
 app.use(bodyParser.urlencoded({ extended: false }))
 
 // parse application/json

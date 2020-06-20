@@ -11,13 +11,13 @@ const Review = db.define('review', {
         type: Sequelize.STRING,
     },
     review: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT("medium"),
     },
     productId: {
-        type: Sequelize.NUMBER
+        type: Sequelize.INTEGER
     },
     rating: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
     },
     time: {
         type: Sequelize.STRING
@@ -26,7 +26,6 @@ const Review = db.define('review', {
         type: Sequelize.STRING
 
     }
-
 
 }, { timestamps: false });
 

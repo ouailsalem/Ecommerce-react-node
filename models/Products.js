@@ -11,19 +11,19 @@ const Product = db.define('product', {
         type: Sequelize.STRING,
     },
     description: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
     },
     price: {
-        type: Sequelize.STRING
+        type: Sequelize.FLOAT
     },
     pictures: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
     },
     mainPicture: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
     },
     available: {
-        type: Sequelize.STRING
+        type: Sequelize.BOOLEAN
     },
     time: {
         type: Sequelize.STRING

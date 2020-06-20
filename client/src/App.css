@@ -148,7 +148,10 @@ code {
   position: relative;
 }
 
-.image-gallery.fullscreen-modal {
+.fullscreen-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: #000;
   bottom: 0;
   height: 100%;
@@ -181,7 +184,12 @@ code {
 }
 
 .image-gallery-content.fullscreen {
-  background-color: black;
+  background-color: red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
 
 }
 

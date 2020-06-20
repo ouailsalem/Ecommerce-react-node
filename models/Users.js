@@ -9,11 +9,14 @@ const User = db.define('user', {
         primaryKey: true
     },
     name: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(30),
         allowNull: false,
+        validation: {
+            len: [3, 20]
+        }
     },
     email: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(30),
         allowNull: false,
     },
     password: {
@@ -24,7 +27,8 @@ const User = db.define('user', {
         type: Sequelize.STRING
     },
     money: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
+        defaultValue: 0
     }
 
 

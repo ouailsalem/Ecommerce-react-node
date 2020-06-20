@@ -30,11 +30,11 @@ router.get('/:productId', async (req, res) => {
         })
         if (!product) { res.status(404).json({ message: 'product not found' }) }
         try {
-            let reviews = await Review.findAll({ where: { id: req.params.productId } })
+            let reviews = await Review.findAll({ where: { productId: req.params.productId } })
             res.status(200).json({ payload: { product, reviews } })
 
         } catch (error) {
-
+            console.log(error)
         }
 
     } catch (error) {
@@ -57,10 +57,9 @@ router.post('/add', adminAuth, async (req, res) => {
         mainPicture: req.body.mainPicture,
         pictures: req.body.pictures,
         available: req.body.available,
-        contact: req.body.contact,
         time: new Date().toISOString()
     }
-    let { name, description, smallDescription, price, pictures, mainPicture, available, contact, time } = data
+    let { name, description, smallDescription, price, pictures, mainPicture, available, time } = data
     try {
         let result = await Product.create({
             name,
@@ -70,11 +69,11 @@ router.post('/add', adminAuth, async (req, res) => {
             mainPicture,
             pictures,
             available,
-            contact,
             time
         })
         res.status(200).json({ payload: result })
     } catch (error) {
+        console.error(error)
         res.status(500).json({ error: 'something went wrong' })
     }
 
