@@ -10,5 +10,7 @@ export const LOGOUT = "LOGOUT";
 export const GET_PRODUCTS = "GET_PRODUCTS";
 export const GET_PRODUCT = "GET_PRODUCT";
 export const LOAD_ERROR = "LOAD_ERROR";
+export const GET_REVIEWS = "GET_REVIEWS";
 export const ADD_REVIEW = "ADD_REVIEW";
+export const LOAD_REVIEWS = "LOAD_REVIEWS";
 export const REVIEW_ERROR = "REVIEW_ERROR";

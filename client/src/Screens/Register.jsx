@@ -70,7 +70,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-////////////////////////////////////////
 export const Register = () => {
   const dispatch = useDispatch()
   const classes = useStyles()

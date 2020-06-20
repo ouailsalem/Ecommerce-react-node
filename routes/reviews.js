@@ -31,6 +31,16 @@ router.get('/:reviewId', adminAuth, async (req, res) => {
     }
 })
 
+router.get('/product/:productId', async (req, res) => {
+    try {
+        let reviews = await Review.findAll({ where: { productId: req.params.productId } })
+        res.status(200).json(reviews)
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: "something went wrong" })
+
+    }
+})
 
 //!admin
 //api/reviews/:reviewId

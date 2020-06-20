@@ -29,13 +29,9 @@ router.get('/:productId', async (req, res) => {
             where: { id: req.params.productId }
         })
         if (!product) { res.status(404).json({ message: 'product not found' }) }
-        try {
-            let reviews = await Review.findAll({ where: { productId: req.params.productId } })
-            res.status(200).json({ payload: { product, reviews } })
 
-        } catch (error) {
-            console.log(error)
-        }
+        res.status(200).json({ payload: { product } })
+
 
     } catch (error) {
         console.error(error)
@@ -224,4 +220,7 @@ router.get('/order/:product_id/:refer', async (req, res) => {
         res.status(500).json({ error: 'something went wrong' })
     }
 })
+
+
+
 module.exports = router

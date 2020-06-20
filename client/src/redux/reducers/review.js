@@ -9,7 +9,6 @@ export default (state = initialState, action) => {
         case ADD_REVIEW:
             return {
                 ...state,
-                loading: false
             }
         case REVIEW_ERROR:
             return {

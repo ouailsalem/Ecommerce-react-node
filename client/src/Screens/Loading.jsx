@@ -1,7 +1,7 @@
 import React from 'react'
 import { Grid, CircularProgress } from '@material-ui/core'
 
-export const Loading = () => {
+export const Loading = ({ minHeight, height }) => {
   return (
     <Grid
       position={'relative'}
@@ -10,7 +10,7 @@ export const Loading = () => {
       item
       justify='center'
       alignItems='center'
-      style={{ minHeight: 750, height: '70vh' }}
+      style={{ minHeight: minHeight || 750, height: height || '70vh' }}
     >
       <CircularProgress color='secondary' />
     </Grid>

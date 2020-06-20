@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, Fragment } from 'react'
 import {
   Grid,
   makeStyles,
@@ -10,36 +10,41 @@ import {
   Box,
   IconButton,
 } from '@material-ui/core'
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { getProduct } from '../redux/actions/product'
 import { useDispatch, useSelector } from 'react-redux'
 import { setAlert } from '../redux/actions/alert'
 import { addReview } from '../redux/actions/review'
+import { getReviews } from '../redux/actions/review'
 import { Loading } from '../Screens/Loading'
 import { mainFont } from '../customize/font'
 import ImageGallery from 'react-image-gallery'
 import Rating from '@material-ui/lab/Rating'
-import { Send, BorderStyle } from '@material-ui/icons/'
-
+import { Send } from '@material-ui/icons/'
+import { Link, NavLink } from 'react-router-dom'
 export const SingleProduct = ({ match }) => {
   const classes = useStyles()
-  const [rating, setRating] = React.useState(2)
+  const [rating, setRating] = React.useState(4)
   const [review, setReview] = React.useState('')
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getProduct(match.params.productId))
+
+    dispatch(getReviews(match.params.productId))
   }, [])
 
   const onSubmit = (e) => {
     e.preventDefault()
     let productId = match.params.productId
-    console.log(rating, review, productId, match.params.productId)
     dispatch(addReview({ rating, review, productId }))
+    setReview('')
   }
   const { loading } = useSelector((state) => state.product)
   const { product } = useSelector((state) => state.product)
   const { pictures } = useSelector((state) => state.product)
-  const { reviews } = useSelector((state) => state.product)
+  const { isAuthenticated } = useSelector((state) => state.auth)
+
+  const state = useSelector((state) => state.reviews)
   let rendered = loading ? (
     <Loading />
   ) : (
@@ -67,9 +72,7 @@ export const SingleProduct = ({ match }) => {
             showPlayButton={false}
             thumbnailPosition={'bottom'}
             items={pictures}
-            showFullscreenButton={true}
-            onScreenChange={() => console.log('hello')}
-            additionalClass={true ? 'additional' : ''}
+            showFullscreenButton={false}
             useBrowserFullscreen={false}
           />
           <Typography className={classes.text}>
@@ -79,67 +82,94 @@ export const SingleProduct = ({ match }) => {
         <hr />
 
         <Grid className={classes.root} item xs={12}>
-          <div className={classes.commentbox}>
-            <p className={classes.text4}>أضف تعليق</p>
-            <TextField
-              multiline={true}
-              variant='outlined'
-              margin='normal'
-              fullWidth
-              id='review'
-              name='review'
-              autoComplete='email'
-              value={review}
-              onChange={(e) => {
-                setReview(e.target.value)
-              }}
-              autoFocus
-              dir='rtl'
-            />
-          </div>
-          <div
-            component='div'
-            mb={3}
-            borderColor='transparent'
-            className={classes.row}
-          >
-            <div>
-              <Button
-                edge='start'
-                className={classes.buttonsmall}
-                aria-controls='simple-menu-cart'
-                aria-haspopup='true'
-                onClick={onSubmit}
+          {!isAuthenticated ? (
+            <p className={classes.text4}>
+              قم
+              <NavLink
+                activeStyle={'none'}
+                className={classes.text4}
+                to='/register'
               >
-                <Send />
-              </Button>
-            </div>
-            <div>
-              <Rating
-                name='simple-controlled'
-                value={rating}
-                onChange={(event, newValue) => {
-                  setRating(newValue)
-                }}
-              />
-            </div>
-          </div>
-          {reviews.map((review) => {
-            return (
-              <Grid className={classes.reviews} item xs={12}>
-                <Typography className={classes.text3}>
-                  {'★'.repeat(review.rating) + '☆'.repeat(5 - review.rating)} |{' '}
-                  {review.name}
-                </Typography>
-                <Typography className={classes.text3}>
-                  {review.review}
-                </Typography>
-                <Typography variant={'overline'}>
-                  {review.time.slice(0, 10) + '|' + review.time.slice(11, 16)}
-                </Typography>
-              </Grid>
-            )
-          })}
+                {' '}
+                بالتسجيل{' '}
+              </NavLink>
+              لإضافة تعليق
+            </p>
+          ) : (
+            <Fragment>
+              <div className={classes.commentbox}>
+                <p className={classes.text4}>أضف تعليق</p>
+                <TextField
+                  multiline={true}
+                  variant='outlined'
+                  margin='normal'
+                  fullWidth
+                  id='review'
+                  name='review'
+                  autoComplete='email'
+                  value={review}
+                  onChange={(e) => {
+                    setReview(e.target.value)
+                  }}
+                  autoFocus
+                  dir='rtl'
+                />
+              </div>
+              <div
+                component='div'
+                mb={3}
+                borderColor='transparent'
+                className={classes.row}
+              >
+                <div>
+                  <Button
+                    edge='start'
+                    className={classes.buttonsmall}
+                    aria-controls='simple-menu-cart'
+                    aria-haspopup='true'
+                    onClick={onSubmit}
+                  >
+                    <Send />
+                  </Button>
+                </div>
+                <div>
+                  <Rating
+                    name='simple-controlled'
+                    value={rating}
+                    onChange={(event, newValue) => {
+                      setRating(newValue)
+                    }}
+                  />
+                </div>
+              </div>
+            </Fragment>
+          )}
+
+          {state.loadingR ? (
+            <Loading height={'100px'} minHeight={'100px'} />
+          ) : (
+            <Fragment>
+              {state.reviews.map((review) => {
+                return (
+                  <Grid className={classes.reviews} item xs={12}>
+                    <Typography className={classes.text3}>
+                      {'★'.repeat(review.rating) +
+                        '☆'.repeat(5 - review.rating)}{' '}
+                      | {review.name}
+                    </Typography>
+                    <Typography className={classes.text3}>
+                      {review.review}
+                    </Typography>
+                    <Typography variant={'overline'}>
+                      {review.time.slice(0, 10) +
+                        '|' +
+                        review.time.slice(11, 16)}
+                    </Typography>
+                  </Grid>
+                )
+              })}
+            </Fragment>
+          )}
         </Grid>
       </Grid>
     </div>
@@ -231,6 +261,8 @@ const useStyles = makeStyles({
     textAlign: 'center',
     margin: 0,
     padding: 0,
+    textDecoration: 'none',
+    color: '#777777',
   },
   text2: {
     fontFamily: mainFont,
@@ -248,7 +280,8 @@ const useStyles = makeStyles({
     width: '100%',
     minWidth: '300px',
     maxWidth: '600px',
-    margin: '10px',
+    margin: '2px',
+    padding: '1px',
     borderRadius: 4,
   },
 })
