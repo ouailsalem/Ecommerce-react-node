@@ -76,7 +76,13 @@ export const SingleProduct = ({ match }) => {
             useBrowserFullscreen={false}
           />
           <Typography className={classes.text}>
-            <Button className={classes.button}>اطلب هذا المنتج</Button>
+            <Button
+              component={Link}
+              to={`/order/${match.params.productId}/none`}
+              className={classes.button}
+            >
+              اطلب هذا المنتج
+            </Button>
           </Typography>
         </Grid>
         <hr />
@@ -128,6 +134,7 @@ export const SingleProduct = ({ match }) => {
                     aria-controls='simple-menu-cart'
                     aria-haspopup='true'
                     onClick={onSubmit}
+                    disabled={state.loadingR}
                   >
                     <Send />
                   </Button>

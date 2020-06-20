@@ -18,6 +18,7 @@ import setAuthToken from './utils/setAuthToken'
 import PrivateRoute from './Screens/routing/PrivateRoute'
 import { SingleProduct } from './Screens/SingleProduct'
 import './App.css'
+import { Order } from './Screens/Order'
 
 if (localStorage && localStorage.token) {
   setAuthToken(localStorage.token)
@@ -45,6 +46,7 @@ export default function App() {
             />
             <Route exact path='/login' component={Login} />
             <Route exact path='/register' component={Register} />
+            <Route exact path='/order/:productId/:refer' component={Order} />
             <PrivateRoute exact path='/profile' component={Profile} />
           </Switch>
           <Alerts />
