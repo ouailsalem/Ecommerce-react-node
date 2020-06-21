@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const Review = require('../models/Reviews')
+const { Review } = require('../db/index');
 const uniqid = require('uniqid');
 const auth = require('../middlewares/auth');
-const User = require('../models/Users');
+const { User } = require('../db/index')
 const adminAuth = require('../middlewares/adminAuth');
 
 //!admin
@@ -30,7 +30,8 @@ router.get('/:reviewId', adminAuth, async (req, res) => {
 
     }
 })
-
+//api/reviews/product/:productId
+// get a post reviews
 router.get('/product/:productId', async (req, res) => {
     try {
         let reviews = await Review.findAll({ where: { productId: req.params.productId } })
@@ -80,9 +81,11 @@ router.post('/:productId', auth, async (req, res) => {
             rating: req.body.rating,
             time: new Date().toISOString()
         }
+
+
         //TODO: validate if there's a post
         const { id, userId, productId, review, rating, time } = formReview
-        let user = await User.findOne({ where: { id: req.user.id }, attributes: ['name'], })
+        let user = await User.findOne({ where: { id: userId }, attributes: ['name'], })
         let reviewPosted = await Review.create({
             name: user.name,
             id,
@@ -92,6 +95,7 @@ router.post('/:productId', auth, async (req, res) => {
             rating,
             time
         })
+        //TODO: remove payload
         res.status(200).json({ payload: reviewPosted })
     } catch (error) {
         console.error(error)

@@ -1,13 +1,13 @@
 const express = require('express')
 const router = express.Router()
-const User = require('../models/Users')
-const Profile = require('../models/Profiles')
+const { User } = require('../db/index')
+const { Profile } = require('../db/index')
 const uniqid = require('uniqid');
 var bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
 const validator = require('../middlewares/validator');
 const adminAuth = require('../middlewares/adminAuth');
-const Review = require('../models/Reviews');
+const { Review } = require('../db/index');
 
 require('dotenv').config()
 //register user
@@ -24,49 +24,50 @@ router.post('/register', validator, async (req, res) => {
 
         const { id, email, password, time, name } = user
 
-        let checkingUser = await User.findOne({ where: { email } })
+        let checkingUserEmail = await User.findOne({ where: { email } })
+        let checkingUserName = await User.findOne({ where: { name } })
 
-        if (checkingUser) {
-            res.status(400).json({ message: 'email already in use' })
-        } else {
-            try {
-                let salt = await bcrypt.genSalt(10)
-                let hash = await bcrypt.hash(password, salt)
+        if (checkingUserEmail) res.status(400).json({ message: 'email already in use' })
+        if (checkingUserName) res.status(400).json({ message: 'username already in use' })
 
-                await User
-                    .create({
-                        id,
-                        email,
-                        password: hash,
-                        time,
-                        name
-                    })
-                const payload = {
-                    user: {
-                        id,
-                        email,
-                    }
-                }
-                await Profile
-                    .create({
-                        id,
-                        wilaya: "",
-                        dayra: "",
-                        phoneNumber: "",
-                    })
-                jwt.sign(payload, process.env.JWT_SEC, { expiresIn: 36000 }, (err, token) => {
-                    if (err) throw err;
-                    res.status(200).json({ token: "Bearer " + token })
+        try {
+            let salt = await bcrypt.genSalt(10)
+            let hash = await bcrypt.hash(password, salt)
+
+            await User
+                .create({
+                    id,
+                    email,
+                    password: hash,
+                    time,
+                    name
                 })
-
-
-
-            } catch (err) {
-                console.error(err)
-                res.status(500).json({ message: ' something went wrong ' })
+            const payload = {
+                user: {
+                    id,
+                    email,
+                }
             }
+            await Profile
+                .create({
+                    id: uniqid(),
+                    wilaya: "",
+                    dayra: "",
+                    phoneNumber: "",
+                    userId: id
+                })
+            jwt.sign(payload, process.env.JWT_SEC, { expiresIn: 36000 }, (err, token) => {
+                if (err) throw err;
+                res.status(200).json({ token: "Bearer " + token })
+            })
 
+
+
+        } catch (err) {
+            console.error(err)
+            res.status(500).json({ message: ' something went wrong ' })
         }
+
 
     } catch (error) {
         console.error(error)
@@ -76,7 +77,7 @@ router.post('/register', validator, async (req, res) => {
 
 })
 
-// post 
+// post
 // login user
 router.post('/login', async (req, res) => {
     try {
@@ -115,11 +116,11 @@ router.post('/login', async (req, res) => {
 
 
 // !admin
-//api/users/ 
+//api/users/
 //get all users
-router.get('/', adminAuth, async (req, res) => {
+router.get('/', async (req, res) => {
     try {
-        let users = await User.findAll({ attributes: { exclude: ['password'] } })
+        let users = await User.findAll({ attributes: { exclude: ['password'] }, include: [{ model: Profile }] })
         res.status(200).json(users)
     } catch (err) {
         console.error(err)
@@ -131,17 +132,15 @@ router.get('/', adminAuth, async (req, res) => {
 // !admin
 //api/users/:userId
 //get single user with profile
-router.get('/:userId', adminAuth, async (req, res) => {
+router.get('/:userId', async (req, res) => {
     try {
         let user = await User.findOne({
-            where: { id: req.params.userId }, attributes: { exclude: ['password'] }
-        })
-        let profile = await Profile.findOne({
-            where: { id: req.params.userId },
-            attributes: { exclude: ['id'] }
-        })
+            where: { id: req.params.userId }, attributes: { exclude: ['password'] }, include: [{ model: Profile }]
+        }
+        )
+
         if (user) {
-            res.status(200).json({ payload: { user, profile } })
+            res.status(200).json(user)
         }
         res.status(404).json({ message: 'user not found' })
 
@@ -181,17 +180,12 @@ router.put('/:userId', adminAuth, async (req, res) => {
 //api/users/:userId
 //destroy user
 
-router.delete('/:userId', adminAuth, async (req, res) => {
+router.delete('/:userId', async (req, res) => {
     try {
         await User.destroy({
             where: { id: req.params.userId }
         })
-        await Profile.destroy({
-            where: { id: req.params.userId }
-        })
-        await Review.destroy({
-            where: { userId: req.params.userId }
-        })
+
         res.status(200).json({ message: "user deleted" })
     } catch (error) {
         console.error(error)

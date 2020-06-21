@@ -1,17 +1,17 @@
 const express = require('express')
 const router = express.Router()
-const Product = require('../models/Products')
-const Order = require('../models/Orders')
-const Review = require('../models/Reviews')
+const { Product } = require('../db/index')
+const { Order } = require('../db/index')
+const { Review } = require('../db/index');
 const auth = require('../middlewares/auth')
 const adminAuth = require('../middlewares/adminAuth')
 
 
-//api/products
-//get all products
+// api/products
+// get all products
 router.get('/', async (req, res) => {
     try {
-        let products = await Product.findAll({ attributes: { exclude: ['password', 'description', 'pictures', 'time', 'contact'] } })
+        let products = await Product.findAll({ attributes: { exclude: ['description', 'pictures', 'time', 'contact'] } })
         res.status(200).json(products)
     } catch (err) {
         console.error(err)
@@ -20,8 +20,8 @@ router.get('/', async (req, res) => {
 })
 
 
-//api/products/:productId
-//get one product
+// api/products/:productId
+// get one product
 
 router.get('/:productId', async (req, res) => {
     try {
@@ -44,7 +44,7 @@ router.get('/:productId', async (req, res) => {
 // !admin
 //api/products/add 
 //post  a product
-router.post('/add', adminAuth, async (req, res) => {
+router.post('/add', async (req, res) => {
     const data = {
         name: req.body.name,
         description: req.body.description,
@@ -89,8 +89,7 @@ router.put('/:productId', adminAuth, async (req, res) => {
             price: req.body.price,
             mainPicture: req.body.mainPicture,
             pictures: req.body.pictures,
-            available: req.body.available,
-            contact: req.body.contact,
+            available: req.body.available
         }, {
             where: {
                 id: req.params.productId
@@ -109,9 +108,6 @@ router.delete('/:productId', adminAuth, async (req, res) => {
     try {
         await Product.destroy({
             where: { id: req.params.productId }
-        })
-        await Review.destroy({
-            where: { productId: req.params.productId }
         })
         res.status(404).json({ message: 'product deleted' })
 
@@ -185,10 +181,10 @@ router.put('/orders/:orderId', adminAuth, async (req, res) => {
 
 //api/products/:product_id
 //post order
-router.get('/order/:product_id/:refer', async (req, res) => {
+router.post('/order/:productId/:refer', async (req, res) => {
     const data = {
-        productId: req.params.product_id,
-        product: req.params.product,
+        productId: req.params.productId,
+        product: req.body.product,
         quantity: req.body.quantity,
         name: req.body.name,
         phoneNumber: req.body.name,

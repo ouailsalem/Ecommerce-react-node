@@ -34,5 +34,8 @@ const User = db.define('user', {
 
 }, { timestamps: false });
 
+Document.hasOne(Profile, {
+    onDelete: "cascade"
+});
 //
 module.exports = User

@@ -1,19 +1,15 @@
-import React, { useRef, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import {
   Grid,
   makeStyles,
   Typography,
   Button,
   Divider,
-  Paper,
   TextField,
-  Box,
-  IconButton,
 } from '@material-ui/core'
 import { useEffect } from 'react'
 import { getProduct } from '../redux/actions/product'
 import { useDispatch, useSelector } from 'react-redux'
-import { setAlert } from '../redux/actions/alert'
 import { addReview } from '../redux/actions/review'
 import { getReviews } from '../redux/actions/review'
 import { Loading } from '../Screens/Loading'
@@ -31,7 +27,7 @@ export const SingleProduct = ({ match }) => {
     dispatch(getProduct(match.params.productId))
 
     dispatch(getReviews(match.params.productId))
-  }, [])
+  }, [dispatch, match.params.productId])
 
   const onSubmit = (e) => {
     e.preventDefault()

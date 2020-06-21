@@ -14,3 +14,5 @@ export const GET_REVIEWS = "GET_REVIEWS";
 export const ADD_REVIEW = "ADD_REVIEW";
 export const LOAD_REVIEWS = "LOAD_REVIEWS";
 export const REVIEW_ERROR = "REVIEW_ERROR";
+export const ADD_ORDER = "ADD_ORDER";
+export const ORDER_ERROR = "ORDER_ERROR";

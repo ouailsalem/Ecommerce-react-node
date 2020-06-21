@@ -4,7 +4,6 @@ import { Product } from '../components/Product'
 import { useState, useEffect } from 'react'
 import { getProducts } from '../redux/actions/products'
 import { useDispatch, useSelector } from 'react-redux'
-import { setAlert } from '../redux/actions/alert'
 import { Loading } from '../Screens/Loading'
 
 function getWindowDimensions() {

@@ -20,6 +20,15 @@ import { SingleProduct } from './Screens/SingleProduct'
 import './App.css'
 import { Order } from './Screens/Order'
 
+//
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import RTL from './components/rtl'
+
+const theme = createMuiTheme({
+  direction: 'ltr',
+})
+
+//
 if (localStorage && localStorage.token) {
   setAuthToken(localStorage.token)
 }
@@ -31,28 +40,30 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <Router>
-        <Fragment>
-          <CssBaseline />
-          <Navbar />
-          <Switch>
-            <Route exact path='/' component={Header} />
-            <Route exact path='/features' component={Explaining} />
-            <Route exact path='/products' component={Allproducts} />
-            <Route
-              exact
-              path='/products/:productId'
-              component={SingleProduct}
-            />
-            <Route exact path='/login' component={Login} />
-            <Route exact path='/register' component={Register} />
-            <Route exact path='/order/:productId/:refer' component={Order} />
-            <PrivateRoute exact path='/profile' component={Profile} />
-          </Switch>
-          <Alerts />
-          <Footer />
-        </Fragment>
-      </Router>
+      <MuiThemeProvider theme={theme}>
+        <Router>
+          <Fragment>
+            <CssBaseline />
+            <Navbar />
+            <Switch>
+              <Route exact path='/' component={Header} />
+              <Route exact path='/features' component={Explaining} />
+              <Route exact path='/products' component={Allproducts} />
+              <Route
+                exact
+                path='/products/:productId'
+                component={SingleProduct}
+              />
+              <Route exact path='/login' component={Login} />
+              <Route exact path='/register' component={Register} />
+              <Route exact path='/order/:productId/:refer' component={Order} />
+              <PrivateRoute exact path='/profile' component={Profile} />
+            </Switch>
+            <Alerts />
+            <Footer />
+          </Fragment>
+        </Router>
+      </MuiThemeProvider>
     </Provider>
   )
 }

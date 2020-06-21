@@ -1,11 +1,14 @@
 const express = require('express')
 const app = express();
-const db = require('./config/database')
+const db = require('./db');
+
+
 var bodyParser = require('body-parser');
 const path = require('path')
 require('dotenv').config()
 
 db
+    .sequelize
     .authenticate()
     .then(() => {
         console.log('Connection has been established successfully.');
@@ -13,7 +16,14 @@ db
     .catch(err => {
         console.error('Unable to connect to the database:', err);
     });
-// db.sync({ force: true })
+
+
+//db
+//    .sequelize
+//    .sync({ force: true })
+//    .then(() => console.log('done'))
+
+
 app.use(bodyParser.urlencoded({ extended: false }))
 
 // parse application/json

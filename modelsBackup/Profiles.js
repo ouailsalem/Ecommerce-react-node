@@ -21,6 +21,11 @@ const Profile = db.define('profile', {
 
 }, { timestamps: false });
 
+Profile.belongsTo(User, {
+    as: 'Current',
+    foreignKey: 'id',
+    constraints: false
+});
 
 //
 module.exports = Profile

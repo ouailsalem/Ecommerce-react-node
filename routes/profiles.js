@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const Review = require('../models/Reviews');
+const { Review } = require('../db/index');
 const auth = require('../middlewares/auth');
-const User = require('../models/Users');
-const Profile = require('../models/Profiles');
+const { User } = require('../db/index')
+const { Profile } = require('../db/index')
 
 //api/profile
 //@myprofile
@@ -17,41 +17,24 @@ router.get('/', auth, async (req, res) => {
             });
         res.status(200).json({ payload: userProfile })
     } catch (err) {
-        console.error(err)
         res.status(500).json({ error: err })
     }
 })
+
 router.get('/:userId', async (req, res) => {
-    let userInfos = {}
 
     try {
-        let details = await Profile
-            .findOne({
-                where: {
-                    id: req.params.userId
-                },
-                attributes: { exclude: ['id'] }
-            })
-        if (!details) {
-            res.status(404).json({ message: "profile not found" })
-        } else {
-            let account = await User
-                .findOne({
-                    where: {
-                        id: req.params.userId
-                    },
-                    attributes: { exclude: ['password', 'email'] }
-                })
-            userInfos.account = account
-            userInfos.details = details
-            res.status(200).json({ payload: userInfos })
-        }
+        let profile = await User.findOne({
+            where: { id: req.params.userId }, attributes: { exclude: ['password', 'email'] }, include: [{ model: Profile, attributes: { exclude: ['phoneNumber', 'dayra', 'userId'] } }]
+        })
+        res.status(200).json(profile)
 
     } catch (err) {
-        console.error(err)
         res.status(500).json({ error: err })
     }
 })
+
+// /profile/update
 //@update profile
 router.put('/update', auth, async (req, res) => {
     try {
@@ -67,10 +50,11 @@ router.put('/update', auth, async (req, res) => {
             });
         res.status(200).json('profile updated')
     } catch (err) {
-        console.error(err)
         res.status(500).json({ error: err })
     }
 })
+
+// delete account @TODO:
 router.delete('/delete/:userId', auth, async (req, res) => {
 
     try {
