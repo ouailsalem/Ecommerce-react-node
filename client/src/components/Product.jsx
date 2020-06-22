@@ -7,28 +7,19 @@ import {
   CardActions,
   Button,
   makeStyles,
-  CardActionArea,
   Grid,
   Paper,
 } from '@material-ui/core'
-import { mainFont } from '../customize/font'
 import { Link } from 'react-router-dom'
 const useStyles = makeStyles({
-  root: {
-    maxWidth: 250,
-    height: 350,
-    margin: 'auto',
-  },
   media: {
     height: 250,
     backgroundSize: 'contain',
   },
-  buttonContainer: {
-    justifyContent: 'center',
-  },
+
   button: {
+    margin: 'auto',
     fontSize: 23,
-    fontFamily: mainFont,
     width: '70%',
     alignItems: 'center',
     backgroundColor: '#FFCC33',
@@ -38,53 +29,23 @@ const useStyles = makeStyles({
       boxShadow: 'none',
     },
   },
-  text: {
-    fontFamily: mainFont,
-    textAlign: 'center',
-  },
 })
 
 export const Product = (props) => {
+  console.log(props)
   const classes = useStyles()
   return (
     <Grid item lg={3} md={4} sm={6} xs={12}>
       <Paper elevation={5}>
         <Card>
-          <CardActionArea className={classes.root}>
-            <CardMedia
-              className={classes.media}
-              image={props.imageUrl}
-              title='Contemplative Reptile'
-            />
-            <CardContent>
-              <Typography
-                dir='rtl'
-                gutterBottom
-                component='h4'
-                className={classes.text}
-              >
-                {props.name}
-              </Typography>
-              <Typography
-                dir='rtl'
-                variant='body2'
-                component='p'
-                className={classes.text}
-              >
-                {props.description}
-              </Typography>
-              <Typography
-                dir='rtl'
-                variant='body2'
-                color='textSecondary'
-                component='p'
-                className={classes.text}
-              >
-                {props.price} دج
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-          <CardActions className={classes.buttonContainer}>
+          <CardMedia className={classes.media} image={props.imageUrl} />
+          <CardContent>
+            <Typography variant='h5'>{props.name}</Typography>
+            <Typography variant='body2' color='textSecondary' component='p'>
+              {props.price} دج
+            </Typography>
+          </CardContent>
+          <CardActions>
             <Button
               className={classes.button}
               size='small'

@@ -4,7 +4,7 @@ import {
 } from "./actionTypes"
 import { setAlert } from "./alert"
 
-export const addOrder = ({ productId, product, quantity, name, phoneNumber, address, wilaya, dayra, refer }) => async dispatch => {
+export const addOrder = (productId, product, quantity, name, phoneNumber, address, wilaya, dayra, refer) => async dispatch => {
     const config = {
         headers: {
             'Content-Type': "application/json"
@@ -17,10 +17,11 @@ export const addOrder = ({ productId, product, quantity, name, phoneNumber, addr
         phoneNumber,
         address,
         wilaya,
-        dayra
+        dayra,
     }
+    console.log(body)
     try {
-        const res = await Axios.post(`/products/order/${productId}/${refer}`, body, config)
+        await Axios.post(`/products/order/${productId}/${refer}`, body, config)
         dispatch({
             type: ADD_ORDER,
         })

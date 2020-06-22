@@ -18,12 +18,14 @@ import ImageGallery from 'react-image-gallery'
 import Rating from '@material-ui/lab/Rating'
 import { Send } from '@material-ui/icons/'
 import { Link, NavLink } from 'react-router-dom'
+import { setAlert } from '../redux/actions/alert'
 export const SingleProduct = ({ match }) => {
   const classes = useStyles()
   const [rating, setRating] = React.useState(4)
   const [review, setReview] = React.useState('')
   const dispatch = useDispatch()
   useEffect(() => {
+    window.scrollTo(0, 0)
     dispatch(getProduct(match.params.productId))
 
     dispatch(getReviews(match.params.productId))
@@ -32,8 +34,16 @@ export const SingleProduct = ({ match }) => {
   const onSubmit = (e) => {
     e.preventDefault()
     let productId = match.params.productId
-    dispatch(addReview({ rating, review, productId }))
-    setReview('')
+    if (!review || review.trim() === '') {
+      dispatch(setAlert('التعليق لايمكن أن يكون فارغًا', 'warning', true))
+    } else if (review.length < 10) {
+      dispatch(
+        setAlert('يجب أن يحتوي التعليق على 10 حروف على الأقل', 'warning', true)
+      )
+    } else {
+      dispatch(addReview({ rating, review, productId }))
+      setReview('')
+    }
   }
   const { loading } = useSelector((state) => state.product)
   const { product } = useSelector((state) => state.product)
@@ -54,7 +64,7 @@ export const SingleProduct = ({ match }) => {
           <Typography variant={'h5'} className={classes.text0}>
             {product.name}
           </Typography>
-          <Typography variant={'p'} className={classes.text2}>
+          <Typography variant={'p'} className={classes.description}>
             {product.description}
           </Typography>
           <Divider />
@@ -102,6 +112,7 @@ export const SingleProduct = ({ match }) => {
               <div className={classes.commentbox}>
                 <p className={classes.text4}>أضف تعليق</p>
                 <TextField
+                  disabled={state.loadingR}
                   multiline={true}
                   variant='outlined'
                   margin='normal'
@@ -124,18 +135,6 @@ export const SingleProduct = ({ match }) => {
                 className={classes.row}
               >
                 <div>
-                  <Button
-                    edge='start'
-                    className={classes.buttonsmall}
-                    aria-controls='simple-menu-cart'
-                    aria-haspopup='true'
-                    onClick={onSubmit}
-                    disabled={state.loadingR}
-                  >
-                    <Send />
-                  </Button>
-                </div>
-                <div>
                   <Rating
                     name='simple-controlled'
                     value={rating}
@@ -143,6 +142,19 @@ export const SingleProduct = ({ match }) => {
                       setRating(newValue)
                     }}
                   />
+                </div>
+                <div>
+                  <Button
+                    edge='start'
+                    className={classes.buttonsmall}
+                    aria-controls='simple-menu-cart'
+                    aria-haspopup='true'
+                    onClick={onSubmit}
+                    disabled={state.loadingR}
+                    size={'small'}
+                  >
+                    <Send />
+                  </Button>
                 </div>
               </div>
             </Fragment>
@@ -154,16 +166,19 @@ export const SingleProduct = ({ match }) => {
             <Fragment>
               {state.reviews.map((review) => {
                 return (
-                  <Grid className={classes.reviews} item xs={12}>
-                    <Typography className={classes.text3}>
+                  <Grid
+                    direction={'column'}
+                    className={classes.reviews}
+                    container
+                  >
+                    <Typography variant={'p'}>
                       {'★'.repeat(review.rating) +
                         '☆'.repeat(5 - review.rating)}{' '}
                       | {review.name}
                     </Typography>
-                    <Typography className={classes.text3}>
-                      {review.review}
-                    </Typography>
-                    <Typography variant={'overline'}>
+                    <Typography variant={'p'}>{review.review}</Typography>
+                    <br />
+                    <Typography color={'textSecondary'} variant={'p'}>
                       {review.time.slice(0, 10) +
                         '|' +
                         review.time.slice(11, 16)}
@@ -218,7 +233,6 @@ const useStyles = makeStyles({
 
   button: {
     fontSize: 23,
-    fontFamily: mainFont,
     width: '100%',
     minWidth: '300px',
     maxWidth: '600px',
@@ -231,9 +245,6 @@ const useStyles = makeStyles({
     },
   },
   buttonsmall: {
-    fontSize: 18,
-    fontFamily: mainFont,
-    width: 100,
     backgroundColor: '#FFCC33',
     transform: 'rotateY(180deg)',
     '&:hover': {
@@ -244,7 +255,6 @@ const useStyles = makeStyles({
   },
   text0: {
     marginTop: 12,
-    fontFamily: mainFont,
     width: '100%',
     minWidth: '300px',
     maxWidth: '600px',
@@ -254,32 +264,14 @@ const useStyles = makeStyles({
     margin: '10px',
     borderRadius: 4,
   },
-  text: {
-    fontFamily: mainFont,
-    textAlign: 'center',
-    padding: '20px',
-  },
-  text4: {
-    fontFamily: mainFont,
-    textAlign: 'center',
-    margin: 0,
-    padding: 0,
-    textDecoration: 'none',
-    color: '#777777',
-  },
-  text2: {
-    fontFamily: mainFont,
-    direction: 'rtl',
-    padding: '20px',
+  description: {
+    width: '100%',
+    minWidth: '300px',
     maxWidth: '600px',
+    margin: '10px',
   },
-  text3: {
-    fontFamily: mainFont,
-    direction: 'rtl',
-    maxWidth: '600px',
-  },
+
   commentbox: {
-    fontFamily: mainFont,
     width: '100%',
     minWidth: '300px',
     maxWidth: '600px',

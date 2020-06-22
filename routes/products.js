@@ -120,7 +120,7 @@ router.delete('/:productId', adminAuth, async (req, res) => {
 //api/products/orders 
 //get all orders
 
-router.get('/orders/all', adminAuth, async (req, res) => {
+router.get('/update/orders/all', adminAuth, async (req, res) => {
     try {
         let orders = await Order.findAll()
         res.status(200).json(orders)
@@ -134,7 +134,7 @@ router.get('/orders/all', adminAuth, async (req, res) => {
 //api/products/orders 
 //get single order
 
-router.get('/orders/:orderId', adminAuth, async (req, res) => {
+router.get('/update/orders/:orderId', adminAuth, async (req, res) => {
     try {
         let order = await Order.findOne({ where: { id: req.params.orderId } })
         if (!order) res.status(404).json({ message: "order not found" })
@@ -150,7 +150,7 @@ router.get('/orders/:orderId', adminAuth, async (req, res) => {
 //api/products/orders 
 //update an order
 
-router.put('/orders/:orderId', adminAuth, async (req, res) => {
+router.put('/update/orders/:orderId', adminAuth, async (req, res) => {
     try {
         await Order.update({
             productId: req.body.product_id,
@@ -182,23 +182,24 @@ router.put('/orders/:orderId', adminAuth, async (req, res) => {
 //api/products/:product_id
 //post order
 router.post('/order/:productId/:refer', async (req, res) => {
+    console.log(req.body)
+    console.log(req.params)
     const data = {
         productId: req.params.productId,
         product: req.body.product,
         quantity: req.body.quantity,
         name: req.body.name,
-        phoneNumber: req.body.name,
-        address: req.body.name,
-        wilaya: req.body.name,
-        dayra: req.body.name,
+        phoneNumber: req.body.phoneNumber,
+        address: req.body.address,
+        wilaya: req.body.wilaya,
+        dayra: req.body.dayra,
         time: new Date().toISOString(),
         status: false,
         refer: req.params.refer || "no refer"
     }
-    let { productId, product, quantity, name, phoneNumber, address, wilaya, dayra, time, status, refer } = data
+    let { product, quantity, name, phoneNumber, address, wilaya, dayra, time, status, refer } = data
     try {
         let result = await Order.create({
-            productId,
             product,
             quantity,
             name,

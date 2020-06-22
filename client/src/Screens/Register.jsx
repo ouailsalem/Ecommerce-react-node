@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   IconButton,
   Avatar,
@@ -71,6 +71,9 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export const Register = ({ history }) => {
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
   const dispatch = useDispatch()
   const classes = useStyles()
   const [formData, setFormData] = useState({
@@ -112,18 +115,21 @@ export const Register = ({ history }) => {
   }
   const onSubmit = (e) => {
     e.preventDefault()
-
-    if (
-      nameError === false &&
-      emailError === false &&
-      passwordError === false &&
-      name !== '' &&
-      email !== '' &&
-      password !== ''
-    ) {
-      dispatch(register({ name, email, password }))
+    if (name.trim() === '' || (email.trim() === '' && password.trim() === '')) {
+      dispatch(setAlert('إملأ كل الفراغات', 'warning', true))
     } else {
-      dispatch(setAlert('تأكد من أن معلوماتك صحيحة', 'warning', true))
+      if (
+        nameError === false &&
+        emailError === false &&
+        passwordError === false &&
+        name !== '' &&
+        email !== '' &&
+        password !== ''
+      ) {
+        dispatch(register({ name, email, password }))
+      } else {
+        dispatch(setAlert('تأكد من أن معلوماتك صحيحة', 'warning', true))
+      }
     }
   }
   const { isAuthenticated, loading } = useSelector((state) => state.auth)
@@ -157,7 +163,7 @@ export const Register = ({ history }) => {
             }}
           >
             <TextField
-              variant='outlined'
+              variant='filled'
               margin='normal'
               fullWidth
               id='name'
@@ -193,7 +199,7 @@ export const Register = ({ history }) => {
                   ''
                 )
               }
-              variant='outlined'
+              variant='filled'
               margin='normal'
               fullWidth
               id='email'
@@ -219,7 +225,7 @@ export const Register = ({ history }) => {
                   ''
                 )
               }
-              variant='outlined'
+              variant='filled'
               margin='normal'
               fullWidth
               name='password'

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   IconButton,
   Avatar,
@@ -66,6 +66,9 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export const Login = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
   const dispatch = useDispatch()
   const classes = useStyles()
   const [formData, setFormData] = useState({
@@ -107,7 +110,6 @@ export const Login = () => {
           </Typography>
           <form
             className={classes.form}
-            noValidate
             style={{
               display: 'flex',
               flexDirection: 'column',
@@ -116,7 +118,7 @@ export const Login = () => {
             onSubmit={onSubmit}
           >
             <TextField
-              variant='outlined'
+              variant='filled'
               margin='normal'
               fullWidth
               id='email'
@@ -132,7 +134,7 @@ export const Login = () => {
               onChange={(e) => onChange(e)}
             />
             <TextField
-              variant='outlined'
+              variant='filld'
               margin='normal'
               fullWidth
               name='password'

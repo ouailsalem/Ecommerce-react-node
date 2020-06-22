@@ -3,53 +3,53 @@ import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
-import { ShoppingCart, Person } from '@material-ui/icons/'
-import { Menu, MenuItem } from '@material-ui/core'
-import { mainFont } from '../customize/font'
-import { Link } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-import { logout } from '../redux/actions/auth'
 
+import MenuIcon from '@material-ui/icons/Menu'
+import ShoppingCart from '@material-ui/icons/ShoppingCart'
+import AccountCircle from '@material-ui/icons/AccountCircle'
+import { dispatch, useSelector, useDispatch } from 'react-redux'
+import MenuItem from '@material-ui/core/MenuItem'
+import Menu from '@material-ui/core/Menu'
+import { logout } from '../redux/actions/auth'
+import { Link } from 'react-router-dom'
 const useStyles = makeStyles((theme) => ({
-  menuButton: {
-    marginRight: theme.spacing(2),
-    color: '#FFCC33',
-  },
-  title: {
+  root: {
     flexGrow: 1,
   },
-  text: {
-    fontSize: 24,
-    fontFamily: mainFont,
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  navLink: {
+    fontSize: '20px',
+    flexGrow: 1,
+    marginLeft: 5,
     cursor: 'pointer',
-    color: '#fff',
+    textDecoration: 'none',
+    '&:visited': {
+      color: 'white',
+    },
   },
-  tool: {
-    paddingLeft: '3%',
-    paddingRight: '3%',
-  },
-  navItemText: {
-    fontSize: 16,
-    fontFamily: mainFont,
+  home: {
+    fontSize: '24px',
+    flexGrow: 1,
+    marginLeft: 5,
     cursor: 'pointer',
-    color: '#fff',
-  },
-  menuItem: {
-    fontSize: 16,
-    fontFamily: mainFont,
-    cursor: 'pointer',
-    color: '#000',
-  },
-  appBar: {
-    backgroundColor: '#222222',
+    textDecoration: 'none',
+    '&:visited': {
+      color: 'white',
+    },
   },
 }))
-export const RealNavBar = (props) => {
-  const [anchorEl, setAnchorEl] = React.useState(null)
 
-  const handleClick = (event) => {
+export function RealNavBar() {
+  const dispatch = useDispatch()
+  const classes = useStyles()
+  const [anchorEl, setAnchorEl] = React.useState(null)
+  const open = Boolean(anchorEl)
+  const { isAuthenticated, loading } = useSelector((state) => state.auth)
+
+  const handleMenu = (event) => {
     setAnchorEl(event.currentTarget)
   }
 
@@ -57,99 +57,78 @@ export const RealNavBar = (props) => {
     setAnchorEl(null)
   }
 
-  const [anchorElCart, setAnchorElCart] = React.useState(0)
-
-  const handleClickCart = (event) => {
-    setAnchorElCart(event.currentTarget)
-  }
-
-  const handleCloseCart = () => {
-    setAnchorElCart(null)
-  }
-  const classes = useStyles()
-  const { isAuthenticated } = useSelector((state) => state.auth)
-  const dispatch = useDispatch()
   return (
-    <AppBar ref={props.goback} className={classes.appBar} position={'sticky'}>
-      <Toolbar className={classes.tool}>
-        <Typography variant='h6' className={classes.title}>
+    <AppBar position='static'>
+      <Toolbar>
+        <Typography variant='h5' className={classes.home}>
+          متجري
+        </Typography>
+        <IconButton
+          aria-label='account of current user'
+          aria-controls='menu-appbar'
+          aria-haspopup='true'
+          component={Link}
+          to='/products'
+          color='inherit'
+        >
+          <ShoppingCart />
+        </IconButton>
+        <div>
           {isAuthenticated ? (
             <Fragment>
               <IconButton
-                edge='start'
-                className={classes.menuButton}
-                color='inherit'
-                aria-label='menu'
-                aria-controls='simple-menu'
+                aria-label='account of current user'
+                aria-controls='menu-appbar'
                 aria-haspopup='true'
-                onClick={handleClick}
+                onClick={handleMenu}
+                color='inherit'
               >
-                <Person />
+                <AccountCircle />
               </IconButton>
               <Menu
-                id='simple-menu'
+                id='menu-appbar'
                 anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
                 keepMounted
-                open={Boolean(anchorEl)}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose} component={Link} to='/profile'>
-                  <Typography className={classes.menuItem}>حسابي</Typography>
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    dispatch(logout())
-                  }}
-                >
-                  <Typography className={classes.menuItem}>
-                    تسجيل الخروج
-                  </Typography>
+                <MenuItem onClick={handleClose}>حسابي</MenuItem>
+                <MenuItem onClick={() => dispatch(logout())}>
+                  تسجيل الخروج
                 </MenuItem>
               </Menu>
             </Fragment>
           ) : (
             <Fragment>
-              <Button component={Link} to='/register'>
-                <Typography className={classes.navItemText}>تسجيل</Typography>
-              </Button>
-              <Button component={Link} to='/login'>
-                <Typography className={classes.navItemText}>دخول</Typography>
-              </Button>
+              <Typography
+                component={Link}
+                to='/register'
+                variant='span'
+                className={classes.navLink}
+              >
+                {' '}
+                تسجيل
+              </Typography>
+              <Typography
+                component={Link}
+                to='/login'
+                variant='span'
+                className={classes.navLink}
+              >
+                {' '}
+                دخول
+              </Typography>
             </Fragment>
           )}
-          <IconButton
-            edge='start'
-            className={classes.menuButton}
-            aria-controls='simple-menu-cart'
-            aria-haspopup='true'
-            onClick={handleClickCart}
-          >
-            <ShoppingCart />
-          </IconButton>
-          <Menu
-            id='simple-menu-cart'
-            anchorEl={anchorElCart}
-            keepMounted
-            open={Boolean(anchorElCart)}
-            onClose={handleCloseCart}
-          >
-            <MenuItem
-              onClick={() => {
-                console.log('cart')
-              }}
-            >
-              السلة فارغــة
-            </MenuItem>
-          </Menu>
-        </Typography>
-        <Button
-          color='inherit'
-          component={Link}
-          to='/'
-          className={classes.text}
-        >
-          <Typography className={classes.text}>متجري</Typography>
-        </Button>
+        </div>
       </Toolbar>
     </AppBar>
   )

@@ -10,39 +10,26 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant='filled' {...props} />
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-    '& > * + *': {
-      marginTop: theme.spacing(2),
-    },
-  },
-  msg: {
-    fontFamily: mainFont,
-  },
-}))
-
 export function Alerts() {
-  const classes = useStyles()
   const alerts = useSelector((state) => state.alert)
 
   const renderedAlerts =
     alerts !== null && alerts.length > 0 ? (
       alerts.map((alert) => {
         return (
-          <div key={alert.id} className={classes.root}>
-            <Snackbar open={alert.open} autoHideDuration={6000}>
+          <div key={alert.id}>
+            <Snackbar open={alert.open} autoHideDuration={5000}>
               <Alert severity={alert.alertType}>
-                <Typography className={classes.msg}>{alert.msg}</Typography>
+                <Typography>{alert.msg}</Typography>
               </Alert>
             </Snackbar>
           </div>
         )
       })
     ) : (
-      <Snackbar open={false} autoHideDuration={6000}>
+      <Snackbar open={false} autoHideDuration={5000}>
         <Alert severity={'success'}>
-          <Typography className={classes.msg}>{'no alert'}</Typography>
+          <Typography>{'no alert'}</Typography>
         </Alert>
       </Snackbar>
     )

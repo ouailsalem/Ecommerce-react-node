@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   makeStyles,
   Grid,
@@ -12,7 +12,9 @@ import { ShoppingCart, ArrowDownward } from '@material-ui/icons/'
 
 export const Header = () => {
   const classes = useStyles()
-
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
   return (
     <Grid container spacing={3} style={{ minHeight: 700, height: '70vh' }}>
       <Grid

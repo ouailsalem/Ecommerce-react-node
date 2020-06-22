@@ -50,6 +50,7 @@ export const Allproducts = () => {
   const dispatch = useDispatch()
   const { products, loading } = useSelector((state) => state.products)
   useEffect(() => {
+    window.scrollTo(0, 0)
     dispatch(getProducts())
     console.log(products)
   }, [])
@@ -66,7 +67,7 @@ export const Allproducts = () => {
               name={product.name}
               imageUrl={product.mainPicture}
               available={product.available}
-              description={product.description}
+              smallDescription={product.smallDescription}
               price={product.price}
             />
             <Product
@@ -85,9 +86,3 @@ export const Allproducts = () => {
   )
   return rendered
 }
-/*
-  <Grid xs={6} sm={3} container spacing={3} classes={classes.cardGrid}>
-     <Product />
-     <Product />
-      <Product />
-  </Grid> */
