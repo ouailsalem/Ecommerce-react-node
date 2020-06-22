@@ -5,6 +5,7 @@ import products from "./products"
 import product from "./product"
 import review from "./review"
 import reviews from "./reviews"
+import order from "./order"
 export default combineReducers({
-    alert, auth, products, product, review, reviews
+    alert, auth, products, product, review, reviews, order
 })

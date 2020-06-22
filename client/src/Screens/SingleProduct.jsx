@@ -13,7 +13,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addReview } from '../redux/actions/review'
 import { getReviews } from '../redux/actions/review'
 import { Loading } from '../Screens/Loading'
-import { mainFont } from '../customize/font'
 import ImageGallery from 'react-image-gallery'
 import Rating from '@material-ui/lab/Rating'
 import { Send } from '@material-ui/icons/'
@@ -56,7 +55,6 @@ export const SingleProduct = ({ match }) => {
   ) : (
     <div className={classes.container}>
       <Grid
-        className={{ justifyContent: 'center', margin: 50 }}
         container
         spacing={3}
       >
@@ -64,7 +62,7 @@ export const SingleProduct = ({ match }) => {
           <Typography variant={'h5'} className={classes.text0}>
             {product.name}
           </Typography>
-          <Typography variant={'p'} className={classes.description}>
+          <Typography variant={'body1'} className={classes.description}>
             {product.description}
           </Typography>
           <Divider />
@@ -81,7 +79,7 @@ export const SingleProduct = ({ match }) => {
             showFullscreenButton={false}
             useBrowserFullscreen={false}
           />
-          <Typography className={classes.text}>
+          <Typography className={classes.text0}>
             <Button
               component={Link}
               to={`/order/${match.params.productId}/none`}
@@ -95,11 +93,10 @@ export const SingleProduct = ({ match }) => {
 
         <Grid className={classes.root} item xs={12}>
           {!isAuthenticated ? (
-            <p className={classes.text4}>
+            <p>
               قم
               <NavLink
-                activeStyle={'none'}
-                className={classes.text4}
+               
                 to='/register'
               >
                 {' '}
@@ -110,7 +107,7 @@ export const SingleProduct = ({ match }) => {
           ) : (
             <Fragment>
               <div className={classes.commentbox}>
-                <p className={classes.text4}>أضف تعليق</p>
+                <p>أضف تعليق</p>
                 <TextField
                   disabled={state.loadingR}
                   multiline={true}
@@ -170,15 +167,18 @@ export const SingleProduct = ({ match }) => {
                     direction={'column'}
                     className={classes.reviews}
                     container
+                    key={review.id}
                   >
-                    <Typography variant={'p'}>
+                    <Typography variant={'subtitle1'}>
                       {'★'.repeat(review.rating) +
                         '☆'.repeat(5 - review.rating)}{' '}
                       | {review.name}
                     </Typography>
-                    <Typography variant={'p'}>{review.review}</Typography>
+                    <Typography variant={'subtitle1'}>
+                      {review.review}
+                    </Typography>
                     <br />
-                    <Typography color={'textSecondary'} variant={'p'}>
+                    <Typography color={'textSecondary'} variant={'subtitle1'}>
                       {review.time.slice(0, 10) +
                         '|' +
                         review.time.slice(11, 16)}

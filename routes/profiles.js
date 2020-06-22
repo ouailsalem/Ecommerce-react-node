@@ -1,12 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const { Review } = require('../db/index');
+const { Review, User, Profile } = require('../db/index');
 const auth = require('../middlewares/auth');
-const { User } = require('../db/index')
-const { Profile } = require('../db/index')
+
 
 //api/profile
-//@myprofile
+//@get myprofile
 router.get('/', auth, async (req, res) => {
     try {
         let userProfile = await Profile
@@ -21,6 +20,8 @@ router.get('/', auth, async (req, res) => {
     }
 })
 
+//api/profile/:userId
+//@get user Profile
 router.get('/:userId', async (req, res) => {
 
     try {

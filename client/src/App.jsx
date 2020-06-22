@@ -1,13 +1,12 @@
 import React, { Fragment, useEffect } from 'react'
 import './App.css'
-// router
+// React Router
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import PrivateRoute from './Screens/routing/PrivateRoute'
-// @material-ui & Theme
+// Material UI & Theme
 import { CssBaseline } from '@material-ui/core'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
-import RTL from './components/rtl'
-// screens & components
+//  Components & Screens
 import { Alerts } from './components/Alerts'
 import { Allproducts } from './Screens/Allproducts'
 import { Explaining } from './Screens/Explaining'
@@ -19,15 +18,18 @@ import { Order } from './Screens/Order'
 import { Profile } from './Screens/Profile'
 import { Register } from './Screens/Register'
 import { SingleProduct } from './Screens/SingleProduct'
-//redux
+//Redux
 import store from './redux/store'
 import { Provider } from 'react-redux'
 import { loadUser } from './redux/actions/auth'
-import setAuthToken from './utils/setAuthToken'
-import { mainFont } from './customize/font'
-import ScrollIntoView from './Screens/routing/scrollIntoView'
 
-//
+// Utitliy
+import setAuthToken from './utils/setAuthToken'
+// Customize
+import { mainFont } from './customize/font'
+
+
+/*----------------------------------------- create MuiTheme -------------------------------------------*/
 
 const theme = createMuiTheme({
   direction: 'rtl',
@@ -60,23 +62,29 @@ const theme = createMuiTheme({
     ].join(','),
   },
 })
-console.log(theme)
-//
+/*----------------------------------------- setAuthToken -------------------------------------------*/
+
 if (localStorage && localStorage.token) {
   setAuthToken(localStorage.token)
 }
 
 export default function App() {
+
+/*----------------------------------------- React Hooks -------------------------------------------*/
   useEffect(() => {
     store.dispatch(loadUser())
   }, [])
 
+  
+/*----------------------------------------- Main App     -------------------------------------------*/
+
   return (
+
+
     <Provider store={store}>
       <MuiThemeProvider theme={theme}>
         <Router>
           <Fragment>
-            <ScrollIntoView>
               <CssBaseline />
               <Navbar />
               <Switch>
@@ -99,7 +107,6 @@ export default function App() {
               </Switch>
               <Alerts />
               <Footer />
-            </ScrollIntoView>
           </Fragment>
         </Router>
       </MuiThemeProvider>

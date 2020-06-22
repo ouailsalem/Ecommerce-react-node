@@ -16,3 +16,5 @@ export const LOAD_REVIEWS = "LOAD_REVIEWS";
 export const REVIEW_ERROR = "REVIEW_ERROR";
 export const ADD_ORDER = "ADD_ORDER";
 export const ORDER_ERROR = "ORDER_ERROR";
+export const POSTING_ORDER = "POSTING_ORDER";
+export const RESET_ORDER = "RESET_ORDER";

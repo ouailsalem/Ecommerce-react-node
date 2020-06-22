@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import { getProducts } from '../redux/actions/products'
 import { useDispatch, useSelector } from 'react-redux'
 import { Loading } from '../Screens/Loading'
+import { resetOrder } from '../redux/actions/order'
 
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window
@@ -50,10 +51,10 @@ export const Allproducts = () => {
   const dispatch = useDispatch()
   const { products, loading } = useSelector((state) => state.products)
   useEffect(() => {
+    dispatch(resetOrder())
     window.scrollTo(0, 0)
     dispatch(getProducts())
-    console.log(products)
-  }, [])
+  }, [dispatch])
   const rendered = loading ? (
     <Loading />
   ) : (
@@ -70,15 +71,7 @@ export const Allproducts = () => {
               smallDescription={product.smallDescription}
               price={product.price}
             />
-            <Product
-              key={product.id}
-              id={product.id}
-              name={product.name}
-              imageUrl={product.mainPicture}
-              available={product.available}
-              description={product.description}
-              price={product.price}
-            />
+  
           </Fragment>
         ))}
       </Grid>

@@ -484,17 +484,82 @@ code {
   color: 'lightgray' !important;
   text-align: right !important;
   direction: rtl !important;
-  right: 10%;
-  top: 25%;
+  right: 6%;
+  top: -5% !important;
 }
 .MuiInputLabel-shrink {
   transform-origin: top right !important;
   color: #888888 !important;
 }
 .MuiInputLabel-animated {
-  transition: none !important;
+  transform-origin: top right !important;
+  transition: transform 0.2s !important;
 }
 .MuiInputLabel-filled.MuiInputLabel-shrink {
-  transform: translate(25px, 3px) scale(0.7) !important;
-  color: #888888;
+  transform: translate(25px, 3px) scale(1) !important;
+  color: 'red' !important;
+}
+.PrivateNotchedOutline-legendLabelled-28 {
+  text-align: right !important;
+}
+
+@media (max-width: 768px) {
+ .MuiInputLabel-formControl {
+  text-align: right !important;
+  direction: rtl !important;
+  right: 10%;
+  top: -5% !important;
+}
+}
+
+@media (max-width: 300px) {
+ .MuiInputLabel-formControl {
+  text-align: right !important;
+  direction: rtl !important;
+  right: 13%;
+  top: -5% !important;
+}
+}
+
+input{
+    margin-right: 15px !important;
+
+}
+@media (max-width: 300px) {
+input{
+    margin-right: 3px !important;
+
+}
+}
+.MuiSelect-icon{
+  position: absolute;
+  left:25px;
+ 
+}
+
+a{
+  text-decoration: none !important;
+}
+a:visited{
+  text-decoration: none !important;
+}
+a:active{
+  text-decoration: none !important;
+
+}
+
+.MuiSelect-outlined.MuiSelect-outlined {
+  padding-right: 17px !important;
+}
+
+.MuiSelect-icon {
+  top: calc(50% - 12px);
+  color: rgba(0, 0, 0, 0.54);
+  right: 120px !important;
+  position: absolute;
+  pointer-events: none;
+}
+
+.MuiInputLabel-shrink{
+  transform:translate(0, 1.5px) scale(1) !important
 }

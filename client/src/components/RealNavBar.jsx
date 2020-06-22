@@ -5,10 +5,9 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 
-import MenuIcon from '@material-ui/icons/Menu'
 import ShoppingCart from '@material-ui/icons/ShoppingCart'
 import AccountCircle from '@material-ui/icons/AccountCircle'
-import { dispatch, useSelector, useDispatch } from 'react-redux'
+import {  useSelector, useDispatch } from 'react-redux'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import { logout } from '../redux/actions/auth'
@@ -47,7 +46,7 @@ export function RealNavBar() {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
-  const { isAuthenticated, loading } = useSelector((state) => state.auth)
+  const { isAuthenticated } = useSelector((state) => state.auth)
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget)
@@ -111,7 +110,6 @@ export function RealNavBar() {
               <Typography
                 component={Link}
                 to='/register'
-                variant='span'
                 className={classes.navLink}
               >
                 {' '}
@@ -120,7 +118,6 @@ export function RealNavBar() {
               <Typography
                 component={Link}
                 to='/login'
-                variant='span'
                 className={classes.navLink}
               >
                 {' '}

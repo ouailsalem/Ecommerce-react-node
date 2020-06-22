@@ -1,6 +1,6 @@
 import Axios from "axios"
 import {
-    ADD_ORDER, ORDER_ERROR
+    ADD_ORDER, ORDER_ERROR, POSTING_ORDER, RESET_ORDER
 } from "./actionTypes"
 import { setAlert } from "./alert"
 
@@ -19,13 +19,18 @@ export const addOrder = (productId, product, quantity, name, phoneNumber, addres
         wilaya,
         dayra,
     }
-    console.log(body)
     try {
+        dispatch({
+            type:POSTING_ORDER
+        })
         await Axios.post(`/products/order/${productId}/${refer}`, body, config)
         dispatch({
             type: ADD_ORDER,
+            posted: true,
+            posting : false
         })
-
+        dispatch(setAlert("تم تقديم طلبـك بنجاح", "success", true, 4000))
+      
 
     } catch (err) {
         if (err.response.status === 404) {
@@ -34,7 +39,15 @@ export const addOrder = (productId, product, quantity, name, phoneNumber, addres
             dispatch(setAlert("هناك مشكلـة ، نرجو المحاولة لاحقا", "error", true, 4000))
         }
         dispatch({
-            type: ORDER_ERROR
+            type: ORDER_ERROR,
+            posted: false,
+            posting: false
         })
     }
+}
+
+export const resetOrder = () => async dispatch => {
+    dispatch({
+        type: RESET_ORDER,
+    })
 }
