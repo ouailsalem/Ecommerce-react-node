@@ -34,13 +34,20 @@ const useStyles = makeStyles({
 export const Product = (props) => {
   const classes = useStyles()
   return (
-    <Grid item lg={3} md={4} sm={6} xs={12}>
+    <Grid item lg={3} md={4} sm={6} xs={10}>
       <Paper elevation={5}>
         <Card>
           <CardMedia className={classes.media} image={props.imageUrl} />
           <CardContent>
-            <Typography variant='h5'>{props.name}</Typography>
-            <Typography variant='body2' color='textSecondary' component='p'>
+            <Typography style={{ textAlign: 'center' }} variant='h5'>
+              {props.name}
+            </Typography>
+            <Typography
+              style={{ textAlign: 'center' }}
+              variant='h6'
+              color='textSecondary'
+              component='p'
+            >
               {props.price} دج
             </Typography>
           </CardContent>

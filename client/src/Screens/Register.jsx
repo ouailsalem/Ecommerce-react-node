@@ -10,7 +10,7 @@ import {
   TextField,
   makeStyles,
 } from '@material-ui/core'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { SupervisedUserCircle, ArrowBack } from '@material-ui/icons/'
 import { mainFont } from '../customize/font'
 import { useDispatch, useSelector } from 'react-redux'
@@ -134,7 +134,7 @@ export const Register = ({ history }) => {
   }
   const { isAuthenticated, loading } = useSelector((state) => state.auth)
   if (isAuthenticated) {
-    history.goBack()
+    return <Redirect to="/profile" />
   }
 
   const rendered = loading ? (

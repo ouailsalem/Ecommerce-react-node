@@ -8,14 +8,15 @@ const auth = require('../middlewares/auth');
 //@get myprofile
 router.get('/', auth, async (req, res) => {
     try {
-        let userProfile = await Profile
+        let profile = await Profile
             .findOne({
                 where: {
-                    id: req.user.id
+                    userId: req.user.id
                 }
             });
-        res.status(200).json({ payload: userProfile })
+        res.status(200).json(profile)
     } catch (err) {
+        console.log(err)
         res.status(500).json({ error: err })
     }
 })

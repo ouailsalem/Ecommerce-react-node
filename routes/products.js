@@ -109,7 +109,7 @@ router.delete('/:productId', adminAuth, async (req, res) => {
         await Product.destroy({
             where: { id: req.params.productId }
         })
-        res.status(404).json({ message: 'product deleted' })
+        res.status(200).json({ message: 'product deleted' })
 
     } catch (error) {
         res.status(500).json({ message: 'something went wrongs' })

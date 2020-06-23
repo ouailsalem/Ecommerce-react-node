@@ -1,62 +1,26 @@
 import React from 'react'
-import { Typography, Link, makeStyles } from '@material-ui/core'
-
+import { Typography, Link, makeStyles, Grid } from '@material-ui/core'
+import Facebook from '@material-ui/icons/Facebook'
+import WhatsApp from '@material-ui/icons/WhatsApp'
+import Call from '@material-ui/icons/Call'
+import Email from '@material-ui/icons/Email'
 export const Footer = () => {
-  const classes = useStyles()
 
   return (
-    <footer className={classes.footer}>
-      <Typography variant='h6' align='center' gutterBottom>
-        Footer
-      </Typography>
-      <Typography
-        variant='subtitle1'
-        align='center'
-        color='textSecondary'
-        component='p'
-      >
-        Something here to give the footer a purpose!
-      </Typography>
-      <Typography variant='body2' color='textSecondary' align='center'>
-        'Copyright © '
-        <Link color='inherit' href='https://material-ui.com/'>
-          Your Website
-        </Link>
-        {new Date().getFullYear()}
-      </Typography>
+    <footer>
+      <section className='section-top'>
+        <Grid container justify='center' spacing={5}>
+          <Facebook style={{ marginLeft: '10px' }} />
+          <WhatsApp style={{ marginLeft: '10px' }} />
+          <Call style={{ marginLeft: '10px' }} />
+          <Email style={{ marginLeft: '10px' }} />
+        </Grid>
+      </section>
+      <section className='section-bottom'>
+        <Typography>جميع الحقوق محفوظة</Typography>
+      </section>
     </footer>
   )
 }
 
-const useStyles = makeStyles((theme) => ({
-  icon: {
-    marginRight: theme.spacing(2),
-  },
-  heroContent: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
-  },
-  heroButtons: {
-    marginTop: theme.spacing(4),
-  },
-  cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
-  },
-  card: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  cardMedia: {
-    paddingTop: '56.25%', // 16:9
-  },
-  cardContent: {
-    flexGrow: 1,
-  },
-  footer: {
-    backgroundColor: '#222222',
-    marginTop: '5%',
-    padding: theme.spacing(6),
-  },
-}))
+

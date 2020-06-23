@@ -59,7 +59,12 @@ export function RealNavBar() {
   return (
     <AppBar position='static'>
       <Toolbar>
-        <Typography variant='h5' className={classes.home}>
+        <Typography
+          component={Link}
+          to='/'
+          variant='h5'
+          className={classes.home}
+        >
           متجري
         </Typography>
         <IconButton
@@ -99,8 +104,22 @@ export function RealNavBar() {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>حسابي</MenuItem>
-                <MenuItem onClick={() => dispatch(logout())}>
+                <MenuItem onClick={handleClose} component={Link} to='/profile'>
+                  حسابي
+                </MenuItem>
+                <MenuItem
+                  onClick={handleClose}
+                  component={Link}
+                  to='/affiliate'
+                >
+                  تسويق المنتجات
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    dispatch(logout())
+                    handleClose()
+                  }}
+                >
                   تسجيل الخروج
                 </MenuItem>
               </Menu>

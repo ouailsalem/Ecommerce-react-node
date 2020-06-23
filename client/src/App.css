@@ -504,48 +504,44 @@ code {
 }
 
 @media (max-width: 768px) {
- .MuiInputLabel-formControl {
-  text-align: right !important;
-  direction: rtl !important;
-  right: 10%;
-  top: -5% !important;
-}
+  .MuiInputLabel-formControl {
+    text-align: right !important;
+    direction: rtl !important;
+    right: 10%;
+    top: -5% !important;
+  }
 }
 
 @media (max-width: 300px) {
- .MuiInputLabel-formControl {
-  text-align: right !important;
-  direction: rtl !important;
-  right: 13%;
-  top: -5% !important;
-}
+  .MuiInputLabel-formControl {
+    text-align: right !important;
+    direction: rtl !important;
+    right: 13%;
+    top: -5% !important;
+  }
 }
 
-input{
-    margin-right: 15px !important;
-
+input {
+  margin-right: 15px !important;
 }
 @media (max-width: 300px) {
-input{
+  input {
     margin-right: 3px !important;
-
+  }
 }
-}
-.MuiSelect-icon{
+.MuiSelect-icon {
   position: absolute;
-  left:25px;
- 
+  left: 25px;
 }
 
-a{
+a {
   text-decoration: none !important;
 }
-a:visited{
+a:visited {
   text-decoration: none !important;
 }
-a:active{
+a:active {
   text-decoration: none !important;
-
 }
 
 .MuiSelect-outlined.MuiSelect-outlined {
@@ -560,6 +556,51 @@ a:active{
   pointer-events: none;
 }
 
-.MuiInputLabel-shrink{
-  transform:translate(0, 1.5px) scale(1) !important
+.MuiInputLabel-shrink {
+  transform: translate(0, 1.5px) scale(1) !important;
+}
+
+footer {
+  background: #222222;
+  color:#fff;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap; /*flex items will wrap onto multiple lines, from top to bottom.*/
+  padding: 20px;
+}
+.section-top {
+  display: flex;
+  justify-content: center; /*items are centered along the line*/
+  padding: 20px 0;
+}
+.section-bottom {
+  text-align: center;
+  padding: 15px 0;
+}
+.col {
+  margin: 0 15px;
+  width: 25%; /*optional*/
+}
+@media all and (max-width: 600px) {
+  /*style if screen size is <600px*/
+  .section-top {
+    flex-direction: column;
+  }
+  .col {
+    text-align: center;
+    width: 100%;
+    margin: 0;
+  }
+}
+
+
+.MuiTableCell-alignLeft{
+  text-align: right !important;
+}
+
+.MuiTypography-caption{
+  direction: ltr;
+}
+.MuiToolbar-root{
+  flex-direction: column;
 }

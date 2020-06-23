@@ -73,4 +73,18 @@ TODO:  my orders
      -> single review
      ?-> users (delete)
      -> edit user
+
+
+
+
+?-> FRONT END
+TODO:  profile        (my profile)
+TODO:  my orders      (probably)
+TODO:  footer         (ui)
+TODO:  my orders      (probably)
+
+TODO:  admin panel
+
+
 */
+

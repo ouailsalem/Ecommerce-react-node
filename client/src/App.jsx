@@ -1,7 +1,13 @@
 import React, { Fragment, useEffect } from 'react'
 import './App.css'
 // React Router
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  useRouteMatch,
+  useLocation,
+} from 'react-router-dom'
 import PrivateRoute from './Screens/routing/PrivateRoute'
 // Material UI & Theme
 import { CssBaseline } from '@material-ui/core'
@@ -27,7 +33,13 @@ import { loadUser } from './redux/actions/auth'
 import setAuthToken from './utils/setAuthToken'
 // Customize
 import { mainFont } from './customize/font'
-
+import { Affiliate } from './Screens/Affiliate'
+import { Dashboard } from './AdminScreens/Dashboard'
+import { AppDrawer } from './AdminScreens/AppDrawer'
+import { AdminProducts } from './AdminScreens/AdminProducts'
+import { AdminOrders } from './AdminScreens/AdminOrders'
+import { AdminReviews } from './AdminScreens/AdminReviews'
+import { AdminMembers } from './AdminScreens/AdminMembers'
 
 /*----------------------------------------- create MuiTheme -------------------------------------------*/
 
@@ -69,25 +81,50 @@ if (localStorage && localStorage.token) {
 }
 
 export default function App() {
-
-/*----------------------------------------- React Hooks -------------------------------------------*/
+  /*----------------------------------------- React Hooks -------------------------------------------*/
   useEffect(() => {
     store.dispatch(loadUser())
   }, [])
 
   
-/*----------------------------------------- Main App     -------------------------------------------*/
+  /*----------------------------------------- Main App     -------------------------------------------*/
 
   return (
-
-
     <Provider store={store}>
       <MuiThemeProvider theme={theme}>
         <Router>
           <Fragment>
-              <CssBaseline />
-              <Navbar />
-              <Switch>
+            <CssBaseline />
+            <Switch>
+              <Route path='/admin'>
+                <div style={{ display: 'flex' }}>
+                  <AppDrawer />
+                  <PrivateRoute exact path='/admin' component={Dashboard} />
+                  <PrivateRoute
+                    exact
+                    path='/admin/products'
+                    component={AdminProducts}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/admin/orders'
+                    component={AdminOrders}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/admin/members'
+                    component={AdminMembers}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/admin/reviews'
+                    component={AdminReviews}
+                  />
+                </div>
+              </Route>
+
+              <Route path='/'>
+                <Navbar />
                 <Route exact path='/' component={Header} />
                 <Route exact path='/features' component={Explaining} />
                 <Route exact path='/products' component={Allproducts} />
@@ -98,15 +135,17 @@ export default function App() {
                 />
                 <Route exact path='/login' component={Login} />
                 <Route exact path='/register' component={Register} />
+                <PrivateRoute exact path='/profile' component={Profile} />
+                <PrivateRoute exact path='/affiliate' component={Affiliate} />
                 <Route
                   exact
                   path='/order/:productId/:refer'
                   component={Order}
                 />
-                <PrivateRoute exact path='/profile' component={Profile} />
-              </Switch>
-              <Alerts />
-              <Footer />
+                <Footer />
+              </Route>
+            </Switch>
+            <Alerts />
           </Fragment>
         </Router>
       </MuiThemeProvider>

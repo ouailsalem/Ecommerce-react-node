@@ -169,16 +169,14 @@ export const SingleProduct = ({ match }) => {
                     container
                     key={review.id}
                   >
-                    <Typography variant={'subtitle1'}>
+                    <Typography variant={'caption'}>
                       {'★'.repeat(review.rating) +
                         '☆'.repeat(5 - review.rating)}{' '}
                       | {review.name}
                     </Typography>
-                    <Typography variant={'subtitle1'}>
-                      {review.review}
-                    </Typography>
-                    <br />
-                    <Typography color={'textSecondary'} variant={'subtitle1'}>
+                    <Typography variant={'caption'}>{review.review}</Typography>
+                 
+                    <Typography color={'textSecondary'} variant={'caption'}>
                       {review.time.slice(0, 10) +
                         '|' +
                         review.time.slice(11, 16)}
