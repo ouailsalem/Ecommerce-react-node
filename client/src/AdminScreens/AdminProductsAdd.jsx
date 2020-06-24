@@ -28,54 +28,56 @@ import {
 // Material UI Icons
 import { ArrowBack, ShoppingCart } from '@material-ui/icons/'
 // Components
-import { Loading } from './Loading'
+import { Loading } from '../Screens/Loading'
 // Formik
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { addProduct } from '../redux/actions/adminProduct'
 
-export const Order = ({ match }) => {
+export const AdminProductsAdd = ({ match }) => {
+  /*----------------------------------------- Redux -------------------------------------------*/
+  const dispatch = useDispatch()
+  const { posted, loadingPr } = useSelector((state) => state.adminProduct)
+
   /*----------------------------------------- use Formik -------------------------------------------*/
+
   /*--------------------- Initial Values ---------------------------*/
 
   const initialValues = {
-    quantity: 1,
     name: '',
-    phoneNumber: '',
-    wilaya: 0,
-    dayra: '',
-    address: '',
+    smallDescription: '',
+    description: '',
+    price: 0,
+    mainPicture: '',
+    picture1: '',
+    picture2: '',
+    picture3: '',
+    picture4: '',
+    picture5: '',
+    available: true,
   }
   /*--------------------- Submit Action- ---------------------------*/
-  const onSubmit = ({
-    quantity,
-    name,
-    phoneNumber,
-    address,
-    wilaya,
-    dayra,
-  }) => {
-    dispatch(
-      addOrder(
-        product.id,
-        product.name,
-        quantity,
-        name,
-        phoneNumber,
-        address,
-        wilaya,
-        dayra,
-        match.params.refer
-      )
-    )
+  const onSubmit = () => {
+    dispatch(addProduct(formik.values))
   }
   /*--------------------- Initial Values ---------------------------*/
   const validationSchema = Yup.object({
-    name: Yup.string().max(255, 'أدخل اسمًا مقبولا'),
-    description: Yup.string().required('هذا الحقل إجباري'),
-    smallDescription: Yup.number().min(1, 'اختر ولايـتك'),
+    name: Yup.string()
+      .required('هذا الحقل إجباري')
+      .max(255, 'أدخل اسمًا مقبولا'),
+    smallDescription: Yup.string()
+      .required('هذا الحقل إجباري')
+      .max(255, 'الوصف طويل جدًا'),
+    description: Yup.string()
+      .required('هذا الحقل إجباري')
+      .required('هذا الحقل إجباري'),
     price: Yup.number().required('هذا الحقل إجباري'),
-    address: Yup.string().max(255, 'ادخل عنوانا مقبولا'),
-    mainPicture: Yup.string().max(255),
+    mainPicture: Yup.string().max(255).required('هذا الحقل إجباري'),
+    picture1: Yup.string(),
+    picture2: Yup.string(),
+    picture3: Yup.string(),
+    picture4: Yup.string(),
+    picture5: Yup.string(),
   })
 
   /*---------------------------------------------------------------*/
@@ -84,28 +86,18 @@ export const Order = ({ match }) => {
     onSubmit,
     validationSchema,
   })
-  /*----------------------------------------- Redux -------------------------------------------*/
 
-  const dispatch = useDispatch()
-  const { loading } = useSelector((state) => state.product)
-  const { product } = useSelector((state) => state.product)
-  const { posting, posted } = useSelector((state) => state.order)
   /*----------------------------------------- Styling -------------------------------------------*/
 
   const classes = useStyles()
 
   /*----------------------------------------- React hooks -------------------------------------------*/
 
-  useEffect(() => {
-    window.scrollTo(0, 0)
-    dispatch(getProduct(match.params.productId))
-  }, [dispatch, match.params.productId])
-
   if (posted) {
-    return <Redirect to='/products' />
+    return <Redirect to='/admin/products' />
   }
 
-  const rendered = loading ? (
+  const rendered = loadingPr ? (
     <Loading />
   ) : (
     <Container maxWidth='md'>
@@ -126,30 +118,8 @@ export const Order = ({ match }) => {
 
           <Grid item md={6} xs={12} container className={classes.gridFlex}>
             <Typography className={classes.text} component='h1' variant='h5'>
-              طلب منتج
+              إضافة منتج
             </Typography>
-            <Avatar className={classes.avatar}>
-              <ShoppingCart className={classes.icon} />
-            </Avatar>
-          </Grid>
-
-          {/*-----------------------------------------Product Info ---------------------------------------*/}
-
-          <Grid item md={6} xs={12} className={classes.gridFlex}>
-            <Card className={classes.card}>
-              <CardContent>
-                <Typography component='h5' variant='h5'>
-                  {product.name}
-                </Typography>
-                <Typography variant='subtitle1' color='textSecondary'>
-                  {product.price} دج
-                </Typography>
-              </CardContent>
-              <CardMedia
-                image={product.mainPicture}
-                className={classes.cover}
-              />
-            </Card>
           </Grid>
 
           {/*-----------------------------------------Form -------------------------------------------------*/}
@@ -157,208 +127,223 @@ export const Order = ({ match }) => {
           <Grid item md={12} xs={12}>
             <div className={classes.paper}>
               {/*-----------------------------------------Form Start ---------------------------------------*/}
-              {posting ? (
-                <Loading />
-              ) : (
-                <form
-                  className={classes.form}
-                  onSubmit={formik.handleSubmit}
-                  noValidate
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                  }}
-                >
-                  {/*-----------------------------------------quantity ---------------------------------------*/}
-                  <FormControl className={classes.formControl}>
-                    <InputLabel>الكميـة</InputLabel>
 
-                    <TextField
-                      {...formik.getFieldProps('quantity')}
-                      dir='rtl'
-                      variant='filled'
-                      margin='normal'
-                      fullWidth
-                      id='quantity'
-                      type='number'
-                      inputProps={{ min: '0', max: '10', step: '1' }}
-                      name='quantity'
-                    />
-                  </FormControl>
-                  {/*-----------------------------------------name -------------------------------------------*/}
-                  <FormControl className={classes.formControl}>
-                    <InputLabel>الاسم و اللقب</InputLabel>
+              <form
+                className={classes.form}
+                onSubmit={formik.handleSubmit}
+                noValidate
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}
+              >
+                {/*-----------------------------------------name ---------------------------------------*/}
 
-                    <TextField
-                      name='name'
-                      {...formik.getFieldProps('name')}
-                      variant='filled'
-                      margin='normal'
-                      fullWidth
-                      id='name'
-                    />
-                  </FormControl>
-                  {/*-----------------------------------------phoneNumber ---------------------------------------*/}
-
-                  <FormControl className={classes.formControl}>
-                    <InputLabel>رقم الهاتف</InputLabel>
-                    <TextField
-                      name='phoneNumber'
-                      {...formik.getFieldProps('phoneNumber')}
-                      variant='filled'
-                      margin='normal'
-                      fullWidth
-                      id='phoneNumber'
-                      type='tel'
-                      required
-                      error={
-                        formik.touched.phoneNumber && formik.errors.phoneNumber
-                          ? true
-                          : false
-                      }
-                    />
-                    {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
-                      <Typography component={'span'} className={classes.error}>
-                        {formik.errors.phoneNumber}
-                      </Typography>
-                    ) : null}
-                  </FormControl>
-                  <hr />
-                  {/*-----------------------------------------Wilaya ---------------------------------------*/}
-                  <FormControl
-                    className={classes.formControl}
+                <FormControl className={classes.formControl}>
+                  <InputLabel style={{ fontSize: 15 }}>اسم المنتج</InputLabel>
+                  <TextField
+                    name='name'
+                    {...formik.getFieldProps('name')}
+                    variant='filled'
+                    margin='normal'
+                    fullWidth
+                    id='name'
+                    type='tel'
+                    required
                     error={
-                      formik.touched.wilaya && formik.errors.wilaya
+                      formik.touched.name && formik.errors.name ? true : false
+                    }
+                  />
+                  {formik.touched.name && formik.errors.name ? (
+                    <Typography component={'span'} className={classes.error}>
+                      {formik.errors.name}
+                    </Typography>
+                  ) : null}
+                </FormControl>
+                {/*-----------------------------------------smallDescription -------------------------------------------*/}
+
+                <FormControl className={classes.formControl}>
+                  <InputLabel style={{ fontSize: 15 }}>
+                    وصف قصير للمنتج
+                  </InputLabel>
+                  <TextField
+                    name='smallDescription'
+                    {...formik.getFieldProps('smallDescription')}
+                    variant='filled'
+                    margin='normal'
+                    fullWidth
+                    id='smallDescription'
+                    type='tel'
+                    required
+                    error={
+                      formik.touched.smallDescription &&
+                      formik.errors.smallDescription
                         ? true
                         : false
                     }
-                  >
-                    <InputLabel disableAnimation={true}>الولايـة</InputLabel>
+                  />
+                  {formik.touched.smallDescription &&
+                  formik.errors.smallDescription ? (
+                    <Typography component={'span'} className={classes.error}>
+                      {formik.errors.smallDescription}
+                    </Typography>
+                  ) : null}
+                </FormControl>
+                {/*-----------------------------------------Description ---------------------------------------*/}
 
-                    <Select
-                      required
-                      name='wilaya'
-                      {...formik.getFieldProps('wilaya')}
-                    >
-                      <MenuItem value={0}>اختر ولايـتك</MenuItem>
-                      <MenuItem value={1}>أدرار</MenuItem>
-                      <MenuItem value={2}>الشلف</MenuItem>
-                      <MenuItem value={3}>الأغواط</MenuItem>
-                      <MenuItem value={4}> أم البواقي</MenuItem>
-                      <MenuItem value={5}>باتنة</MenuItem>
-                      <MenuItem value={6}>بجاية</MenuItem>
-                      <MenuItem value={7}>بسكرة</MenuItem>
-                      <MenuItem value={8}>بشار</MenuItem>
-                      <MenuItem value={9}>البليدة</MenuItem>
-                      <MenuItem value={10}>البويرة</MenuItem>
-                      <MenuItem value={11}>تمنراست</MenuItem>
-                      <MenuItem value={12}>تبسة</MenuItem>
-                      <MenuItem value={13}>تلمسان</MenuItem>
-                      <MenuItem value={14}>تيارت</MenuItem>
-                      <MenuItem value={15}>تيزي وزو</MenuItem>
-                      <MenuItem value={16}>الجزائر</MenuItem>
-                      <MenuItem value={17}>الجلفة</MenuItem>
-                      <MenuItem value={18}>جيجل</MenuItem>
-                      <MenuItem value={19}>سطيف</MenuItem>
-                      <MenuItem value={20}>سعيدة</MenuItem>
-                      <MenuItem value={21}>سكيكدة</MenuItem>
-                      <MenuItem value={22}>سيدي بلعباس</MenuItem>
-                      <MenuItem value={23}>عنابة</MenuItem>
-                      <MenuItem value={24}>قالمة</MenuItem>
-                      <MenuItem value={25}>قسنطينة</MenuItem>
-                      <MenuItem value={26}>المدية</MenuItem>
-                      <MenuItem value={27}>مستغانم</MenuItem>
-                      <MenuItem value={28}>المسيلة</MenuItem>
-                      <MenuItem value={29}>معسكر</MenuItem>
-                      <MenuItem value={30}>ورقلة</MenuItem>
-                      <MenuItem value={31}>وهران</MenuItem>
-                      <MenuItem value={32}>البيض</MenuItem>
-                      <MenuItem value={33}>إليزي</MenuItem>
-                      <MenuItem value={34}>برج بوعريريج</MenuItem>
-                      <MenuItem value={35}>بومرداس</MenuItem>
-                      <MenuItem value={36}>الطارف</MenuItem>
-                      <MenuItem value={37}>تندوف</MenuItem>
-                      <MenuItem value={38}>تسمسيلت</MenuItem>
-                      <MenuItem value={39}>الوادي</MenuItem>
-                      <MenuItem value={40}>خنشلة</MenuItem>
-                      <MenuItem value={41}>سوق أهراس</MenuItem>
-                      <MenuItem value={42}>تيبازة</MenuItem>
-                      <MenuItem value={43}>ميلة</MenuItem>
-                      <MenuItem value={44}>عين الدفلى</MenuItem>
-                      <MenuItem value={45}>النعامة</MenuItem>
-                      <MenuItem value={46}>عين تموشنت</MenuItem>
-                      <MenuItem value={47}>غرداية</MenuItem>
-                      <MenuItem value={48}>غليزان</MenuItem>
-                    </Select>
-                    {formik.touched.wilaya && formik.errors.wilaya ? (
-                      <Typography component={'span'} className={classes.error}>
-                        {formik.errors.wilaya}
-                      </Typography>
-                    ) : null}
-                  </FormControl>
-                  {/*-----------------------------------------Dayra ---------------------------------------*/}
-                  <FormControl className={classes.formControl}>
-                    <InputLabel>الدائرة</InputLabel>
+                <FormControl className={classes.formControl}>
+                  <InputLabel style={{ fontSize: 15 }}>وصف المنتج</InputLabel>
+                  <TextField
+                    multiline
+                    rows={4}
+                    name='description'
+                    {...formik.getFieldProps('description')}
+                    variant='filled'
+                    margin='normal'
+                    fullWidth
+                    id='description'
+                    type='tel'
+                    required
+                    error={
+                      formik.touched.description && formik.errors.description
+                        ? true
+                        : false
+                    }
+                  />
+                  {formik.touched.description && formik.errors.description ? (
+                    <Typography component={'span'} className={classes.error}>
+                      {formik.errors.description}
+                    </Typography>
+                  ) : null}
+                </FormControl>
 
-                    <TextField
-                      name='dayra'
-                      {...formik.getFieldProps('dayra')}
-                      autoComplete='false'
-                      variant='filled'
-                      margin='normal'
-                      fullWidth
-                      id='dayra'
-                      required
-                      error={
-                        formik.touched.dayra && formik.errors.dayra
-                          ? true
-                          : false
-                      }
-                    />
-                    {formik.touched.dayra && formik.errors.dayra ? (
-                      <Typography component={'span'} className={classes.error}>
-                        {formik.errors.dayra}
-                      </Typography>
-                    ) : null}
-                  </FormControl>
-                  {/*-----------------------------------------address ---------------------------------------*/}
-                  <FormControl className={classes.formControl}>
-                    <InputLabel>العنوان</InputLabel>
+                {/*-----------------------------------------mainPicture ---------------------------------------*/}
+                <FormControl className={classes.formControl}>
+                  <InputLabel style={{ fontSize: 15 }}>
+                    الصورة الأساسيـة
+                  </InputLabel>
 
-                    <TextField
-                      {...formik.getFieldProps('address')}
-                      name='address'
-                      autoComplete='false'
-                      variant='filled'
-                      margin='normal'
-                      fullWidth
-                      id='address'
-                    />
-                  </FormControl>
-                  {/*--------------------------------------- Submit Button -----------------------------------*/}
-                  <Button
-                    type='submit'
-                    variant='contained'
-                    size='large'
-                    className={classes.submit}
-                  >
-                    أطلب
-                  </Button>
-                  <Grid container>
-                    <Grid item xs>
-                      <Link to='/' variant='body2'>
-                        <IconButton>
-                          <ArrowBack />
-                        </IconButton>
-                      </Link>
-                      <Typography className={classes.text} component='span'>
-                        رجوع
-                      </Typography>
-                    </Grid>
+                  <TextField
+                    name='mainPicture'
+                    {...formik.getFieldProps('mainPicture')}
+                    autoComplete='false'
+                    variant='filled'
+                    margin='normal'
+                    fullWidth
+                    id='mainPicture'
+                    required
+                    error={
+                      formik.touched.mainPicture && formik.errors.mainPicture
+                        ? true
+                        : false
+                    }
+                  />
+                  {formik.touched.mainPicture && formik.errors.mainPicture ? (
+                    <Typography component={'span'} className={classes.error}>
+                      {formik.errors.mainPicture}
+                    </Typography>
+                  ) : null}
+                </FormControl>
+                {/*-----------------------------------------Pictures ---------------------------------------*/}
+                <FormControl className={classes.formControl}>
+                  <InputLabel style={{ fontSize: 15 }}>
+                    صورة إضافية 1
+                  </InputLabel>
+
+                  <TextField
+                    {...formik.getFieldProps('picture1')}
+                    name='picture1'
+                    autoComplete='false'
+                    variant='filled'
+                    margin='normal'
+                    fullWidth
+                    id='picture1'
+                  />
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                  <InputLabel style={{ fontSize: 15 }}>
+                    صورة إضافية 2
+                  </InputLabel>
+
+                  <TextField
+                    {...formik.getFieldProps('picture2')}
+                    name='picture2'
+                    autoComplete='false'
+                    variant='filled'
+                    margin='normal'
+                    fullWidth
+                    id='picture2'
+                  />
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                  <InputLabel style={{ fontSize: 15 }}>
+                    صورة إضافية 3
+                  </InputLabel>
+
+                  <TextField
+                    {...formik.getFieldProps('picture3')}
+                    name='picture3'
+                    autoComplete='false'
+                    variant='filled'
+                    margin='normal'
+                    fullWidth
+                    id='picture3'
+                  />
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                  <InputLabel style={{ fontSize: 15 }}>
+                    صورة إضافية 4
+                  </InputLabel>
+
+                  <TextField
+                    {...formik.getFieldProps('picture4')}
+                    name='picture4'
+                    autoComplete='false'
+                    variant='filled'
+                    margin='normal'
+                    fullWidth
+                    id='picture4'
+                  />
+                </FormControl>
+                <FormControl className={classes.formControl}>
+                  <InputLabel style={{ fontSize: 15 }}>
+                    صورة إضافية 5
+                  </InputLabel>
+
+                  <TextField
+                    {...formik.getFieldProps('picture5')}
+                    name='picture5'
+                    autoComplete='false'
+                    variant='filled'
+                    margin='normal'
+                    fullWidth
+                    id='picture5'
+                  />
+                </FormControl>
+
+                {/*--------------------------------------- Submit Button -----------------------------------*/}
+                <Button
+                  type='submit'
+                  variant='contained'
+                  size='large'
+                  className={classes.submit}
+                >
+                  أضف المنتج
+                </Button>
+                <Grid container>
+                  <Grid item xs>
+                    <Link to='/' variant='body2'>
+                      <IconButton>
+                        <ArrowBack />
+                      </IconButton>
+                    </Link>
+                    <Typography className={classes.text} component='span'>
+                      رجوع
+                    </Typography>
                   </Grid>
-                </form>
-              )}
+                </Grid>
+              </form>
               {/*-----------------------------------------FORM END ---------------------------------------*/}
             </div>
           </Grid>
@@ -367,7 +352,6 @@ export const Order = ({ match }) => {
       </Grid>
     </Container>
   )
-
   return rendered
 }
 

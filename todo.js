@@ -12,7 +12,8 @@ TODO:  any user profile   @update   protected
 ?Admin routes
 
   !admin
-TODO:  protected admin auth
+
+TODO:  protected admin auth //done
 
   !users
 TODO: all users            @get        ADMINPROTECTED
@@ -26,14 +27,14 @@ TODO:  :reviews            @get        ADMINPROTECTED
 TODO:  :review             @delete     ADMINPROTECTED
 
   !products
-TODO:  all orders          @get        ADMINPROTECTED
+TODO:  all orders          @get        ADMINPROTECTED 
 TODO:  :order              @get        ADMINPROTECTED
 TODO:  :order              @update     ADMINPROTECTED
 
-TODO:  all products        @get        ADMINPROTECTED
-TODO:  :product            @get        ADMINPROTECTED
-TODO:  :product            @post       ADMINPROTECTED
-TODO:  :product            @delete     ADMINPROTECTED
+TODO:  all products        @get        ADMINPROTECTED //done
+TODO:  :product            @get        ADMINPROTECTED //done
+TODO:  :product            @post       ADMINPROTECTED //done
+TODO:  :product            @delete     ADMINPROTECTED //done
 TODO:  :product            @update     ADMINPROTECTED
 
 
@@ -76,15 +77,4 @@ TODO:  my orders
 
 
 
-
-?-> FRONT END
-TODO:  profile        (my profile)
-TODO:  my orders      (probably)
-TODO:  footer         (ui)
-TODO:  my orders      (probably)
-
-TODO:  admin panel
-
-
-*/
 

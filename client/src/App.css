@@ -601,6 +601,3 @@ footer {
 .MuiTypography-caption{
   direction: ltr;
 }
-.MuiToolbar-root{
-  flex-direction: column;
-}

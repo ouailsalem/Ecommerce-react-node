@@ -8,6 +8,7 @@ import reviews from "./reviews"
 import order from "./order"
 import profile from "./profile"
 import adminProduct from "./adminProduct"
+import adminReview from "./adminReview"
 export default combineReducers({
-    alert, auth, products, product, review, reviews, order, profile, adminProduct
+    alert, auth, products, product, review, reviews, order, profile, adminProduct,adminReview
 })

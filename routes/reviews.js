@@ -51,7 +51,7 @@ router.delete('/:reviewId', adminAuth, async (req, res) => {
         await Review.destroy({
             where: { id: req.params.reviewId }
         })
-        res.status(404).json({ message: 'review deleted' })
+        res.status(200).json({ message: 'review deleted' })
 
     } catch (error) {
         res.status(500).json({ message: 'something went wrongs' })
