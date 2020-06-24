@@ -44,7 +44,7 @@ router.get('/:productId', async (req, res) => {
 // !admin
 //api/products/add 
 //post  a product
-router.post('/add', async (req, res) => {
+router.post('/add',async (req, res) => {
     const data = {
         name: req.body.name,
         description: req.body.description,
@@ -116,11 +116,27 @@ router.delete('/:productId', adminAuth, async (req, res) => {
     }
 
 })
+
+// !admin
+//api/products/:productId 
+//delete  an order
+router.delete('/orders/all/:orderId',  async (req, res) => {
+    try {
+        await Order.destroy({
+            where: { id: req.params.orderId }
+        })
+        res.status(200).json({ message: 'order deleted' })
+
+    } catch (error) {
+        res.status(500).json({ message: 'something went wrongs' })
+    }
+
+})
 // !admin
 //api/products/orders 
 //get all orders
 
-router.get('/update/orders/all', adminAuth, async (req, res) => {
+router.get('/orders/all', async (req, res) => {
     try {
         let orders = await Order.findAll()
         res.status(200).json(orders)
@@ -134,7 +150,7 @@ router.get('/update/orders/all', adminAuth, async (req, res) => {
 //api/products/orders 
 //get single order
 
-router.get('/update/orders/:orderId', adminAuth, async (req, res) => {
+router.get('/orders/all/:orderId', adminAuth, async (req, res) => {
     try {
         let order = await Order.findOne({ where: { id: req.params.orderId } })
         if (!order) res.status(404).json({ message: "order not found" })
@@ -150,10 +166,9 @@ router.get('/update/orders/:orderId', adminAuth, async (req, res) => {
 //api/products/orders 
 //update an order
 
-router.put('/update/orders/:orderId', adminAuth, async (req, res) => {
+router.put('/orders/all/:orderId', async (req, res) => {
     try {
         await Order.update({
-            productId: req.body.product_id,
             product: req.body.product,
             quantity: req.body.quantity,
             name: req.body.name,
@@ -161,8 +176,7 @@ router.put('/update/orders/:orderId', adminAuth, async (req, res) => {
             address: req.body.name,
             wilaya: req.body.name,
             dayra: req.body.name,
-            status: req.body.status,
-            refer: req.params.refer || "no refer"
+            refer: req.body.refer,
         }, {
             where: {
                 id: req.params.orderId
@@ -170,6 +184,7 @@ router.put('/update/orders/:orderId', adminAuth, async (req, res) => {
         })
         res.status(200).json({ message: 'Order updated' })
     } catch (error) {
+        console.log(error)
         res.status(500).json({ message: 'something went wrongs' })
     }
 
@@ -185,7 +200,6 @@ router.post('/order/:productId/:refer', async (req, res) => {
     console.log(req.body)
     console.log(req.params)
     const data = {
-        productId: req.params.productId,
         product: req.body.product,
         quantity: req.body.quantity,
         name: req.body.name,
@@ -194,24 +208,48 @@ router.post('/order/:productId/:refer', async (req, res) => {
         wilaya: req.body.wilaya,
         dayra: req.body.dayra,
         time: new Date().toISOString(),
+        refer: req.params.refer || "no refer",
         status: false,
-        refer: req.params.refer || "no refer"
+        userId: req.body.userId || "guest",
+        productOrderedId: req.body.productId,
     }
-    let { product, quantity, name, phoneNumber, address, wilaya, dayra, time, status, refer } = data
+    let { product, quantity, name, phoneNumber, address, wilaya, dayra, time, status, refer, userId, productOrderedId } = data
     try {
-        let result = await Order.create({
-            product,
-            quantity,
-            name,
-            phoneNumber,
-            address,
-            wilaya,
-            dayra,
-            time,
-            refer,
-            status
-        })
-        res.status(200).json({ message: 'order added' })
+        if (userId === "guest") {
+
+            await Order.create({
+                product,
+                quantity,
+                name,
+                phoneNumber,
+                address,
+                wilaya,
+                dayra,
+                time,
+                refer,
+                status,
+                productOrderedId
+            })
+            res.status(200).json({ message: 'order added' })
+
+        }else{
+            await Order.create({
+                product,
+                quantity,
+                name,
+                phoneNumber,
+                address,
+                wilaya,
+                dayra,
+                time,
+                refer,
+                status,
+                userId,
+                productOrderedId
+            })
+            res.status(200).json({ message: 'order added' })
+        }
+
     } catch (error) {
         console.error(error)
         res.status(500).json({ error: 'something went wrong' })

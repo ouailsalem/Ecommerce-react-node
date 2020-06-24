@@ -76,7 +76,6 @@ export function Profile() {
     dispatch(getProfile())
   }, [dispatch])
 
-  console.log(profile)
   const rendered =
     loading || profile.loading ? (
       <Loading />

@@ -195,6 +195,7 @@ export const SingleProduct = ({ match }) => {
 
 const useStyles = makeStyles({
   root: {
+    direction:"rtl",
     padding: '0px !important',
     display: 'flex',
     alignItems: 'center',

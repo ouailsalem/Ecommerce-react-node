@@ -9,6 +9,7 @@ import {
   useLocation,
 } from 'react-router-dom'
 import PrivateRoute from './Screens/routing/PrivateRoute'
+import PrivateAdminRoute from './Screens/routing/PrivateAdminRoute'
 // Material UI & Theme
 import { CssBaseline } from '@material-ui/core'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
@@ -42,6 +43,7 @@ import { AdminReviews } from './AdminScreens/AdminReviews'
 import { AdminMembers } from './AdminScreens/AdminMembers'
 import { AdminProductsAdd } from './AdminScreens/AdminProductsAdd'
 import { AdminProductsUpdate } from './AdminScreens/AdminProductsUpdate'
+import { AdminOrdersUpdate } from './AdminScreens/AdminOrdersUpdate'
 
 /*----------------------------------------- create MuiTheme -------------------------------------------*/
 
@@ -98,42 +100,51 @@ export default function App() {
           <Fragment>
             <CssBaseline />
             <Switch>
-              <Route path='/admin'>
+              <PrivateAdminRoute path='/admin'>
                 <div style={{ display: 'flex' }}>
                   <AppDrawer />
-                  <PrivateRoute exact path='/admin' component={Dashboard} />
-                  <PrivateRoute
+                  <PrivateAdminRoute
+                    exact
+                    path='/admin'
+                    component={Dashboard}
+                  />
+                  <PrivateAdminRoute
                     exact
                     path='/admin/products'
                     component={AdminProducts}
                   />
-                  <PrivateRoute
+                  <PrivateAdminRoute
                     exact
                     path='/admin/products/add'
                     component={AdminProductsAdd}
                   />
-                  <PrivateRoute
+                  <PrivateAdminRoute
                     exact
                     path='/admin/products/edit/:productId'
                     component={AdminProductsUpdate}
                   />
-                  <PrivateRoute
+                  <PrivateAdminRoute
                     exact
                     path='/admin/orders'
                     component={AdminOrders}
                   />
-                  <PrivateRoute
+                  <PrivateAdminRoute
+                    exact
+                    path='/admin/orders/edit/:orderId'
+                    component={AdminOrdersUpdate}
+                  />
+                  <PrivateAdminRoute
                     exact
                     path='/admin/members'
                     component={AdminMembers}
                   />
-                  <PrivateRoute
+                  <PrivateAdminRoute
                     exact
                     path='/admin/reviews'
                     component={AdminReviews}
                   />
                 </div>
-              </Route>
+              </PrivateAdminRoute>
 
               <Route path='/'>
                 <Navbar />

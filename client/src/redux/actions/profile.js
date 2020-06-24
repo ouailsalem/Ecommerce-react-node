@@ -5,7 +5,6 @@ export const getProfile = () => async  dispatch =>{
 
     try {
         const res = await Axios.get("/profile")
-        console.log(res)
         dispatch({
             type: GET_PROFILE,
             payload: res.data

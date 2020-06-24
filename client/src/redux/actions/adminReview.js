@@ -30,7 +30,6 @@ export const removeReview = (reviewId) => async dispatch => {
 
     } catch (err) {
 
-        console.log(err)
         dispatch({
             type: REMOVE_REVIEW_ERROR,
         })

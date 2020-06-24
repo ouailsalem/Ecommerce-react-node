@@ -100,7 +100,7 @@ export const AdminProductsAdd = ({ match }) => {
   const rendered = loadingPr ? (
     <Loading />
   ) : (
-    <Container maxWidth='md'>
+    <Container maxWidth={'lg'}>
       <Grid container style={{ marginTop: '30px' }}>
         <Grid item md={2} xs={false}></Grid>
 
@@ -114,14 +114,23 @@ export const AdminProductsAdd = ({ match }) => {
           elevation={6}
           container
         >
-          {/*----------------------------------------- Order Header -------------------------------------------*/}
+          {/*----------------------------------------- Add Product Header -------------------------------------------*/}
 
           <Grid item md={6} xs={12} container className={classes.gridFlex}>
             <Typography className={classes.text} component='h1' variant='h5'>
               إضافة منتج
             </Typography>
           </Grid>
-
+          <Grid item container justify={"flex-end"} md={6} xs={12}>
+            <Link to='/admin/products' variant='body2' style={{marginLeft:30}}>
+              <IconButton>
+                <ArrowBack />
+              </IconButton>
+              <Typography className={classes.text} component='span'>
+                رجوع
+              </Typography>
+            </Link>
+          </Grid>
           {/*-----------------------------------------Form -------------------------------------------------*/}
 
           <Grid item md={12} xs={12}>
@@ -331,18 +340,6 @@ export const AdminProductsAdd = ({ match }) => {
                 >
                   أضف المنتج
                 </Button>
-                <Grid container>
-                  <Grid item xs>
-                    <Link to='/' variant='body2'>
-                      <IconButton>
-                        <ArrowBack />
-                      </IconButton>
-                    </Link>
-                    <Typography className={classes.text} component='span'>
-                      رجوع
-                    </Typography>
-                  </Grid>
-                </Grid>
               </form>
               {/*-----------------------------------------FORM END ---------------------------------------*/}
             </div>
@@ -379,15 +376,8 @@ const useStyles = makeStyles((theme) => ({
   },
   formControl: {
     marginTop: 10,
-    [theme.breakpoints.down('xs')]: {
-      width: '100%',
-    },
-    [theme.breakpoints.up('sm')]: {
-      width: '80%',
-    },
-    [theme.breakpoints.up('lg')]: {
-      width: '60%',
-    },
+    width: '100%',
+
   },
   submit: {
     fontSize: 23,

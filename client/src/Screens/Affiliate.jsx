@@ -51,7 +51,6 @@ export const Affiliate = () => {
   const dispatch = useDispatch()
   const { products, loading } = useSelector((state) => state.products)
   const auth = useSelector((state) => state.auth)
-  console.log(auth)
   useEffect(() => {
     dispatch(resetOrder())
     window.scrollTo(0, 0)

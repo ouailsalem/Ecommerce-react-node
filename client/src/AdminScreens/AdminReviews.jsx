@@ -13,15 +13,25 @@ export const AdminReviews = ({ history }) => {
   }, [])
 
   return (
-    <Container maxWidth={'md'}>
+    <Container maxWidth={'lg'}>
       <MaterialTable
+        style={{ textAlign: 'right' }}
+        title='المنتجات'
+        options={{
+          headerStyle: {
+            backgroundColor: '#FFCC33',
+            color: '#222222',
+          },
+          pageSize: 10,
+          pageSizeOptions: [],
+        }}
         style={{ textAlign: 'right' }}
         title='التعليقات'
         columns={[
-          { title: 'name', field: 'name' },
-          { title: 'review', field: 'review' },
-          { title: 'rating', field: 'rating' },
-          { title: 'productId', field: 'productId' },
+          { title: 'صاحب التعليق', field: 'name' },
+          { title: 'التعليق', field: 'review' },
+          { title: 'النجوم', field: 'rating' },
+          { title: 'رقم المنتج', field: 'productId' },
         ]}
         isLoading={loadingRev}
         data={reviews}

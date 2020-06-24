@@ -28,24 +28,36 @@ const Product = ProductModel(sequelize, Sequelize);
 const Order = OrderModel(sequelize, Sequelize);
 const User = UserModel(sequelize, Sequelize);
 
-Review.belongsTo(User);
-Review.belongsTo(Product);
+Review.belongsTo(User,{
+  onDelete: 'CASCADE',
+});
+Review.belongsTo(Product,{
+  onDelete: 'CASCADE'
+});
 
 
-Profile.belongsTo(User);
+Profile.belongsTo(User,{
+  onDelete: 'CASCADE',
+});
 
 User.hasOne(Profile, {
-  onDelete: 'CASCADE'
+  onDelete: 'CASCADE',
+  hooks: true
 })
 User.hasMany(Review, {
-  onDelete: 'CASCADE'
+  onDelete: 'CASCADE',
+  hooks: true
 })
 Product.hasMany(Review, {
-  onDelete: 'CASCADE'
+  onDelete: 'CASCADE',
+  hooks: true
 })
 
 User.hasMany(Order)
-Order.belongsTo(User)
+
+Order.belongsTo(Product,{
+  as:"productOrdered"
+})
 
 
 

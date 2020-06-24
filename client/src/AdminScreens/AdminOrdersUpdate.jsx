@@ -3,7 +3,9 @@ import { Link, Redirect } from 'react-router-dom'
 //Redux
 import { useDispatch, useSelector } from 'react-redux'
 //Redux Actions
-import { getProduct } from '../redux/actions/product'
+import { getOrder } from '../redux/actions/order'
+import { updateOrder } from '../redux/actions/adminOrder'
+
 // Material UI components
 import {
   IconButton,
@@ -22,41 +24,33 @@ import { ArrowBack } from '@material-ui/icons/'
 // Components
 import { Loading } from '../Screens/Loading'
 // Formik
-import { Form, Field, Formik ,ErrorMessage } from 'formik'
+import { Form, Field, Formik, ErrorMessage } from 'formik'
 import { TextField } from 'material-ui-formik-components/TextField'
 
 import * as Yup from 'yup'
-import { updateProduct } from '../redux/actions/adminProduct'
 
-export const AdminProductsUpdate = ({ match, props }) => {
+export const AdminOrdersUpdate = ({ match, props }) => {
   /*----------------------------------------- Redux -------------------------------------------*/
+  const { loading, order } = useSelector((state) => state.order)
+  const { loadingOr, posted } = useSelector((state) => state.adminOrder)
+  console.log(match)
   const dispatch = useDispatch()
-  const { posted, loadingPr } = useSelector((state) => state.adminProduct)
-  const { loading, product, pictures } = useSelector((state) => state.product)
+
   useEffect(() => {
-    dispatch(getProduct(match.params.productId))
+    dispatch(getOrder(match.params.orderId))
   }, [])
-  /*----------------------------------------- use Formik -------------------------------------------*/
 
-
-  /*--------------------- Initial Values ---------------------------*/
+  /*--------------------- Validation Schema ---------------------------*/
   const validationSchema = Yup.object({
-    name: Yup.string()
-      .required('هذا الحقل إجباري')
-      .max(255, 'أدخل اسمًا مقبولا'),
-    smallDescription: Yup.string()
-      .required('هذا الحقل إجباري')
-      .max(255, 'الوصف طويل جدًا'),
-    description: Yup.string()
-      .required('هذا الحقل إجباري')
-      .required('هذا الحقل إجباري'),
-    price: Yup.number().required('هذا الحقل إجباري'),
-    mainPicture: Yup.string().max(255).required('هذا الحقل إجباري'),
-    picture1: Yup.string(),
-    picture2: Yup.string(),
-    picture3: Yup.string(),
-    picture4: Yup.string(),
-    picture5: Yup.string(),
+    product: Yup.string(),
+    quantity: Yup.string(),
+    name: Yup.string(),
+    phoneNumber: Yup.string().required('هذا الحقل إجباري'),
+    address: Yup.string(),
+    wilaya: Yup.number().required('هذا الحقل إجباري'),
+    dayra: Yup.string(),
+    status: Yup.string(),
+    refer: Yup.string(),
   })
 
   /*---------------------------------------------------------------*/
@@ -66,13 +60,12 @@ export const AdminProductsUpdate = ({ match, props }) => {
   const classes = useStyles()
 
   /*----------------------------------------- React hooks -------------------------------------------*/
-
   if (posted) {
-    return <Redirect to='/admin/products' />
+    return <Redirect to='/admin/orders' />
   }
 
   const rendered =
-    loadingPr || loading ? (
+    loading || loadingOr ? (
       <Loading />
     ) : (
       <Container maxWidth='lg'>
@@ -98,7 +91,7 @@ export const AdminProductsUpdate = ({ match, props }) => {
             </Grid>
             <Grid item container justify={'flex-end'} md={6} xs={12}>
               <Link
-                to='/admin/products'
+                to='/admin/orders'
                 variant='body2'
                 style={{ marginLeft: 30 }}
               >
@@ -118,20 +111,37 @@ export const AdminProductsUpdate = ({ match, props }) => {
                 {/*-----------------------------------------Form Start ---------------------------------------*/}
                 <Formik
                   validationSchema={validationSchema}
-                  onSubmit={(values) => dispatch(updateProduct(values))}
+                  onSubmit={(values) => {
+                    dispatch(
+                      updateOrder(
+                        values.product,
+                        values.quantity,
+                        values.name,
+                        values.phoneNumber,
+                        values.address,
+                        values.wilaya,
+                        values.dayra,
+                        match.params.orderId
+                      )
+                    )
+                  }}
                   initialValues={{
-                    productId: match.params.productId,
-                    name: product.name,
-                    smallDescription: product.smallDescription,
-                    description: product.description,
-                    price: product.price,
-                    mainPicture: product.mainPicture,
-                    picture1: pictures[1],
-                    picture2: pictures[2],
-                    picture3: pictures[3],
-                    picture4: pictures[4],
-                    picture5: pictures[5],
-                    available: true,
+                    product: order.product,
+                    quantity: order.quantity,
+                    name: order.name,
+                    phoneNumber: order.phoneNumber,
+                    address: order.address,
+                    wilaya: order.wilaya,
+                    dayra: order.dayra,
+                    // product: "order.product",
+                    // quantity:2,
+                    // name: "order.name",
+                    // phoneNumber: "order.phoneNumber",
+                    // address: "order.address",
+                    // wilaya: "order.wilaya",
+                    // dayra: "order.dayra",
+                    // status: "order.status",
+                    // refer: "order.refer",
                   }}
                 >
                   <Form
@@ -142,7 +152,7 @@ export const AdminProductsUpdate = ({ match, props }) => {
                       alignItems: 'center',
                     }}
                   >
-                    {/*-----------------------------------------name ---------------------------------------*/}
+                    {/*----------------------------------------- name ---------------------------------------*/}
 
                     <FormControl className={classes.formControl}>
                       <InputLabel style={{ fontSize: 15 }}>
@@ -150,164 +160,111 @@ export const AdminProductsUpdate = ({ match, props }) => {
                       </InputLabel>
                       <Field
                         component={TextField}
+                        name='product'
+                        variant='filled'
+                        margin='normal'
+                        fullWidth
+                        id='product'
+                        required
+                      />
+                      <ErrorMessage name='product' />
+                    </FormControl>
+                    {/*----------------------------------------- quantity ---------------------------------------*/}
+
+                    <FormControl className={classes.formControl}>
+                      <InputLabel style={{ fontSize: 15 }}>quantity</InputLabel>
+                      <Field
+                        component={TextField}
+                        name='quantity'
+                        variant='filled'
+                        margin='normal'
+                        fullWidth
+                        id='quantity'
+                        type='number'
+                        required
+                      />
+                      <ErrorMessage name='quantity' />
+                    </FormControl>
+                    {/*----------------------------------------- name ---------------------------------------*/}
+
+                    <FormControl className={classes.formControl}>
+                      <InputLabel style={{ fontSize: 15 }}>name</InputLabel>
+                      <Field
+                        component={TextField}
                         name='name'
                         variant='filled'
                         margin='normal'
                         fullWidth
                         id='name'
-                        type='tel'
                         required
                       />
                       <ErrorMessage name='name' />
                     </FormControl>
-                    {/*-----------------------------------------smallDescription -------------------------------------------*/}
+                    {/*----------------------------------------- phoneNumber ---------------------------------------*/}
 
                     <FormControl className={classes.formControl}>
                       <InputLabel style={{ fontSize: 15 }}>
-                        وصف قصير للمنتج
+                        phoneNumber
                       </InputLabel>
                       <Field
                         component={TextField}
-                        name='smallDescription'
+                        name='phoneNumber'
                         variant='filled'
                         margin='normal'
                         fullWidth
-                        id='smallDescription'
-                        type='tel'
+                        id='phoneNumber'
                         required
                       />
-                      <ErrorMessage name='smallDescription' />
+                      <ErrorMessage name='phoneNumber' />
                     </FormControl>
-                    {/*-----------------------------------------Description ---------------------------------------*/}
+                    {/*----------------------------------------- address ---------------------------------------*/}
 
                     <FormControl className={classes.formControl}>
-                      <InputLabel style={{ fontSize: 15 }}>
-                        وصف المنتج
-                      </InputLabel>
+                      <InputLabel style={{ fontSize: 15 }}>address</InputLabel>
                       <Field
                         component={TextField}
-                        multiline
-                        rows={4}
-                        name='description'
+                        name='address'
                         variant='filled'
                         margin='normal'
                         fullWidth
-                        id='description'
-                        type='tel'
+                        id='address'
                         required
                       />
-                      <ErrorMessage name='description' />
+                      <ErrorMessage name='address' />
                     </FormControl>
-                    {/*-----------------------------------------Price ---------------------------------------*/}
+                    {/*----------------------------------------- wilaya ---------------------------------------*/}
 
                     <FormControl className={classes.formControl}>
-                      <InputLabel style={{ fontSize: 15 }}>السعر</InputLabel>
+                      <InputLabel style={{ fontSize: 15 }}>wilaya</InputLabel>
                       <Field
                         component={TextField}
-                        name='price'
+                        name='wilaya'
                         variant='filled'
                         margin='normal'
                         fullWidth
-                        id='price'
-                        type='tel'
+                        id='wilaya'
                         required
                       />
-                      <ErrorMessage name='price' />
+                      <ErrorMessage name='wilaya' />
                     </FormControl>
-                    {/*-----------------------------------------mainPicture ---------------------------------------*/}
-                    <FormControl className={classes.formControl}>
-                      <InputLabel style={{ fontSize: 15 }}>
-                        الصورة الأساسيـة
-                      </InputLabel>
+                    {/*----------------------------------------- dayra ---------------------------------------*/}
 
+                    <FormControl className={classes.formControl}>
+                      <InputLabel style={{ fontSize: 15 }}>dayra</InputLabel>
                       <Field
                         component={TextField}
-                        name='mainPicture'
-                        autoComplete='false'
+                        name='dayra'
                         variant='filled'
                         margin='normal'
                         fullWidth
-                        id='mainPicture'
+                        id='dayra'
                         required
                       />
-                      <ErrorMessage name='mainPicture' />
+                      <ErrorMessage name='dayra' />
                     </FormControl>
-                    {/*-----------------------------------------Pictures ---------------------------------------*/}
-                    <FormControl className={classes.formControl}>
-                      <InputLabel style={{ fontSize: 15 }}>
-                        صورة إضافية 1
-                      </InputLabel>
+                    {/*----------------------------------------- status ---------------------------------------*/}
 
-                      <Field
-                        component={TextField}
-                        name='picture1'
-                        autoComplete='false'
-                        variant='filled'
-                        margin='normal'
-                        fullWidth
-                        id='picture1'
-                      />
-                    </FormControl>
-                    <FormControl className={classes.formControl}>
-                      <InputLabel style={{ fontSize: 15 }}>
-                        صورة إضافية 2
-                      </InputLabel>
-
-                      <Field
-                        component={TextField}
-                        name='picture2'
-                        autoComplete='false'
-                        variant='filled'
-                        margin='normal'
-                        fullWidth
-                        id='picture2'
-                      />
-                    </FormControl>
-                    <FormControl className={classes.formControl}>
-                      <InputLabel style={{ fontSize: 15 }}>
-                        صورة إضافية 3
-                      </InputLabel>
-
-                      <Field
-                        component={TextField}
-                        name='picture3'
-                        autoComplete='false'
-                        variant='filled'
-                        margin='normal'
-                        fullWidth
-                        id='picture3'
-                      />
-                    </FormControl>
-                    <FormControl className={classes.formControl}>
-                      <InputLabel style={{ fontSize: 15 }}>
-                        صورة إضافية 4
-                      </InputLabel>
-
-                      <Field
-                        component={TextField}
-                        name='picture4'
-                        autoComplete='false'
-                        variant='filled'
-                        margin='normal'
-                        fullWidth
-                        id='picture4'
-                      />
-                    </FormControl>
-                    <FormControl className={classes.formControl}>
-                      <InputLabel style={{ fontSize: 15 }}>
-                        صورة إضافية 5
-                      </InputLabel>
-
-                      <Field
-                        component={TextField}
-                        name='picture5'
-                        autoComplete='false'
-                        variant='filled'
-                        margin='normal'
-                        fullWidth
-                        id='picture5'
-                      />
-                    </FormControl>
+                    {/*----------------------------------------- refer ---------------------------------------*/}
 
                     {/*--------------------------------------- Submit Button -----------------------------------*/}
                     <Button
@@ -318,7 +275,6 @@ export const AdminProductsUpdate = ({ match, props }) => {
                     >
                       حفظ التعديلات
                     </Button>
-                   
                   </Form>
                 </Formik>
                 {/*-----------------------------------------FORM END ---------------------------------------*/}
@@ -357,7 +313,6 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     width: '100%',
     marginTop: 10,
-   
   },
   submit: {
     fontSize: 23,

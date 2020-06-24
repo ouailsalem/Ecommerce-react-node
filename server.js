@@ -18,10 +18,7 @@ db
     });
 
 
-// db
-//  .sequelize
-// .sync({ force: true })
-// .then(() => console.log('done'))
+// db.sequelize.sync({ force: true }).then(() => console.log('done'))
 
 
 app.use(bodyParser.urlencoded({ extended: false }))

@@ -1,10 +1,10 @@
 import Axios from "axios"
 import {
-    ADD_ORDER, ORDER_ERROR, POSTING_ORDER, RESET_ORDER
+    ADD_ORDER, ORDER_ERROR, POSTING_ORDER, RESET_ORDER, GET_ORDER, GET_SINGLE_ORDER_ERROR, GET_SINGLE_ORDER_SUCCESS, GET_SINGLE_ORDER_LOADING
 } from "./actionTypes"
 import { setAlert } from "./alert"
 
-export const addOrder = (productId, product, quantity, name, phoneNumber, address, wilaya, dayra, refer) => async dispatch => {
+export const addOrder = (productId, product, quantity, name, phoneNumber, address, wilaya, dayra, refer, userId) => async dispatch => {
     const config = {
         headers: {
             'Content-Type': "application/json"
@@ -18,19 +18,21 @@ export const addOrder = (productId, product, quantity, name, phoneNumber, addres
         address,
         wilaya,
         dayra,
+        userId: userId,
+        productOrderedId: productId
     }
     try {
         dispatch({
-            type:POSTING_ORDER
+            type: POSTING_ORDER
         })
         await Axios.post(`/products/order/${productId}/${refer}`, body, config)
         dispatch({
             type: ADD_ORDER,
             posted: true,
-            posting : false
+            posting: false
         })
-        dispatch(setAlert("تم تقديم طلبـك بنجاح", "success", true, 4000))
-      
+        dispatch(setAlert(" تم تقديم طلبك بنجاح سنتصل برك في أقرب وقت", "success", true, 6000))
+
 
     } catch (err) {
         if (err.response.status === 404) {
@@ -45,7 +47,29 @@ export const addOrder = (productId, product, quantity, name, phoneNumber, addres
         })
     }
 }
+export const getOrder = (orderId) => async dispatch => {
+    dispatch({
+        type:GET_SINGLE_ORDER_LOADING
+    })
+    try {
+        const res = await Axios.get(`/products/orders/all/${orderId}`)
 
+        console.log(res.data)
+        dispatch({
+            type: GET_SINGLE_ORDER_SUCCESS,
+            order: res.data,
+        })
+
+    } catch (err) {
+        // if (err.response.status === 404) {
+        //     dispatch(setAlert("المنتج غير موجود", "error", true, 3000))
+        //     dispatch({ type: LOAD_ERROR })
+        // }
+        dispatch(setAlert("مشكلـة غير متوقعـة ، حاول لاحقا", "error", true, 3000))
+        dispatch({ type: GET_SINGLE_ORDER_ERROR })
+    }
+
+}
 export const resetOrder = () => async dispatch => {
     dispatch({
         type: RESET_ORDER,

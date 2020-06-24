@@ -19,7 +19,6 @@ export const removeProduct = (productId) => async dispatch => {
         
     } catch (err) {
        
-        console.log(err)
         dispatch({
             type: REMOVE_PRODUCT_ERROR,
         })

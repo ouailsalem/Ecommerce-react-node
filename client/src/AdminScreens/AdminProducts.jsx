@@ -1,8 +1,8 @@
 import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Container, Typography } from '@material-ui/core'
-import MaterialTable from 'material-table'
+import { Container, Typography, Chip } from '@material-ui/core'
+import MaterialTable, { MTableToolbar } from 'material-table'
 import { getProducts } from '../redux/actions/products'
 import { removeProduct } from '../redux/actions/adminProduct'
 import { resetProduct } from '../redux/actions/adminProduct'
@@ -17,7 +17,7 @@ export const AdminProducts = () => {
     dispatch(getProducts())
   }, [])
   return (
-    <Container maxWidth={'md'}>
+    <Container maxWidth={'lg'}>
       <MaterialTable
         style={{ textAlign: 'right' }}
         title='المنتجات'
@@ -28,7 +28,6 @@ export const AdminProducts = () => {
           },
           pageSize: 10,
           pageSizeOptions: [],
-    
         }}
         columns={[
           { title: 'الرقم', field: 'id' },
@@ -39,8 +38,7 @@ export const AdminProducts = () => {
             field: 'available',
             render: (rowData) => (
               <Typography>
-                {' '}
-                {rowData.available ? 'متوفر' : 'غير متوفر'}{' '}
+                {rowData.available ? 'متوفر' : 'غير متوفر'}
               </Typography>
             ),
           },
@@ -63,12 +61,14 @@ export const AdminProducts = () => {
                 pathname: `/admin/products/edit/${rowData.id}`,
                 state: { rowData },
               }),
+            iconProps: { style: { fontSize: '16px' } },
           },
           {
             icon: 'visibility',
             tooltip: 'تصفح',
             onClick: (event, rowData) =>
               history.push(`/products/${rowData.id}`),
+            iconProps: { style: { fontSize: '16px' } },
           },
           {
             icon: 'delete',
@@ -81,8 +81,24 @@ export const AdminProducts = () => {
                 return
               }
             },
+            iconProps: { style: { fontSize: '16px' } },
           },
         ]}
+        components={{
+          Toolbar: (props) => (
+            <div>
+              <MTableToolbar {...props} />
+              <div style={{ padding: '0px 10px' }}>
+                <Chip
+                  label='إضافة منتج جديد'
+                  color='primary'
+                  style={{ margin: 5 }}
+                  onClick={() => history.push(`/admin/products/add`)}
+                />
+              </div>
+            </div>
+          ),
+        }}
       />
     </Container>
   )
