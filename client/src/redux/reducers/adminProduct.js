@@ -1,6 +1,18 @@
 import {
-    REMOVE_PRODUCT_ERROR, REMOVE_PRODUCT_SUCCESS, REMOVE_PRODUCT_LOADING,
-    ADD_PRODUCT_ERROR, ADD_PRODUCT_SUCCESS, ADD_PRODUCT_LOADING, RESET_PRODUCT_ADD_STATE
+    REMOVE_PRODUCT_LOADING,
+    REMOVE_PRODUCT_ERROR,
+    REMOVE_PRODUCT_SUCCESS,
+
+    ADD_PRODUCT_LOADING,
+    ADD_PRODUCT_SUCCESS,
+    ADD_PRODUCT_ERROR,
+
+    UPDATE_PRODUCT_SUCCESS,
+    UPDATE_PRODUCT_LOADING,
+    UPDATE_PRODUCT_ERROR,
+
+    RESET_PRODUCT_ADD_UPDATE,
+
 } from "../actions/actionTypes"
 
 const initialState = { loadingPr: false, posted: false }
@@ -10,18 +22,21 @@ export default (state = initialState, action) => {
 
         case ADD_PRODUCT_LOADING:
         case REMOVE_PRODUCT_LOADING:
-            return { ...state, loadingDelete: true };
+        case UPDATE_PRODUCT_LOADING:
+            return { ...state, loadingPr: true };
 
         case REMOVE_PRODUCT_SUCCESS:
         case ADD_PRODUCT_SUCCESS:
-            return { ...state, loadingDelete: false, posted: true };
+        case UPDATE_PRODUCT_SUCCESS:
+            return { ...state, loadingPr: false, posted: true };
 
         case REMOVE_PRODUCT_ERROR:
         case ADD_PRODUCT_ERROR:
-            return { ...state, loadingDelete: false };
+        case UPDATE_PRODUCT_ERROR:
+            return { ...state, loadingPr: false };
 
-        case RESET_PRODUCT_ADD_STATE:
-            return {state}
+        case RESET_PRODUCT_ADD_UPDATE:
+            return { ...state, posted: false }
 
         default:
             return state;

@@ -41,6 +41,7 @@ import { AdminOrders } from './AdminScreens/AdminOrders'
 import { AdminReviews } from './AdminScreens/AdminReviews'
 import { AdminMembers } from './AdminScreens/AdminMembers'
 import { AdminProductsAdd } from './AdminScreens/AdminProductsAdd'
+import { AdminProductsUpdate } from './AdminScreens/AdminProductsUpdate'
 
 /*----------------------------------------- create MuiTheme -------------------------------------------*/
 
@@ -110,6 +111,11 @@ export default function App() {
                     exact
                     path='/admin/products/add'
                     component={AdminProductsAdd}
+                  />
+                  <PrivateRoute
+                    exact
+                    path='/admin/products/edit/:productId'
+                    component={AdminProductsUpdate}
                   />
                   <PrivateRoute
                     exact

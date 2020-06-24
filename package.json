@@ -27,6 +27,7 @@
     "jsonwebtoken": "^8.5.1",
     "jss-rtl": "^0.3.0",
     "material-table": "^1.62.0",
+    "material-ui-formik-components": "^0.7.1",
     "pg": "^8.2.1",
     "pg-hstore": "^2.3.3",
     "react-jss": "^10.3.0",
