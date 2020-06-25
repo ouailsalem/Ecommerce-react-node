@@ -7,44 +7,44 @@ const auth = require('../middlewares/auth')
 const adminAuth = require('../middlewares/adminAuth')
 
 
-// api/products
-// get all products
+
+//!-------------------------------------------- Products -------------------------------------- //
+//-------------------------------------------------GET-----------------------------------------//
+//? get ALL_PRODUCTS
 router.get('/', async (req, res) => {
     try {
         let products = await Product.findAll({ attributes: { exclude: ['description', 'pictures', 'time', 'contact'] } })
         res.status(200).json(products)
     } catch (err) {
-        console.error(err)
         res.status(500).json({ error: err })
     }
 })
 
+//!=================
 
-// api/products/:productId
-// get one product
-
+//?get SINGLE_PRODUCT
 router.get('/:productId', async (req, res) => {
     try {
         let product = await Product.findOne({
             where: { id: req.params.productId }
         })
-        if (!product) { res.status(404).json({ message: 'product not found' }) }
+        if (!product) { res.status(404).json({ message: 'Product not found' }) }
 
         res.status(200).json({ payload: { product } })
 
-
     } catch (error) {
-        console.error(error)
-        res.status(501).json({ message: 'something went wrong' })
+        res.status(501).json({ error: 'Something went wrong' })
     }
 
 })
 
 
-// !admin
-//api/products/add 
-//post  a product
-router.post('/add',async (req, res) => {
+
+//! -------------------------------------------- Products -------------------------------------- //
+//-------------------------------------------------POST-----------------------------------------//
+
+//?post  PRODUCT
+router.post('/add', async (req, res) => {
     const data = {
         name: req.body.name,
         description: req.body.description,
@@ -57,7 +57,7 @@ router.post('/add',async (req, res) => {
     }
     let { name, description, smallDescription, price, pictures, mainPicture, available, time } = data
     try {
-        let result = await Product.create({
+        await Product.create({
             name,
             description,
             smallDescription,
@@ -67,19 +67,33 @@ router.post('/add',async (req, res) => {
             available,
             time
         })
-        res.status(200).json({ payload: result })
+        res.status(200).json({ message: "product added" })
     } catch (error) {
-        console.error(error)
         res.status(500).json({ error: 'something went wrong' })
     }
 
 })
 
+//! -------------------------------------------- Products -------------------------------------- //
+//-------------------------------------------------DELETE-----------------------------------------//
 
+//?delete PRODUCT
+router.delete('/:productId', adminAuth, async (req, res) => {
+    try {
+        await Product.destroy({
+            where: { id: req.params.productId }
+        })
+        res.status(200).json({ message: 'Product deleted' })
 
-// !admin
-//api/products/:productId 
-//update  a product
+    } catch (error) {
+        res.status(500).json({ error: 'something went wrong' })
+    }
+
+})
+
+//! -------------------------------------------- PRODUCTS -------------------------------------- //
+//-----------------------------------------------UPDATE----------------------------------------//
+//? update  PRODUCT
 router.put('/:productId', adminAuth, async (req, res) => {
     try {
         await Product.update({
@@ -95,46 +109,16 @@ router.put('/:productId', adminAuth, async (req, res) => {
                 id: req.params.productId
             }
         })
-        res.status(200).json('Product updated')
+        res.status(200).json({ message: 'Product updated' })
     } catch (error) {
-        res.status(500).json({ message: 'something went wrongs' })
-    }
-
-})
-// !admin
-//api/products/:productId 
-//delete  a product
-router.delete('/:productId', adminAuth, async (req, res) => {
-    try {
-        await Product.destroy({
-            where: { id: req.params.productId }
-        })
-        res.status(200).json({ message: 'product deleted' })
-
-    } catch (error) {
-        res.status(500).json({ message: 'something went wrongs' })
+        res.status(500).json({ error: 'something went wrong' })
     }
 
 })
 
-// !admin
-//api/products/:productId 
-//delete  an order
-router.delete('/orders/all/:orderId',  async (req, res) => {
-    try {
-        await Order.destroy({
-            where: { id: req.params.orderId }
-        })
-        res.status(200).json({ message: 'order deleted' })
-
-    } catch (error) {
-        res.status(500).json({ message: 'something went wrongs' })
-    }
-
-})
-// !admin
-//api/products/orders 
-//get all orders
+//!-----------------------------------------------Orders-----------------------------------------//
+//--------------------------------------------------GET-----------------------------------------//
+//?get ALL_ORDERS //!ADMIN
 
 router.get('/orders/all', async (req, res) => {
     try {
@@ -146,55 +130,20 @@ router.get('/orders/all', async (req, res) => {
     }
 })
 
-// !admin
-//api/products/orders 
-//get single order
+//?get SINGLE_ORDER  //!ADMIN
 
 router.get('/orders/all/:orderId', adminAuth, async (req, res) => {
     try {
         let order = await Order.findOne({ where: { id: req.params.orderId } })
-        if (!order) res.status(404).json({ message: "order not found" })
+        if (!order) res.status(404).json({ message: "Order Not Found" })
         res.status(200).json(order)
     } catch (err) {
-        console.error(err)
-        res.status(500).json({ error: err })
+        res.status(500).json({ error: 'Something went wrong' })
     }
 })
 
-
-// !admin
-//api/products/orders 
-//update an order
-
-router.put('/orders/all/:orderId', async (req, res) => {
-    try {
-        await Order.update({
-            product: req.body.product,
-            quantity: req.body.quantity,
-            name: req.body.name,
-            phoneNumber: req.body.phoneNumber,
-            address: req.body.address,
-            wilaya: req.body.wilaya,
-            dayra: req.body.dayra,
-            status:req.body.status
-        }, {
-            where: {
-                id: req.params.orderId
-            }
-        })
-        res.status(200).json({ message: 'Order updated' })
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({ message: 'something went wrongs' })
-    }
-
-})
-
-
-
-
-//api/products/:product_id
-//post order
+//! -------------------------------------------- ORDERS -------------------------------------- //
+//-----------------------------------------------POST------------------------------------------//
 router.post('/order/:productId/:refer', async (req, res) => {
     console.log(req.body)
     console.log(req.params)
@@ -210,7 +159,7 @@ router.post('/order/:productId/:refer', async (req, res) => {
         refer: req.params.refer || "no refer",
         status: false,
         userId: req.body.userId || "guest",
-        productOrderedId: req.body.productId,
+        productOrderedId: req.params.productId
     }
     let { product, quantity, name, phoneNumber, address, wilaya, dayra, time, status, refer, userId, productOrderedId } = data
     try {
@@ -229,9 +178,9 @@ router.post('/order/:productId/:refer', async (req, res) => {
                 status,
                 productOrderedId
             })
-            res.status(200).json({ message: 'order added' })
+            res.status(200).json({ message: 'Order added' })
 
-        }else{
+        } else {
             await Order.create({
                 product,
                 quantity,
@@ -246,14 +195,58 @@ router.post('/order/:productId/:refer', async (req, res) => {
                 userId,
                 productOrderedId
             })
-            res.status(200).json({ message: 'order added' })
+            res.status(200).json({ message: 'Order added' })
         }
 
     } catch (error) {
-        console.error(error)
-        res.status(500).json({ error: 'something went wrong' })
+        res.status(500).json({ error: 'Something went wrong' })
     }
 })
+
+//! -------------------------------------------- ORDERS ----------------------------------------- //
+//------------------------------------------------DELETE-----------------------------------------//
+
+//?delete  an order
+router.delete('/orders/all/:orderId', async (req, res) => {
+    try {
+        await Order.destroy({
+            where: { id: req.params.orderId }
+        })
+        res.status(200).json({ message: 'Order deleted' })
+
+    } catch (error) {
+        res.status(500).json({ error: 'Something went wrong' })
+    }
+
+})
+
+//! -------------------------------------------- ORDERS -------------------------------------- //
+//-----------------------------------------------UPDATE----------------------------------------//
+//? update an order
+router.put('/orders/all/:orderId', async (req, res) => {
+    try {
+        await Order.update({
+            product: req.body.product,
+            quantity: req.body.quantity,
+            name: req.body.name,
+            phoneNumber: req.body.phoneNumber,
+            address: req.body.address,
+            wilaya: req.body.wilaya,
+            dayra: req.body.dayra,
+            status: req.body.status
+        }, {
+            where: {
+                id: req.params.orderId
+            }
+        })
+        res.status(200).json({ message: 'Order updated' })
+    } catch (error) {
+        res.status(500).json({ error: 'Something went wrong' })
+    }
+
+})
+
+
 
 
 

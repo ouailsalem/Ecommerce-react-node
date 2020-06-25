@@ -7,15 +7,20 @@ import { getProducts } from '../redux/actions/products'
 import { removeProduct } from '../redux/actions/adminProduct'
 import { resetProduct } from '../redux/actions/adminProduct'
 import { useHistory } from "react-router-dom";
+import { notFoundReset } from '../redux/actions/notFound'
+
 export const AdminProducts = () => {
   let history = useHistory();
   const dispatch = useDispatch()
   const { products, loading } = useSelector((state) => state.products)
   const { loadingPr } = useSelector((state) => state.adminProduct)
   useEffect(() => {
+    dispatch(notFoundReset())
     dispatch(resetProduct())
     dispatch(getProducts())
   }, [])
+
+ 
   return (
     <Container maxWidth={'lg'}>
       <MaterialTable

@@ -3,9 +3,11 @@ const router = express.Router()
 const auth = require('../middlewares/auth')
 const { User } = require('../db/index')
 
+// get user auth
 router.get('/', auth, async (req, res) => {
     try {
         const user = await User.findOne({ where: { id: req.user.id }, attributes: { exclude: ['password'] } })
+        
         if (user) res.status(200).json({ user: user })
         else { res.status(400).json({ messsage: "invalid token" }) }
 

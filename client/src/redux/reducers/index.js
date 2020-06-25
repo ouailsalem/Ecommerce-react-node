@@ -12,6 +12,7 @@ import adminProduct from "./adminProduct"
 import adminReview from "./adminReview"
 import adminOrder from "./adminOrder"
 import adminUser from "./adminUser"
+import notFound from "./notFound"
 export default combineReducers({
-    alert, auth, products, product, review, reviews, order, user, profile, adminProduct, adminReview, adminOrder, adminUser
+    alert, auth, products, product, review, reviews, order, user, profile, adminProduct, adminReview, adminOrder, adminUser , notFound
 })

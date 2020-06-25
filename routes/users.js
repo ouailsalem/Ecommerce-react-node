@@ -8,15 +8,18 @@ const jwt = require('jsonwebtoken')
 const validator = require('../middlewares/validator');
 const adminAuth = require('../middlewares/adminAuth');
 const { Review } = require('../db/index');
-
 require('dotenv').config()
 //register user
+
+//!--------------------------------------------Users -------------------------------------- //
+//----------------------------------------------POST-----------------------------------------//
+//?post REGISTER
 router.post('/register', validator, async (req, res) => {
 
     try {
         const user = {
             id: uniqid(),
-            name: req.body.name,
+            name: req.body.name.trim().replace(' ',''),
             email: req.body.email,
             password: req.body.password,
             time: new Date().toISOString()
@@ -65,20 +68,19 @@ router.post('/register', validator, async (req, res) => {
 
         } catch (err) {
             console.error(err)
-            res.status(500).json({ message: ' something went wrong ' })
+            res.status(500).json({ error: 'Something went wrong ' })
         }
 
 
     } catch (error) {
         console.error(error)
-        res.status(500).json({ message: 'something went wrong' })
+        res.status(500).json({ error: 'something went wrong' })
     }
 
 
 })
+//?post REGISTER
 
-// post
-// login user
 router.post('/login', async (req, res) => {
     try {
         const user = {
@@ -155,7 +157,7 @@ router.get('/:userId', async (req, res) => {
 //update user
 
 router.put('/:userId', adminAuth, async (req, res) => {
-
+    console.log(req.body)
     try {
         await User.update({
             name: req.body.name,

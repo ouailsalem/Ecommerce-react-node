@@ -1,6 +1,6 @@
 import Axios from "axios"
 import {
-    GET_PRODUCT, LOAD_ERROR
+    GET_PRODUCT, LOAD_ERROR, NOT_FOUND
 } from "./actionTypes"
 import { setAlert } from "./alert"
 
@@ -45,12 +45,15 @@ export const getProduct = (productId) => async dispatch => {
         })
 
     } catch (err) {
-        // if (err.response.status === 404) {
-        //     dispatch(setAlert("المنتج غير موجود", "error", true, 3000))
-        //     dispatch({ type: LOAD_ERROR })
-        // }
+        if (err.response.status === 404) {
+            dispatch(setAlert("المنتج غير موجود", "error", true, 3000))
+            dispatch({ type: NOT_FOUND })
+        }else{
+
         dispatch(setAlert("مشكلـة غير متوقعـة ، حاول لاحقا", "error", true, 3000))
         dispatch({ type: LOAD_ERROR })
+        }
+
     }
 
 }

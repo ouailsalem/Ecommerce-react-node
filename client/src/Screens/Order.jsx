@@ -73,9 +73,7 @@ export const Order = ({ match }) => {
   /*--------------------- Initial Values ---------------------------*/
   const validationSchema = Yup.object({
     quantity: Yup.number(),
-    name: Yup.string()
-      .min(3, 'أدخل اسمًا مقبولا')
-      .max(50, 'أدخل اسمًا مقبولا'),
+    name: Yup.string().min(3, 'أدخل اسمًا مقبولا').max(50, 'أدخل اسمًا مقبولا'),
     phoneNumber: Yup.string()
       .min(8, 'أدخل رقما صحيحًا')
       .max(20, 'أدخل رقما صحيحًا')
@@ -85,7 +83,9 @@ export const Order = ({ match }) => {
       .min(3, 'أدخل اسمًا صحيحًا')
       .max(20, 'أدخل اسمًا صحيحًا')
       .required('هذا الحقل إجباري'),
-    address: Yup.string().min(5,"أدخل عنوانا مقبولا").max(255, 'ادخل عنوانا مقبولا'),
+    address: Yup.string()
+      .min(5, 'أدخل عنوانا مقبولا')
+      .max(255, 'ادخل عنوانا مقبولا'),
   })
 
   /*---------------------------------------------------------------*/
@@ -100,6 +100,8 @@ export const Order = ({ match }) => {
   const { loading } = useSelector((state) => state.product)
   const { product } = useSelector((state) => state.product)
   const { posting, posted } = useSelector((state) => state.order)
+  const { notFound } = useSelector((state) => state.notFound)
+
   /*----------------------------------------- Styling -------------------------------------------*/
 
   const classes = useStyles()
@@ -110,7 +112,9 @@ export const Order = ({ match }) => {
     window.scrollTo(0, 0)
     dispatch(getProduct(match.params.productId))
   }, [dispatch, match.params.productId])
-
+  if (notFound) {
+    return <Redirect to='/404' />
+  }
   if (posted) {
     return <Redirect to='/products' />
   }

@@ -7,11 +7,15 @@ import { getUsers } from '../redux/actions/adminUser'
 import { removeUser } from '../redux/actions/adminUser'
 import { resetUser } from '../redux/actions/adminUser'
 import { useHistory } from 'react-router-dom'
+import { notFoundReset } from '../redux/actions/notFound'
+
 export const AdminMembers = () => {
   let history = useHistory()
   const dispatch = useDispatch()
   const { users, loadingUser } = useSelector((state) => state.adminUser)
   useEffect(() => {
+    dispatch(notFoundReset())
+    dispatch(resetUser())
     dispatch(getUsers())
   }, [])
   return (
@@ -43,7 +47,7 @@ export const AdminMembers = () => {
             tooltip: 'تعديل',
             onClick: (event, rowData) =>
               history.push({
-                pathname: `/admin/products/edit/${rowData.id}`,
+                pathname: `/admin/members/edit/${rowData.id}`,
                 state: { rowData },
               }),
             iconProps: { style: { fontSize: '16px' } },
@@ -52,7 +56,7 @@ export const AdminMembers = () => {
             icon: 'visibility',
             tooltip: 'تصفح',
             onClick: (event, rowData) =>
-              history.push(`/products/${rowData.id}`),
+              history.push(`/profiles/${rowData.id}`),
             iconProps: { style: { fontSize: '16px' } },
           },
           {

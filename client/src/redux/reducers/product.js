@@ -1,6 +1,6 @@
 import { GET_PRODUCT, LOAD_ERROR } from "../actions/actionTypes"
 
-const initialState = { loading: true, product: null, pictures: null, picturesEdits :[] }
+const initialState = { loading: true, product: {}, pictures: [], picturesEdits: [] }
 
 export default (state = initialState, action) => {
     const { type, payload, pictures, picturesEdits } = action

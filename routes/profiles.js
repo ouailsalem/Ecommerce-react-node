@@ -2,10 +2,11 @@ const express = require('express')
 const router = express.Router()
 const { Review, User, Profile } = require('../db/index');
 const auth = require('../middlewares/auth');
+const adminAuth = require('../middlewares/adminAuth');
 
-
-//api/profile
-//@get myprofile
+//!-------------------------------------------- Profile -------------------------------------- //
+//------------------------------------------------GET------------------------------------------//
+//?get MY_PROFILE
 router.get('/', auth, async (req, res) => {
     try {
         let profile = await Profile
@@ -14,30 +15,34 @@ router.get('/', auth, async (req, res) => {
                     userId: req.user.id
                 }
             });
+        if(!profile) res.status(404).json({message:"Profile not found"})
         res.status(200).json(profile)
     } catch (err) {
-        console.log(err)
-        res.status(500).json({ error: err })
+        res.status(500).json({ message: "Something went wrong" })
     }
 })
 
-//api/profile/:userId
-//@get user Profile
-router.get('/:userId', async (req, res) => {
+
+//?get USER_PROFILE !admin
+router.get('/:userId', adminAuth, async (req, res) => {
 
     try {
         let profile = await User.findOne({
-            where: { id: req.params.userId }, attributes: { exclude: ['password', 'email'] }, include: [{ model: Profile, attributes: { exclude: ['phoneNumber', 'dayra', 'userId'] } }]
+            where: { id: req.params.userId }, attributes: { exclude: ['password', 'email'] }, include: [{ model: Profile }]
         })
+        if(!profile) res.status(404).json({message:"Profile not found"})
         res.status(200).json(profile)
 
     } catch (err) {
-        res.status(500).json({ error: err })
+        res.status(500).json({ erorr: "Something went wrong" })
     }
 })
 
-// /profile/update
-//@update profile
+//!-------------------------------------------- Profile -------------------------------------- //
+//----------------------------------------------UPDATE-----------------------------------------//
+
+//?update MY_PROFILE 
+
 router.put('/update', auth, async (req, res) => {
     try {
         await Profile
@@ -56,21 +61,5 @@ router.put('/update', auth, async (req, res) => {
     }
 })
 
-// delete account @TODO:
-router.delete('/delete/:userId', auth, async (req, res) => {
 
-    try {
-        let user = await User.destroy({ where: { id: req.params.userId } })
-        if (!user) res.status(404).json({ message: 'user not found' })
-        try {
-            await Review.destroy({ where: { userId: req.params.userId } })
-        } catch (err) {
-            console.log("review error")
-        }
-        res.status(200).json({ message: 'deleted' })
-
-    } catch (err) {
-        res.status(500).json({ message: 'something went wrong' })
-    }
-})
 module.exports = router

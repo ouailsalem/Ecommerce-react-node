@@ -6,9 +6,7 @@ import {
   Typography,
 } from '@material-ui/core'
 import { Link } from 'react-router-dom'
-import { mainFont } from '../customize/font'
 import { ShoppingCart} from '@material-ui/icons/'
-import { Explaining } from './Explaining'
 
 export const Header = () => {
   const classes = useStyles()
@@ -16,7 +14,6 @@ export const Header = () => {
     window.scrollTo(0, 0)
   }, [])
   return (
-    <Fragment>
       <Grid
         container
         className={classes.hero}
@@ -73,8 +70,6 @@ export const Header = () => {
         </Button>
         <div className={classes.overlay}></div>
       </Grid>
-      <Explaining />
-    </Fragment>
   )
 }
 

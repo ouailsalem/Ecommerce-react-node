@@ -60,7 +60,7 @@ export const Affiliate = () => {
     loading || auth.loading ? (
       <Loading />
     ) : (
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
         <div className={classes.root}>
           <Grid className={classes.container} container spacing={3}>
             {products.map((product) => (

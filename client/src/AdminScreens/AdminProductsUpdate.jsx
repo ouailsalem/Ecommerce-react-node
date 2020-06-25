@@ -24,7 +24,7 @@ import { Loading } from '../Screens/Loading'
 // Formik
 import { Form, Field, Formik ,ErrorMessage } from 'formik'
 import { TextField } from 'material-ui-formik-components/TextField'
-
+import { notFoundReset } from '../redux/actions/notFound'
 import * as Yup from 'yup'
 import { updateProduct } from '../redux/actions/adminProduct'
 
@@ -68,7 +68,10 @@ export const AdminProductsUpdate = ({ match, props }) => {
   const classes = useStyles()
 
   /*----------------------------------------- React hooks -------------------------------------------*/
-
+ const { notFound } = useSelector((state) => state.notFound)
+ if (notFound) {
+   return <Redirect to='/admin/products' />
+ }
   if (posted) {
     return <Redirect to='/admin/products' />
   }
@@ -95,7 +98,7 @@ export const AdminProductsUpdate = ({ match, props }) => {
 
             <Grid item md={6} xs={12} container className={classes.gridFlex}>
               <Typography className={classes.text} component='h1' variant='h5'>
-                إضافة منتج
+                تعديل منتج
               </Typography>
             </Grid>
             <Grid item container justify={'flex-end'} md={6} xs={12}>

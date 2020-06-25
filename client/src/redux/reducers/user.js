@@ -1,6 +1,6 @@
 import { GET_USER_SUCCESS, GET_USER_ERROR, GET_USER_LOADING } from "../actions/actionTypes"
 
-const initialState = { loading: true, user:null}
+const initialState = { loading: true, user: null }
 
 export default (state = initialState, action) => {
     const { type, payload } = action

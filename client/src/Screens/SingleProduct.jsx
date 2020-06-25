@@ -16,19 +16,15 @@ import { Loading } from '../Screens/Loading'
 import ImageGallery from 'react-image-gallery'
 import Rating from '@material-ui/lab/Rating'
 import { Send } from '@material-ui/icons/'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, Redirect } from 'react-router-dom'
 import { setAlert } from '../redux/actions/alert'
 export const SingleProduct = ({ match }) => {
+  const dispatch = useDispatch()
   const classes = useStyles()
   const [rating, setRating] = React.useState(4)
   const [review, setReview] = React.useState('')
-  const dispatch = useDispatch()
-  useEffect(() => {
-    window.scrollTo(0, 0)
-    dispatch(getProduct(match.params.productId))
-
-    dispatch(getReviews(match.params.productId))
-  }, [dispatch, match.params.productId])
+  const { notFound } = useSelector((state) => state.notFound)
+  const state = useSelector((state) => state.reviews)
 
   const onSubmit = (e) => {
     e.preventDefault()
@@ -44,20 +40,26 @@ export const SingleProduct = ({ match }) => {
       setReview('')
     }
   }
+  useEffect(() => {
+    
+    window.scrollTo(0, 0)
+    dispatch(getProduct(match.params.productId))
+    dispatch(getReviews(match.params.productId))
+  }, [dispatch, match.params.productId])
+
   const { loading } = useSelector((state) => state.product)
   const { product } = useSelector((state) => state.product)
   const { pictures } = useSelector((state) => state.product)
   const { isAuthenticated } = useSelector((state) => state.auth)
 
-  const state = useSelector((state) => state.reviews)
+  if (notFound) {
+    return <Redirect to='/404' />
+  }
   let rendered = loading ? (
     <Loading />
   ) : (
     <div className={classes.container}>
-      <Grid
-        container
-        spacing={3}
-      >
+      <Grid container spacing={3}>
         <Grid className={classes.root} item md={6} xs={12}>
           <Typography variant={'h5'} className={classes.text0}>
             {product.name}
@@ -95,13 +97,7 @@ export const SingleProduct = ({ match }) => {
           {!isAuthenticated ? (
             <p>
               قم
-              <NavLink
-               
-                to='/register'
-              >
-                {' '}
-                بالتسجيل{' '}
-              </NavLink>
+              <NavLink to='/register'> بالتسجيل </NavLink>
               لإضافة تعليق
             </p>
           ) : (
@@ -166,6 +162,7 @@ export const SingleProduct = ({ match }) => {
                   <Grid
                     direction={'column'}
                     className={classes.reviews}
+                    alignItems={"flex-start"}
                     container
                     key={review.id}
                   >
@@ -174,8 +171,8 @@ export const SingleProduct = ({ match }) => {
                         '☆'.repeat(5 - review.rating)}{' '}
                       | {review.name}
                     </Typography>
-                    <Typography variant={'caption'}>{review.review}</Typography>
-                 
+                    <Typography align="right" variant={'caption'}>{review.review}</Typography>
+
                     <Typography color={'textSecondary'} variant={'caption'}>
                       {review.time.slice(0, 10) +
                         '|' +
@@ -195,7 +192,7 @@ export const SingleProduct = ({ match }) => {
 
 const useStyles = makeStyles({
   root: {
-    direction:"rtl",
+    direction: 'rtl',
     padding: '0px !important',
     display: 'flex',
     alignItems: 'center',
@@ -213,6 +210,7 @@ const useStyles = makeStyles({
     borderColor: '#AAAAAA',
     borderRadius: 4,
     padding: 4,
+    direction:"rtl"
   },
   row: {
     padding: '0px !important',

@@ -4,11 +4,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Container } from '@material-ui/core'
 import MaterialTable from 'material-table'
 import { removeReview, getReviews } from '../redux/actions/adminReview'
+import { notFoundReset } from '../redux/actions/notFound'
 
 export const AdminReviews = ({ history }) => {
   const dispatch = useDispatch()
   const { reviews, loadingRev } = useSelector((state) => state.adminReview)
   useEffect(() => {
+    dispatch(notFoundReset())
     dispatch(getReviews())
   }, [])
 

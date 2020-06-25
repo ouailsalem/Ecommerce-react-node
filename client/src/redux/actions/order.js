@@ -1,6 +1,6 @@
 import Axios from "axios"
 import {
-    ADD_ORDER, ORDER_ERROR, POSTING_ORDER, RESET_ORDER, GET_ORDER, GET_SINGLE_ORDER_ERROR, GET_SINGLE_ORDER_SUCCESS, GET_SINGLE_ORDER_LOADING
+    ADD_ORDER, ORDER_ERROR, POSTING_ORDER, RESET_ORDER, GET_ORDER, GET_SINGLE_ORDER_ERROR, GET_SINGLE_ORDER_SUCCESS, GET_SINGLE_ORDER_LOADING, NOT_FOUND
 } from "./actionTypes"
 import { setAlert } from "./alert"
 
@@ -19,7 +19,6 @@ export const addOrder = (productId, product, quantity, name, phoneNumber, addres
         wilaya,
         dayra,
         userId: userId,
-        productOrderedId: productId
     }
     try {
         dispatch({
@@ -49,7 +48,7 @@ export const addOrder = (productId, product, quantity, name, phoneNumber, addres
 }
 export const getOrder = (orderId) => async dispatch => {
     dispatch({
-        type:GET_SINGLE_ORDER_LOADING
+        type: GET_SINGLE_ORDER_LOADING
     })
     try {
         const res = await Axios.get(`/products/orders/all/${orderId}`)
@@ -60,12 +59,13 @@ export const getOrder = (orderId) => async dispatch => {
         })
 
     } catch (err) {
-        // if (err.response.status === 404) {
-        //     dispatch(setAlert("المنتج غير موجود", "error", true, 3000))
-        //     dispatch({ type: LOAD_ERROR })
-        // }
-        dispatch(setAlert("مشكلـة غير متوقعـة ، حاول لاحقا", "error", true, 3000))
-        dispatch({ type: GET_SINGLE_ORDER_ERROR })
+        if (err.response.status === 404) {
+            dispatch(setAlert("الطلب غير موجود", "error", true, 3000))
+            dispatch({ type: NOT_FOUND })
+        } else {
+            dispatch(setAlert("مشكلـة غير متوقعـة ، حاول لاحقا", "error", true, 3000))
+            dispatch({ type: GET_SINGLE_ORDER_ERROR })
+        }
     }
 
 }

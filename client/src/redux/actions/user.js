@@ -1,6 +1,5 @@
 import Axios from "axios"
-import {
-} from "./actionTypes"
+import { GET_USER_ERROR, GET_USER_SUCCESS } from "./actionTypes"
 import { setAlert } from "./alert"
 
 
@@ -10,9 +9,8 @@ export const getUser = (userId) => async dispatch => {
         const res = await Axios.get(`/users/${userId}`)
         dispatch({
             type: GET_USER_SUCCESS,
-            payload: res.data.payload,
-            pictures: filtredPictures,
-            picturesEdits: manyPics
+            payload: res.data,
+
         })
 
     } catch (err) {

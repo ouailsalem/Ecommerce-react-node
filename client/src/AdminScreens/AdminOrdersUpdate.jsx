@@ -62,6 +62,10 @@ export const AdminOrdersUpdate = ({ match, props }) => {
   const classes = useStyles()
 
   /*----------------------------------------- React hooks -------------------------------------------*/
+  const { notFound } = useSelector((state) => state.notFound)
+  if (notFound) {
+    return <Redirect to='/admin/orders' />
+  }
   if (posted) {
     return <Redirect to='/admin/orders' />
   }
@@ -168,7 +172,6 @@ export const AdminOrdersUpdate = ({ match, props }) => {
                     wilaya: order.wilaya,
                     dayra: order.dayra,
                     status: order.status ? status2 : status1,
-                    
                   }}
                 >
                   <Form
@@ -290,7 +293,7 @@ export const AdminOrdersUpdate = ({ match, props }) => {
                       <ErrorMessage name='dayra' />
                     </FormControl>
                     {/*----------------------------------------- status ---------------------------------------*/}
-                
+
                     {/*----------------------------------------- refer ---------------------------------------*/}
 
                     {/*--------------------------------------- Submit Button -----------------------------------*/}

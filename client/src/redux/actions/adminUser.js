@@ -69,8 +69,8 @@ export const updateUser = (values) => async dispatch => {
     }
 
     try {
-        await Axios.put(`/users/${values.userId}`, body, config)
-
+        let res = await Axios.put(`/users/${values.userId}`, body, config)
+        console.log(res)
         dispatch({
             type: UPDATE_USER_SUCCESS,
         })
