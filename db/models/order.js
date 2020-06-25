@@ -11,21 +11,33 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue:1
     },
     name: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      validate: {
+        len: [3, 50]
+      }
     },
     phoneNumber: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        len: [8, 20]
+      }
     },
     address: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      validate: {
+        len: [5, 255]
+      }
     },
     wilaya: {
       type: DataTypes.STRING,
       allowNull: false
     },
     dayra: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      validate: {
+        len: [5, 255]
+      }
     },
     time: {
       type: DataTypes.STRING

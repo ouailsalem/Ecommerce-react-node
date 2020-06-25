@@ -8,9 +8,10 @@ const adminAuth = require('../middlewares/adminAuth');
 
 //!admin
 //api/reviews/
-router.get('/', adminAuth, async (req, res) => {
+router.get('/', adminAuth,async (req, res) => {
     try {
         let reviews = await Review.findAll()
+        if(!reviews) res.status(404).json({message:"no reviews found"})
         res.status(200).json(reviews)
     } catch (error) {
         res.status(500).json({ message: "something went wrong" })
@@ -23,6 +24,7 @@ router.get('/', adminAuth, async (req, res) => {
 router.get('/:reviewId', adminAuth, async (req, res) => {
     try {
         let review = await Review.findOne({ where: { id: req.params.reviewId } })
+        if (!review) res.status(404).json({ message: "no review found with this id" })
         res.status(200).json(review)
     } catch (error) {
         console.error(error)

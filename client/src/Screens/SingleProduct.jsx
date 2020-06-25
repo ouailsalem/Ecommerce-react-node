@@ -35,7 +35,7 @@ export const SingleProduct = ({ match }) => {
     let productId = match.params.productId
     if (!review || review.trim() === '') {
       dispatch(setAlert('التعليق لايمكن أن يكون فارغًا', 'warning', true))
-    } else if (review.length < 10) {
+    } else if (review.length < 10 || review.length > 500) {
       dispatch(
         setAlert('يجب أن يحتوي التعليق على 10 حروف على الأقل', 'warning', true)
       )

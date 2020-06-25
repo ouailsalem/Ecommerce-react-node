@@ -73,11 +73,19 @@ export const Order = ({ match }) => {
   /*--------------------- Initial Values ---------------------------*/
   const validationSchema = Yup.object({
     quantity: Yup.number(),
-    name: Yup.string().max(255, 'أدخل اسمًا مقبولا'),
-    phoneNumber: Yup.string().required('هذا الحقل إجباري'),
-    wilaya: Yup.number().min(1, 'اختر ولايـتك'),
-    dayra: Yup.string().required('هذا الحقل إجباري'),
-    address: Yup.string().max(255, 'ادخل عنوانا مقبولا'),
+    name: Yup.string()
+      .min(3, 'أدخل اسمًا مقبولا')
+      .max(50, 'أدخل اسمًا مقبولا'),
+    phoneNumber: Yup.string()
+      .min(8, 'أدخل رقما صحيحًا')
+      .max(20, 'أدخل رقما صحيحًا')
+      .required('هذا الحقل إجباري'),
+    wilaya: Yup.number().required('هذا الحقل إجباري').min(1, 'اختر ولايـتك'),
+    dayra: Yup.string()
+      .min(3, 'أدخل اسمًا صحيحًا')
+      .max(20, 'أدخل اسمًا صحيحًا')
+      .required('هذا الحقل إجباري'),
+    address: Yup.string().min(5,"أدخل عنوانا مقبولا").max(255, 'ادخل عنوانا مقبولا'),
   })
 
   /*---------------------------------------------------------------*/

@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     review: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: false,
+      len: [10, 500],   
     },
     rating: {
       type: DataTypes.INTEGER,

@@ -172,11 +172,11 @@ router.put('/orders/all/:orderId', async (req, res) => {
             product: req.body.product,
             quantity: req.body.quantity,
             name: req.body.name,
-            phoneNumber: req.body.name,
-            address: req.body.name,
-            wilaya: req.body.name,
-            dayra: req.body.name,
-            refer: req.body.refer,
+            phoneNumber: req.body.phoneNumber,
+            address: req.body.address,
+            wilaya: req.body.wilaya,
+            dayra: req.body.dayra,
+            status:req.body.status
         }, {
             where: {
                 id: req.params.orderId
@@ -189,7 +189,6 @@ router.put('/orders/all/:orderId', async (req, res) => {
     }
 
 })
-
 
 
 

@@ -54,7 +54,6 @@ export const getOrder = (orderId) => async dispatch => {
     try {
         const res = await Axios.get(`/products/orders/all/${orderId}`)
 
-        console.log(res.data)
         dispatch({
             type: GET_SINGLE_ORDER_SUCCESS,
             order: res.data,

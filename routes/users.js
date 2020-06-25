@@ -160,7 +160,6 @@ router.put('/:userId', adminAuth, async (req, res) => {
         await User.update({
             name: req.body.name,
             email: req.body.email,
-            password: req.body.password,
             money: req.body.money
         }, {
             where: {

@@ -32,7 +32,9 @@ export const AdminProductsUpdate = ({ match, props }) => {
   /*----------------------------------------- Redux -------------------------------------------*/
   const dispatch = useDispatch()
   const { posted, loadingPr } = useSelector((state) => state.adminProduct)
-  const { loading, product, pictures } = useSelector((state) => state.product)
+  const { loading, product, picturesEdits } = useSelector(
+    (state) => state.product
+  )
   useEffect(() => {
     dispatch(getProduct(match.params.productId))
   }, [])
@@ -50,7 +52,7 @@ export const AdminProductsUpdate = ({ match, props }) => {
     description: Yup.string()
       .required('هذا الحقل إجباري')
       .required('هذا الحقل إجباري'),
-    price: Yup.number().required('هذا الحقل إجباري'),
+    price: Yup.string().required('هذا الحقل إجباري'),
     mainPicture: Yup.string().max(255).required('هذا الحقل إجباري'),
     picture1: Yup.string(),
     picture2: Yup.string(),
@@ -126,11 +128,11 @@ export const AdminProductsUpdate = ({ match, props }) => {
                     description: product.description,
                     price: product.price,
                     mainPicture: product.mainPicture,
-                    picture1: pictures[1],
-                    picture2: pictures[2],
-                    picture3: pictures[3],
-                    picture4: pictures[4],
-                    picture5: pictures[5],
+                    picture1: picturesEdits[0],
+                    picture2: picturesEdits[1],
+                    picture3: picturesEdits[2],
+                    picture4: picturesEdits[3],
+                    picture5: picturesEdits[4],
                     available: true,
                   }}
                 >
@@ -155,7 +157,6 @@ export const AdminProductsUpdate = ({ match, props }) => {
                         margin='normal'
                         fullWidth
                         id='name'
-                        type='tel'
                         required
                       />
                       <ErrorMessage name='name' />
@@ -173,7 +174,6 @@ export const AdminProductsUpdate = ({ match, props }) => {
                         margin='normal'
                         fullWidth
                         id='smallDescription'
-                        type='tel'
                         required
                       />
                       <ErrorMessage name='smallDescription' />
@@ -193,7 +193,6 @@ export const AdminProductsUpdate = ({ match, props }) => {
                         margin='normal'
                         fullWidth
                         id='description'
-                        type='tel'
                         required
                       />
                       <ErrorMessage name='description' />
@@ -209,7 +208,6 @@ export const AdminProductsUpdate = ({ match, props }) => {
                         margin='normal'
                         fullWidth
                         id='price'
-                        type='tel'
                         required
                       />
                       <ErrorMessage name='price' />
@@ -318,7 +316,6 @@ export const AdminProductsUpdate = ({ match, props }) => {
                     >
                       حفظ التعديلات
                     </Button>
-                   
                   </Form>
                 </Formik>
                 {/*-----------------------------------------FORM END ---------------------------------------*/}

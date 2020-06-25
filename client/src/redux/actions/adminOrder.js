@@ -14,7 +14,6 @@ export const getOrders = () => async dispatch => {
         })
 
     } catch (err) {
-        console.log(err)
         dispatch(setAlert("مشكلـة غير متوقعـة ، حاول لاحقا", "error", true, 3000))
         dispatch({ type: GET_ORDER_ERROR })
     }
@@ -23,7 +22,7 @@ export const getOrders = () => async dispatch => {
 
 
 // change values
-export const updateOrder = (product, quantity, name, phoneNumber,  address, wilaya, dayra,orderId) => async dispatch => {
+export const updateOrder = (product, quantity, name, phoneNumber,  address, wilaya, dayra,orderId,status) => async dispatch => {
     const config = {
         headers: {
             'Content-Type': "application/json"
@@ -43,6 +42,7 @@ export const updateOrder = (product, quantity, name, phoneNumber,  address, wila
         address,
         wilaya,
         dayra,
+        status
     }
 
     try {
@@ -75,11 +75,10 @@ export const deleteOrder = (orderId) => async dispatch => {
         type: REMOVE_ORDER_LOADING,
     })
     try {
-        let ax = await Axios.delete(`/products/orders/all/${orderId}`)
+         await Axios.delete(`/products/orders/all/${orderId}`)
         dispatch({
             type: REMOVE_ORDER_SUCCESS
         })
-        console.log(ax)
         dispatch(setAlert("تم حذف الـطلب", "success", true, 3000))
 
     } catch (err) {

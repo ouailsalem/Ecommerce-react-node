@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState, Fragment } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 //Redux
 import { useDispatch, useSelector } from 'react-redux'
@@ -18,6 +18,7 @@ import {
   FormControl,
   InputLabel,
   Container,
+  Switch,
 } from '@material-ui/core'
 // Material UI Icons
 import { ArrowBack } from '@material-ui/icons/'
@@ -33,7 +34,8 @@ export const AdminOrdersUpdate = ({ match, props }) => {
   /*----------------------------------------- Redux -------------------------------------------*/
   const { loading, order } = useSelector((state) => state.order)
   const { loadingOr, posted } = useSelector((state) => state.adminOrder)
-  console.log(match)
+  const [status1, setStatus1] = useState(true)
+  const [status2, setStatus2] = useState(false)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -86,8 +88,39 @@ export const AdminOrdersUpdate = ({ match, props }) => {
 
             <Grid item md={6} xs={12} container className={classes.gridFlex}>
               <Typography className={classes.text} component='h1' variant='h5'>
-                إضافة منتج
+                تعديل المنتج
               </Typography>
+              {order.status ? (
+                <Fragment>
+                  <Switch
+                    //true
+                    checked={status1}
+                    onChange={() => {
+                      setStatus1(!status1)
+                    }}
+                    name='checkedA'
+                    inputProps={{ 'aria-label': 'secondary checkbox' }}
+                  />
+                  <Typography className={classes.text} variant='subtitle1'>
+                    {status1 ? 'تم توصيل الطلب' : 'لم يتم توصيل الطلب'}
+                  </Typography>
+                </Fragment>
+              ) : (
+                <Fragment>
+                  <Switch
+                    //false
+                    checked={status2}
+                    onChange={() => {
+                      setStatus2(!status2)
+                    }}
+                    name='checkedA'
+                    inputProps={{ 'aria-label': 'secondary checkbox' }}
+                  />
+                  <Typography className={classes.text} variant='subtitle1'>
+                    {status2 ? 'تم توصيل الطلب' : 'لم يتم توصيل الطلب'}
+                  </Typography>
+                </Fragment>
+              )}
             </Grid>
             <Grid item container justify={'flex-end'} md={6} xs={12}>
               <Link
@@ -121,7 +154,8 @@ export const AdminOrdersUpdate = ({ match, props }) => {
                         values.address,
                         values.wilaya,
                         values.dayra,
-                        match.params.orderId
+                        match.params.orderId,
+                        values.status
                       )
                     )
                   }}
@@ -133,15 +167,8 @@ export const AdminOrdersUpdate = ({ match, props }) => {
                     address: order.address,
                     wilaya: order.wilaya,
                     dayra: order.dayra,
-                    // product: "order.product",
-                    // quantity:2,
-                    // name: "order.name",
-                    // phoneNumber: "order.phoneNumber",
-                    // address: "order.address",
-                    // wilaya: "order.wilaya",
-                    // dayra: "order.dayra",
-                    // status: "order.status",
-                    // refer: "order.refer",
+                    status: order.status ? status2 : status1,
+                    
                   }}
                 >
                   <Form
@@ -263,7 +290,7 @@ export const AdminOrdersUpdate = ({ match, props }) => {
                       <ErrorMessage name='dayra' />
                     </FormControl>
                     {/*----------------------------------------- status ---------------------------------------*/}
-
+                
                     {/*----------------------------------------- refer ---------------------------------------*/}
 
                     {/*--------------------------------------- Submit Button -----------------------------------*/}

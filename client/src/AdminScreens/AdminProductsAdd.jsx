@@ -40,7 +40,6 @@ export const AdminProductsAdd = ({ match }) => {
   const { posted, loadingPr } = useSelector((state) => state.adminProduct)
 
   /*----------------------------------------- use Formik -------------------------------------------*/
-
   /*--------------------- Initial Values ---------------------------*/
 
   const initialValues = {
@@ -71,8 +70,8 @@ export const AdminProductsAdd = ({ match }) => {
     description: Yup.string()
       .required('هذا الحقل إجباري')
       .required('هذا الحقل إجباري'),
-    price: Yup.number().required('هذا الحقل إجباري'),
-    mainPicture: Yup.string().max(255).required('هذا الحقل إجباري'),
+    price: Yup.string().required('هذا الحقل إجباري'),
+    mainPicture: Yup.string().required('هذا الحقل إجباري'),
     picture1: Yup.string(),
     picture2: Yup.string(),
     picture3: Yup.string(),
@@ -121,8 +120,12 @@ export const AdminProductsAdd = ({ match }) => {
               إضافة منتج
             </Typography>
           </Grid>
-          <Grid item container justify={"flex-end"} md={6} xs={12}>
-            <Link to='/admin/products' variant='body2' style={{marginLeft:30}}>
+          <Grid item container justify={'flex-end'} md={6} xs={12}>
+            <Link
+              to='/admin/products'
+              variant='body2'
+              style={{ marginLeft: 30 }}
+            >
               <IconButton>
                 <ArrowBack />
               </IconButton>
@@ -226,7 +229,32 @@ export const AdminProductsAdd = ({ match }) => {
                     </Typography>
                   ) : null}
                 </FormControl>
+                {/*-----------------------------------------Description ---------------------------------------*/}
 
+                <FormControl className={classes.formControl}>
+                  <InputLabel style={{ fontSize: 15 }}>السعر</InputLabel>
+                  <TextField
+                    multiline
+                    rows={4}
+                    name='price'
+                    {...formik.getFieldProps('price')}
+                    variant='filled'
+                    margin='normal'
+                    fullWidth
+                    id='price'
+                    required
+                    error={
+                      formik.touched.price && formik.errors.price
+                        ? true
+                        : false
+                    }
+                  />
+                  {formik.touched.price && formik.errors.price ? (
+                    <Typography component={'span'} className={classes.error}>
+                      {formik.errors.price}
+                    </Typography>
+                  ) : null}
+                </FormControl>
                 {/*-----------------------------------------mainPicture ---------------------------------------*/}
                 <FormControl className={classes.formControl}>
                   <InputLabel style={{ fontSize: 15 }}>

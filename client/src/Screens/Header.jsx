@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, Fragment } from 'react'
 import {
   makeStyles,
   Grid,
@@ -8,6 +8,7 @@ import {
 import { Link } from 'react-router-dom'
 import { mainFont } from '../customize/font'
 import { ShoppingCart} from '@material-ui/icons/'
+import { Explaining } from './Explaining'
 
 export const Header = () => {
   const classes = useStyles()
@@ -15,62 +16,65 @@ export const Header = () => {
     window.scrollTo(0, 0)
   }, [])
   return (
-    <Grid
-      container
-      className={classes.hero}
-      xs={12}
-      container
-      item
-      direction='column'
-      justify='center'
-      alignItems='center'
-    >
-      <Typography
-        style={{
-          color: 'white',
-          zIndex: '2',
-        }}
-        variant='h2'
-        gutterBottom
+    <Fragment>
+      <Grid
+        container
+        className={classes.hero}
+        xs={12}
+        container
+        item
+        direction='column'
+        justify='center'
+        alignItems='center'
       >
-        متجري
-      </Typography>
-      <Typography
-        variant='h5'
-        align='center'
-        paragraph
-        style={{
-          color: 'white',
-          zIndex: '2',
-        }}
-      >
-        منتجات عاليـة الجودة مع توصيل لـ48 ولايـة
-      </Typography>
+        <Typography
+          style={{
+            color: 'white',
+            zIndex: '2',
+          }}
+          variant='h2'
+          gutterBottom
+        >
+          متجري
+        </Typography>
+        <Typography
+          variant='h5'
+          align='center'
+          paragraph
+          style={{
+            color: 'white',
+            zIndex: '2',
+          }}
+        >
+          منتجات عاليـة الجودة مع توصيل لـ48 ولايـة
+        </Typography>
 
-      <Button
-        component={Link}
-        to='/products'
-        variant='contained'
-        size='large'
-        className={classes.heroButtons}
-        startIcon={<ShoppingCart />}
-      >
-        تسوق الآن
-      </Button>
-      <Button
-        component={Link}
-        color='primary'
-        to='/products'
-        variant='contained'
-        size='small'
-        style={{
-          zIndex: '2',
-        }}
-      >
-        تسويق المنتجات
-      </Button>
-      <div className={classes.overlay}></div>
-    </Grid>
+        <Button
+          component={Link}
+          to='/products'
+          variant='contained'
+          size='large'
+          className={classes.heroButtons}
+          startIcon={<ShoppingCart />}
+        >
+          تسوق الآن
+        </Button>
+        <Button
+          component={Link}
+          color='primary'
+          to='/products'
+          variant='contained'
+          size='small'
+          style={{
+            zIndex: '2',
+          }}
+        >
+          تسويق المنتجات
+        </Button>
+        <div className={classes.overlay}></div>
+      </Grid>
+      <Explaining />
+    </Fragment>
   )
 }
 

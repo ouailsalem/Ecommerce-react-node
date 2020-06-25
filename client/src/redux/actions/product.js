@@ -21,14 +21,27 @@ export const getProduct = (productId) => async dispatch => {
                 thumbnail: manyPics[1],
             },
             {
-                original: manyPics[1],
-                thumbnail: manyPics[1],
+                original: manyPics[2],
+                thumbnail: manyPics[2],
             },
+            {
+                original: manyPics[3],
+                thumbnail: manyPics[3],
+            },
+            {
+                original: manyPics[4],
+                thumbnail: manyPics[4],
+            },
+            
         ]
+        
+        let filtredPictures = pictures.filter((img) => img.original !== "")
+
         dispatch({
             type: GET_PRODUCT,
             payload: res.data.payload,
-            pictures: pictures
+            pictures: filtredPictures,
+            picturesEdits: manyPics
         })
 
     } catch (err) {
