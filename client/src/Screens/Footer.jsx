@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography, Link, makeStyles, Grid } from '@material-ui/core'
+import { Typography, Grid } from '@material-ui/core'
 import Facebook from '@material-ui/icons/Facebook'
 import WhatsApp from '@material-ui/icons/WhatsApp'
 import Call from '@material-ui/icons/Call'

@@ -1,32 +1,23 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Link, Redirect } from 'react-router-dom'
 //Redux
 import { useDispatch, useSelector } from 'react-redux'
 //Redux Actions
-import { setAlert } from '../redux/actions/alert'
-import { addOrder, resetOrder } from '../redux/actions/order'
-import { getProduct } from '../redux/actions/product'
 // Material UI components
 import {
   IconButton,
-  Avatar,
   Typography,
   Paper,
   Grid,
   Button,
   TextField,
   makeStyles,
-  Select,
   FormControl,
   InputLabel,
-  MenuItem,
-  Card,
-  CardContent,
-  CardMedia,
   Container,
 } from '@material-ui/core'
 // Material UI Icons
-import { ArrowBack, ShoppingCart } from '@material-ui/icons/'
+import { ArrowBack } from '@material-ui/icons/'
 // Components
 import { Loading } from '../Screens/Loading'
 // Formik
@@ -48,6 +39,7 @@ export const AdminProductsAdd = ({ match }) => {
     description: '',
     price: 0,
     mainPicture: '',
+    videoLink: '',
     picture1: '',
     picture2: '',
     picture3: '',
@@ -72,6 +64,7 @@ export const AdminProductsAdd = ({ match }) => {
       .required('هذا الحقل إجباري'),
     price: Yup.string().required('هذا الحقل إجباري'),
     mainPicture: Yup.string().required('هذا الحقل إجباري'),
+    videoLink: Yup.string(),
     picture1: Yup.string(),
     picture2: Yup.string(),
     picture3: Yup.string(),
@@ -162,7 +155,6 @@ export const AdminProductsAdd = ({ match }) => {
                     fullWidth
                     id='name'
                     type='tel'
-                    required
                     error={
                       formik.touched.name && formik.errors.name ? true : false
                     }
@@ -186,8 +178,6 @@ export const AdminProductsAdd = ({ match }) => {
                     margin='normal'
                     fullWidth
                     id='smallDescription'
-                    type='tel'
-                    required
                     error={
                       formik.touched.smallDescription &&
                       formik.errors.smallDescription
@@ -215,8 +205,6 @@ export const AdminProductsAdd = ({ match }) => {
                     margin='normal'
                     fullWidth
                     id='description'
-                    type='tel'
-                    required
                     error={
                       formik.touched.description && formik.errors.description
                         ? true
@@ -234,19 +222,15 @@ export const AdminProductsAdd = ({ match }) => {
                 <FormControl className={classes.formControl}>
                   <InputLabel style={{ fontSize: 15 }}>السعر</InputLabel>
                   <TextField
-                    multiline
-                    rows={4}
+                  
                     name='price'
                     {...formik.getFieldProps('price')}
                     variant='filled'
                     margin='normal'
                     fullWidth
                     id='price'
-                    required
                     error={
-                      formik.touched.price && formik.errors.price
-                        ? true
-                        : false
+                      formik.touched.price && formik.errors.price ? true : false
                     }
                   />
                   {formik.touched.price && formik.errors.price ? (
@@ -269,7 +253,6 @@ export const AdminProductsAdd = ({ match }) => {
                     margin='normal'
                     fullWidth
                     id='mainPicture'
-                    required
                     error={
                       formik.touched.mainPicture && formik.errors.mainPicture
                         ? true
@@ -279,6 +262,31 @@ export const AdminProductsAdd = ({ match }) => {
                   {formik.touched.mainPicture && formik.errors.mainPicture ? (
                     <Typography component={'span'} className={classes.error}>
                       {formik.errors.mainPicture}
+                    </Typography>
+                  ) : null}
+                </FormControl>
+                {/*-----------------------------------------videoLink ---------------------------------------*/}
+                <FormControl className={classes.formControl}>
+                  <InputLabel style={{ fontSize: 15 }}>
+                    رابط الفيديو
+                  </InputLabel>
+                  <TextField
+                    name='videoLink'
+                    {...formik.getFieldProps('videoLink')}
+                    autoComplete='false'
+                    variant='filled'
+                    margin='normal'
+                    fullWidth
+                    id='videoLink'
+                    error={
+                      formik.touched.videoLink && formik.errors.videoLink
+                        ? true
+                        : false
+                    }
+                  />
+                  {formik.touched.videoLink && formik.errors.videoLink ? (
+                    <Typography component={'span'} className={classes.error}>
+                      {formik.errors.videoLink}
                     </Typography>
                   ) : null}
                 </FormControl>

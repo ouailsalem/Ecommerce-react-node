@@ -1,10 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import Grid from '@material-ui/core/Grid'
-import { Typography, makeStyles, InputLabel, TextField, FormControl, Button, Divider } from '@material-ui/core'
-import { useDispatch, useSelector } from 'react-redux'
-import { ArrowBack, ShoppingCart } from '@material-ui/icons/'
-// Components
-import { Loading } from './Loading'
+import { Typography, makeStyles, InputLabel, TextField, FormControl, Button} from '@material-ui/core'
+
 // Formik
 import { useFormik } from 'formik'
 import * as Yup from 'yup'

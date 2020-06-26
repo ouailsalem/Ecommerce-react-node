@@ -1,4 +1,4 @@
-import { GET_ORDER_LOADING, GET_ORDER_SUCCESS, GET_ORDER_ERROR, UPDATE_ORDER_LOADING, UPDATE_ORDER_SUCCESS, UPDATE_ORDER_ERROR, RESET_ORDER_UPDATE, REMOVE_ORDER_LOADING, REMOVE_ORDER_SUCCESS, REMOVE_ORDER_ERROR } from "../actions/actionTypes"
+import { GET_ORDERS_LOADING, GET_ORDERS_SUCCESS, GET_ORDERS_ERROR,  UPDATE_ORDER_SUCCESS, UPDATE_ORDER_ERROR, RESET_ORDER_UPDATE, REMOVE_ORDER_LOADING, REMOVE_ORDER_SUCCESS, REMOVE_ORDER_ERROR } from "../actions/actionTypes"
 
 
 const initialState = {
@@ -10,12 +10,13 @@ const initialState = {
 export default (state = initialState, action) => {
     const { type, payload } = action
     switch (type) {
-
-        case GET_ORDER_SUCCESS:
+        case GET_ORDERS_LOADING:
+            return { ...state, loadingOr: true }
+        case GET_ORDERS_SUCCESS:
             return { ...state, loadingOr: false, allOrders: payload }
         case UPDATE_ORDER_SUCCESS:
             return { ...state, loadingOr: false, posted: true }
-        case GET_ORDER_ERROR:
+        case GET_ORDERS_ERROR:
         case UPDATE_ORDER_ERROR:
             return { ...state, loadingOr: false }
         case RESET_ORDER_UPDATE:

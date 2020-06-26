@@ -14,7 +14,6 @@ import {
   Grid,
   Button,
   makeStyles,
-  Select,
   FormControl,
   InputLabel,
   Container,
@@ -40,7 +39,7 @@ export const AdminOrdersUpdate = ({ match, props }) => {
 
   useEffect(() => {
     dispatch(getOrder(match.params.orderId))
-  }, [])
+  }, [dispatch, match.params.orderId])
 
   /*--------------------- Validation Schema ---------------------------*/
   const validationSchema = Yup.object({
@@ -149,6 +148,8 @@ export const AdminOrdersUpdate = ({ match, props }) => {
                 <Formik
                   validationSchema={validationSchema}
                   onSubmit={(values) => {
+                    console.log(values.status)
+
                     dispatch(
                       updateOrder(
                         values.product,
@@ -159,7 +160,7 @@ export const AdminOrdersUpdate = ({ match, props }) => {
                         values.wilaya,
                         values.dayra,
                         match.params.orderId,
-                        values.status
+                        order.status ? status1 : status2
                       )
                     )
                   }}
@@ -171,7 +172,7 @@ export const AdminOrdersUpdate = ({ match, props }) => {
                     address: order.address,
                     wilaya: order.wilaya,
                     dayra: order.dayra,
-                    status: order.status ? status2 : status1,
+                    status: order.status ? status1 : status2,
                   }}
                 >
                   <Form
@@ -195,7 +196,6 @@ export const AdminOrdersUpdate = ({ match, props }) => {
                         margin='normal'
                         fullWidth
                         id='product'
-                        required
                       />
                       <ErrorMessage name='product' />
                     </FormControl>

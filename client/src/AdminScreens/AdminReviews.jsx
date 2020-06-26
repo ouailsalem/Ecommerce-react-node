@@ -12,13 +12,13 @@ export const AdminReviews = ({ history }) => {
   useEffect(() => {
     dispatch(notFoundReset())
     dispatch(getReviews())
-  }, [])
+  }, [dispatch])
 
   return (
     <Container maxWidth={'lg'}>
       <MaterialTable
         style={{ textAlign: 'right' }}
-        title='المنتجات'
+        title='التعليقات'
         options={{
           headerStyle: {
             backgroundColor: '#FFCC33',
@@ -27,8 +27,6 @@ export const AdminReviews = ({ history }) => {
           pageSize: 10,
           pageSizeOptions: [],
         }}
-        style={{ textAlign: 'right' }}
-        title='التعليقات'
         columns={[
           { title: 'صاحب التعليق', field: 'name' },
           { title: 'التعليق', field: 'review' },

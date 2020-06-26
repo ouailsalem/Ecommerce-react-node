@@ -44,18 +44,19 @@ router.get('/:productId', async (req, res) => {
 //-------------------------------------------------POST-----------------------------------------//
 
 //?post  PRODUCT
-router.post('/add', async (req, res) => {
+router.post('/add', adminAuth, async (req, res) => {
     const data = {
         name: req.body.name,
         description: req.body.description,
         smallDescription: req.body.smallDescription,
         price: req.body.price,
         mainPicture: req.body.mainPicture,
+        videoLink: req.body.videoLink,
         pictures: req.body.pictures,
         available: req.body.available,
         time: new Date().toISOString()
     }
-    let { name, description, smallDescription, price, pictures, mainPicture, available, time } = data
+    let { name, description, smallDescription, price, pictures, mainPicture, videoLink, available, time } = data
     try {
         await Product.create({
             name,
@@ -63,6 +64,7 @@ router.post('/add', async (req, res) => {
             smallDescription,
             price,
             mainPicture,
+            videoLink,
             pictures,
             available,
             time
@@ -102,6 +104,7 @@ router.put('/:productId', adminAuth, async (req, res) => {
             smallDescription: req.body.smallDescription,
             price: req.body.price,
             mainPicture: req.body.mainPicture,
+            videoLink: req.body.videoLink,
             pictures: req.body.pictures,
             available: req.body.available
         }, {
@@ -120,7 +123,7 @@ router.put('/:productId', adminAuth, async (req, res) => {
 //--------------------------------------------------GET-----------------------------------------//
 //?get ALL_ORDERS //!ADMIN
 
-router.get('/orders/all', async (req, res) => {
+router.get('/orders/all', adminAuth, async (req, res) => {
     try {
         let orders = await Order.findAll()
         res.status(200).json(orders)
@@ -207,7 +210,7 @@ router.post('/order/:productId/:refer', async (req, res) => {
 //------------------------------------------------DELETE-----------------------------------------//
 
 //?delete  an order
-router.delete('/orders/all/:orderId', async (req, res) => {
+router.delete('/orders/all/:orderId', adminAuth, async (req, res) => {
     try {
         await Order.destroy({
             where: { id: req.params.orderId }
@@ -223,7 +226,8 @@ router.delete('/orders/all/:orderId', async (req, res) => {
 //! -------------------------------------------- ORDERS -------------------------------------- //
 //-----------------------------------------------UPDATE----------------------------------------//
 //? update an order
-router.put('/orders/all/:orderId', async (req, res) => {
+router.put('/orders/all/:orderId', adminAuth, async (req, res) => {
+    console.log(req.body)
     try {
         await Order.update({
             product: req.body.product,

@@ -7,7 +7,7 @@ import IconButton from '@material-ui/core/IconButton'
 
 import ShoppingCart from '@material-ui/icons/ShoppingCart'
 import AccountCircle from '@material-ui/icons/AccountCircle'
-import {  useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import { logout } from '../redux/actions/auth'
@@ -46,7 +46,7 @@ export function RealNavBar() {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
-  const { isAuthenticated } = useSelector((state) => state.auth)
+  const { isAuthenticated, user, loading } = useSelector((state) => state.auth)
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget)
@@ -89,6 +89,7 @@ export function RealNavBar() {
               >
                 <AccountCircle />
               </IconButton>
+
               <Menu
                 id='menu-appbar'
                 anchorEl={anchorEl}

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import {
   Grid,
   makeStyles,
@@ -13,16 +13,22 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addReview } from '../redux/actions/review'
 import { getReviews } from '../redux/actions/review'
 import { Loading } from '../Screens/Loading'
+import Dialog from '@material-ui/core/Dialog'
+import DialogContent from '@material-ui/core/DialogContent'
+import CloseIcon from '@material-ui/icons/Close'
 import ImageGallery from 'react-image-gallery'
 import Rating from '@material-ui/lab/Rating'
 import { Send } from '@material-ui/icons/'
 import { Link, NavLink, Redirect } from 'react-router-dom'
+import ReactPlayer from 'react-player'
 import { setAlert } from '../redux/actions/alert'
 export const SingleProduct = ({ match }) => {
   const dispatch = useDispatch()
   const classes = useStyles()
-  const [rating, setRating] = React.useState(4)
-  const [review, setReview] = React.useState('')
+  const [rating, setRating] = useState(4)
+  const [review, setReview] = useState('')
+  const [fullScreen, setFullScreen] = useState(false)
+  const [fullScreenImage, setFullScreenImage] = useState("")
   const { notFound } = useSelector((state) => state.notFound)
   const state = useSelector((state) => state.reviews)
 
@@ -41,7 +47,6 @@ export const SingleProduct = ({ match }) => {
     }
   }
   useEffect(() => {
-    
     window.scrollTo(0, 0)
     dispatch(getProduct(match.params.productId))
     dispatch(getReviews(match.params.productId))
@@ -60,7 +65,7 @@ export const SingleProduct = ({ match }) => {
   ) : (
     <div className={classes.container}>
       <Grid container spacing={3}>
-        <Grid className={classes.root} item md={6} xs={12}>
+        <Grid className={classes.root} item lg={6} xs={12}>
           <Typography variant={'h5'} className={classes.text0}>
             {product.name}
           </Typography>
@@ -71,16 +76,31 @@ export const SingleProduct = ({ match }) => {
           <Typography variant={'button'} className={classes.text0}>
             السعـــر : {product.price} دج
           </Typography>
+          <div className={classes.videoContainer}>
+            <ImageGallery
+              lazyLoad={true}
+              showPlayButton={false}
+              showFullscreenButton={false}
+              thumbnailPosition={'bottom'}
+              items={pictures}
+              onErrorImageURL={
+                'https://www.wellesleysocietyofartists.org/wp-content/uploads/2015/11/image-not-found.jpg'
+              }
+              onClick={(e) => {
+                setFullScreenImage(e.target.src)
+                setFullScreen(true)
+              }}
+            />
+          </div>
         </Grid>
-        <Grid item className={classes.root} md={6} xs={12}>
-          <ImageGallery
-            lazyLoad={true}
-            showPlayButton={false}
-            thumbnailPosition={'bottom'}
-            items={pictures}
-            showFullscreenButton={false}
-            useBrowserFullscreen={false}
-          />
+
+        <Grid item className={classes.root2} lg={6} xs={12}>
+          <div className={classes.videoContainer}>
+            <ReactPlayer
+              width='100%'
+              url={product.videoLink}
+            />
+          </div>
           <Typography className={classes.text0}>
             <Button
               component={Link}
@@ -91,7 +111,6 @@ export const SingleProduct = ({ match }) => {
             </Button>
           </Typography>
         </Grid>
-        <hr />
 
         <Grid className={classes.root} item xs={12}>
           {!isAuthenticated ? (
@@ -162,7 +181,7 @@ export const SingleProduct = ({ match }) => {
                   <Grid
                     direction={'column'}
                     className={classes.reviews}
-                    alignItems={"flex-start"}
+                    alignItems={'flex-start'}
                     container
                     key={review.id}
                   >
@@ -171,7 +190,9 @@ export const SingleProduct = ({ match }) => {
                         '☆'.repeat(5 - review.rating)}{' '}
                       | {review.name}
                     </Typography>
-                    <Typography align="right" variant={'caption'}>{review.review}</Typography>
+                    <Typography align='right' variant={'caption'}>
+                      {review.review}
+                    </Typography>
 
                     <Typography color={'textSecondary'} variant={'caption'}>
                       {review.time.slice(0, 10) +
@@ -185,6 +206,22 @@ export const SingleProduct = ({ match }) => {
           )}
         </Grid>
       </Grid>
+      <div>
+        <Dialog
+          open={fullScreen}
+          aria-labelledby='alert-dialog-title'
+          aria-describedby='alert-dialog-description'
+        >
+          <CloseIcon
+            onClick={() => {
+              setFullScreen(false)
+            }}
+          />
+          <DialogContent>
+            <img src={fullScreenImage} />
+          </DialogContent>
+        </Dialog>
+      </div>
     </div>
   )
   return rendered
@@ -199,6 +236,20 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     justifyContent: 'center',
   },
+  root2: {
+    direction: 'rtl',
+    padding: '0px !important',
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  videoContainer: {
+    width: '100%',
+    minWidth: '300px',
+    maxWidth: '600px',
+    padding: 4,
+    margin: 10,
+  },
   reviews: {
     width: '100%',
     minWidth: '300px',
@@ -210,7 +261,7 @@ const useStyles = makeStyles({
     borderColor: '#AAAAAA',
     borderRadius: 4,
     padding: 4,
-    direction:"rtl"
+    direction: 'rtl',
   },
   row: {
     padding: '0px !important',

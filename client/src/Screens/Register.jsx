@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import {
-  IconButton,
   Avatar,
   Typography,
   Paper,
@@ -10,12 +9,12 @@ import {
   FormControl,
   InputLabel,
 } from '@material-ui/core'
-import { Link, Redirect } from 'react-router-dom'
-import { SupervisedUserCircle, ArrowBack } from '@material-ui/icons/'
+import { Redirect } from 'react-router-dom'
+import { SupervisedUserCircle } from '@material-ui/icons/'
 import { useDispatch, useSelector } from 'react-redux'
 import { register } from '../redux/actions/auth'
 import { Loading } from './Loading'
-import { Form, Field, Formik, ErrorMessage } from 'formik'
+import { Form, Field, Formik } from 'formik'
 import { TextField } from 'material-ui-formik-components/TextField'
 import * as Yup from 'yup'
 
@@ -34,6 +33,7 @@ export const Register = ({ history }) => {
       .required('هذا الحقل إجباري')
       .min(3, 'اسم المستخدم يجب أن يحتوي على 3 حروف على الأقل')
       .max(35, 'أدخل اسمًا مقبولا')
+      .matches(/[0-9a-zA-Z_.-]*/, 'الرموز غير مقبولة'),
     email: Yup.string()
       .email('صيغة البريد الإلكتروني غير صحيحة')
       .required('هذا الحقل إجباري'),
@@ -43,7 +43,7 @@ export const Register = ({ history }) => {
   })
 
   if (isAuthenticated) {
-    return <Redirect to='/profile' />
+    return <Redirect to='/' />
   }
 
   const rendered = loading ? (
@@ -120,7 +120,7 @@ export const Register = ({ history }) => {
               />
             </FormControl>
 
-            {/*-----------------------------------------money ---------------------------------------*/}
+            {/*-----------------------------------------password ---------------------------------------*/}
             <FormControl className={classes.formControl}>
               <InputLabel
                 style={{
@@ -137,6 +137,7 @@ export const Register = ({ history }) => {
                 variant='filled'
                 margin='normal'
                 fullWidth
+                type='password'
                 id='password'
                 required
               />
@@ -187,10 +188,10 @@ const useStyles = makeStyles((theme) => ({
   form: {
     width: '90%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
-    display:"flex",
-    flexDirection:"column",
-    alignItems:"center",
-    justifyContent:"center",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   formControl: {
     width: '100%',

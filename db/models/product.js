@@ -20,6 +20,9 @@ module.exports = (sequelize, DataTypes) => {
     mainPicture: {
       type: DataTypes.TEXT
     },
+    videoLink: {
+      type: DataTypes.TEXT
+    },
     available: {
       type: DataTypes.BOOLEAN
     },

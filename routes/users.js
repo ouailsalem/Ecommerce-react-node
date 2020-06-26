@@ -19,7 +19,7 @@ router.post('/register', validator, async (req, res) => {
     try {
         const user = {
             id: uniqid(),
-            name: req.body.name.trim().replace(' ',''),
+            name: req.body.name.trim().replace(' ', ''),
             email: req.body.email,
             password: req.body.password,
             time: new Date().toISOString()
@@ -120,7 +120,7 @@ router.post('/login', async (req, res) => {
 // !admin
 //api/users/
 //get all users
-router.get('/', async (req, res) => {
+router.get('/', adminAuth, async (req, res) => {
     try {
         let users = await User.findAll({ attributes: { exclude: ['password'] }, include: [{ model: Profile }] })
         res.status(200).json(users)
@@ -134,7 +134,7 @@ router.get('/', async (req, res) => {
 // !admin
 //api/users/:userId
 //get single user with profile
-router.get('/:userId', async (req, res) => {
+router.get('/:userId', adminAuth, async (req, res) => {
     try {
         let user = await User.findOne({
             where: { id: req.params.userId }, attributes: { exclude: ['password'] }, include: [{ model: Profile }]
@@ -181,7 +181,7 @@ router.put('/:userId', adminAuth, async (req, res) => {
 //api/users/:userId
 //destroy user
 
-router.delete('/:userId', async (req, res) => {
+router.delete('/:userId', adminAuth, async (req, res) => {
     try {
         await User.destroy({
             where: { id: req.params.userId }

@@ -3,17 +3,20 @@ import {
     GET_USERS_LOADING,
     GET_USERS_SUCCESS,
     GET_USERS_ERROR,
+
     REMOVE_USER_LOADING,
     REMOVE_USER_SUCCESS,
     REMOVE_USER_ERROR,
+
     UPDATE_USER_LOADING,
     UPDATE_USER_SUCCESS,
     UPDATE_USER_ERROR,
+
     RESET_USER_UPDATE,
 } from "./actionTypes"
 import { setAlert } from "./alert"
 
-
+// get all users
 export const getUsers = () => async dispatch => {
     dispatch({ type: GET_USERS_LOADING })
     try {
@@ -28,6 +31,9 @@ export const getUsers = () => async dispatch => {
         dispatch({ type: GET_USERS_ERROR })
     }
 }
+
+
+// remove a user
 export const removeUser = (userId) => async dispatch => {
     dispatch({
         type: REMOVE_USER_LOADING,
@@ -50,13 +56,13 @@ export const removeUser = (userId) => async dispatch => {
 
 }
 
+// update user
 export const updateUser = (values) => async dispatch => {
     const config = {
         headers: {
             'Content-Type': "application/json"
         }
     }
-
     dispatch({
         type: UPDATE_USER_LOADING,
     })
@@ -86,6 +92,7 @@ export const updateUser = (values) => async dispatch => {
     }
 
 }
+// reset state
 
 export const resetUser = () => async dispatch => {
     dispatch({

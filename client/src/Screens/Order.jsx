@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, {  useEffect } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 //Redux
 import { useDispatch, useSelector } from 'react-redux'
 //Redux Actions
-import { setAlert } from '../redux/actions/alert'
-import { addOrder, resetOrder } from '../redux/actions/order'
+import { addOrder } from '../redux/actions/order'
 import { getProduct } from '../redux/actions/product'
 // Material UI components
 import {
@@ -395,6 +394,7 @@ const useStyles = makeStyles((theme) => ({
 
   paper: {
     margin: '10px',
+    padding:"10",
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',

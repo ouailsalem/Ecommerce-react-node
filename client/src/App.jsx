@@ -5,8 +5,7 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  useRouteMatch,
-  useLocation,
+
 } from 'react-router-dom'
 import PrivateRoute from './Screens/routing/PrivateRoute'
 import PrivateAdminRoute from './Screens/routing/PrivateAdminRoute'
@@ -27,7 +26,7 @@ import { SingleProduct } from './Screens/SingleProduct'
 import { NotFound } from './Screens/NotFound'
 //Redux
 import store from './redux/store'
-import { Provider, useSelector } from 'react-redux'
+import { Provider } from 'react-redux'
 import { loadUser } from './redux/actions/auth'
 
 // Utitliy
@@ -45,6 +44,7 @@ import { AdminMembersUpdate } from './AdminScreens/AdminMembersUpdate'
 import { AdminProductsAdd } from './AdminScreens/AdminProductsAdd'
 import { AdminProductsUpdate } from './AdminScreens/AdminProductsUpdate'
 import { AdminOrdersUpdate } from './AdminScreens/AdminOrdersUpdate'
+import { ProfileUpdate } from './Screens/ProfileUpdate'
 
 /*----------------------------------------- create MuiTheme -------------------------------------------*/
 
@@ -86,7 +86,6 @@ if (localStorage && localStorage.token) {
 }
 
 export default function App() {
-  const { auth } = store.getState()
   /*----------------------------------------- React Hooks -------------------------------------------*/
   useEffect(() => {
     store.dispatch(loadUser())
@@ -168,6 +167,11 @@ export default function App() {
                   <Route exact path='/login' component={Login} />
                   <Route exact path='/register' component={Register} />
                   <PrivateRoute exact path='/profile' component={Profile} />
+                  <PrivateRoute
+                    exact
+                    path='/profile/update'
+                    component={ProfileUpdate}
+                  />
                   <PrivateRoute exact path='/affiliate' component={Affiliate} />
                   <Route
                     exact

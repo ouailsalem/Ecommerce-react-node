@@ -1,9 +1,9 @@
-import { ADD_ORDER, ORDER_ERROR, POSTING_ORDER, RESET_ORDER, GET_ORDER, GET_SINGLE_ORDER_SUCCESS, GET_SINGLE_ORDER_ERROR, GET_SINGLE_ORDER_LOADING } from "../actions/actionTypes"
+import { ADD_ORDER, ORDER_ERROR, POSTING_ORDER, RESET_ORDER,  GET_SINGLE_ORDER_SUCCESS, GET_SINGLE_ORDER_ERROR, GET_SINGLE_ORDER_LOADING } from "../actions/actionTypes"
 
 const initialState = { posted: false, posting: false, loading: false, order: [] }
 
 export default (state = initialState, action) => {
-    const { type, order, posted, posting } = action
+    const { type, order, posted } = action
     switch (type) {
         case POSTING_ORDER:
             return {

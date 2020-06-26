@@ -10,7 +10,6 @@ import {
   Paper,
 } from '@material-ui/core'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'redux'
 import { useDispatch } from 'react-redux'
 import { setAlert } from '../redux/actions/alert'
 const useStyles = makeStyles({

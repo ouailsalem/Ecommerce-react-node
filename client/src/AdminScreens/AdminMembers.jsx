@@ -1,8 +1,8 @@
 import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Container, Typography, Chip } from '@material-ui/core'
-import MaterialTable, { MTableToolbar } from 'material-table'
+import { Container } from '@material-ui/core'
+import MaterialTable from 'material-table'
 import { getUsers } from '../redux/actions/adminUser'
 import { removeUser } from '../redux/actions/adminUser'
 import { resetUser } from '../redux/actions/adminUser'
@@ -17,7 +17,7 @@ export const AdminMembers = () => {
     dispatch(notFoundReset())
     dispatch(resetUser())
     dispatch(getUsers())
-  }, [])
+  }, [dispatch])
   return (
     <Container maxWidth={'lg'}>
       <MaterialTable
@@ -50,13 +50,6 @@ export const AdminMembers = () => {
                 pathname: `/admin/members/edit/${rowData.id}`,
                 state: { rowData },
               }),
-            iconProps: { style: { fontSize: '16px' } },
-          },
-          {
-            icon: 'visibility',
-            tooltip: 'تصفح',
-            onClick: (event, rowData) =>
-              history.push(`/profiles/${rowData.id}`),
             iconProps: { style: { fontSize: '16px' } },
           },
           {

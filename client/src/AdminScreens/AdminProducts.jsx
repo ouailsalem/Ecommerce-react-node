@@ -6,11 +6,11 @@ import MaterialTable, { MTableToolbar } from 'material-table'
 import { getProducts } from '../redux/actions/products'
 import { removeProduct } from '../redux/actions/adminProduct'
 import { resetProduct } from '../redux/actions/adminProduct'
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom'
 import { notFoundReset } from '../redux/actions/notFound'
 
 export const AdminProducts = () => {
-  let history = useHistory();
+  let history = useHistory()
   const dispatch = useDispatch()
   const { products, loading } = useSelector((state) => state.products)
   const { loadingPr } = useSelector((state) => state.adminProduct)
@@ -18,9 +18,8 @@ export const AdminProducts = () => {
     dispatch(notFoundReset())
     dispatch(resetProduct())
     dispatch(getProducts())
-  }, [])
+  }, [dispatch])
 
- 
   return (
     <Container maxWidth={'lg'}>
       <MaterialTable
@@ -51,7 +50,24 @@ export const AdminProducts = () => {
             title: 'الصورة الأساسيـة',
             field: 'mainpicture',
             render: (rowData) => (
-              <img src={rowData.mainPicture} style={{ width: 100 }} />
+              <img
+                src={rowData.mainPicture}
+                alt='رابط غير معرف'
+                style={{ width: 100 }}
+              />
+            ),
+          },
+          {
+            title: 'الفيديو',
+            field: 'videoLink',
+            render: (rowData) => (
+              <a
+                target='_blank'
+                rel='noopener noreferrer'
+                href={rowData.videoLink}
+              >
+                معاينة
+              </a>
             ),
           },
         ]}

@@ -12,7 +12,6 @@ import {
   Grid,
   Button,
   makeStyles,
-  Select,
   FormControl,
   InputLabel,
   Container,
@@ -26,7 +25,6 @@ import { Form, Field, Formik, ErrorMessage } from 'formik'
 import { TextField } from 'material-ui-formik-components/TextField'
 
 import * as Yup from 'yup'
-import { updateProduct } from '../redux/actions/adminProduct'
 import { updateUser } from '../redux/actions/adminUser'
 
 export const AdminMembersUpdate = ({ match, props }) => {
@@ -36,7 +34,7 @@ export const AdminMembersUpdate = ({ match, props }) => {
   const { user, loading } = useSelector((state) => state.user)
   useEffect(() => {
     dispatch(getUser(match.params.userId))
-  }, [])
+  }, [dispatch, match.params.userId])
   /*----------------------------------------- use Formik -------------------------------------------*/
 
   /*--------------------- Initial Values ---------------------------*/

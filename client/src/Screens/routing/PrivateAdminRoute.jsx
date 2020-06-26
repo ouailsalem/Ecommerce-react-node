@@ -15,7 +15,7 @@ const PrivateAdminRoute = ({ component: Component, ...rest }) => {
         loading
           ? (props) => <Loading />
           : (props) =>
-              !isAuthenticated || user.name !== 'candy' ? (
+              !isAuthenticated || user.name !== 'admin' ? (
                 <Redirect to='/404' />
               ) : (
                 <Component {...props} />

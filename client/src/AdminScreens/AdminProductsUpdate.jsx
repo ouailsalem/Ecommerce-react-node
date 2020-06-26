@@ -12,7 +12,6 @@ import {
   Grid,
   Button,
   makeStyles,
-  Select,
   FormControl,
   InputLabel,
   Container,
@@ -24,7 +23,6 @@ import { Loading } from '../Screens/Loading'
 // Formik
 import { Form, Field, Formik ,ErrorMessage } from 'formik'
 import { TextField } from 'material-ui-formik-components/TextField'
-import { notFoundReset } from '../redux/actions/notFound'
 import * as Yup from 'yup'
 import { updateProduct } from '../redux/actions/adminProduct'
 
@@ -37,7 +35,7 @@ export const AdminProductsUpdate = ({ match, props }) => {
   )
   useEffect(() => {
     dispatch(getProduct(match.params.productId))
-  }, [])
+  }, [dispatch, match.params.productId])
   /*----------------------------------------- use Formik -------------------------------------------*/
 
 
@@ -53,7 +51,8 @@ export const AdminProductsUpdate = ({ match, props }) => {
       .required('هذا الحقل إجباري')
       .required('هذا الحقل إجباري'),
     price: Yup.string().required('هذا الحقل إجباري'),
-    mainPicture: Yup.string().max(255).required('هذا الحقل إجباري'),
+    mainPicture: Yup.string().required('هذا الحقل إجباري'),
+    videoLink: Yup.string(),
     picture1: Yup.string(),
     picture2: Yup.string(),
     picture3: Yup.string(),
@@ -131,6 +130,7 @@ export const AdminProductsUpdate = ({ match, props }) => {
                     description: product.description,
                     price: product.price,
                     mainPicture: product.mainPicture,
+                    videoLink: product.videoLink,
                     picture1: picturesEdits[0],
                     picture2: picturesEdits[1],
                     picture3: picturesEdits[2],
@@ -160,7 +160,6 @@ export const AdminProductsUpdate = ({ match, props }) => {
                         margin='normal'
                         fullWidth
                         id='name'
-                        required
                       />
                       <ErrorMessage name='name' />
                     </FormControl>
@@ -177,7 +176,6 @@ export const AdminProductsUpdate = ({ match, props }) => {
                         margin='normal'
                         fullWidth
                         id='smallDescription'
-                        required
                       />
                       <ErrorMessage name='smallDescription' />
                     </FormControl>
@@ -196,7 +194,6 @@ export const AdminProductsUpdate = ({ match, props }) => {
                         margin='normal'
                         fullWidth
                         id='description'
-                        required
                       />
                       <ErrorMessage name='description' />
                     </FormControl>
@@ -211,7 +208,6 @@ export const AdminProductsUpdate = ({ match, props }) => {
                         margin='normal'
                         fullWidth
                         id='price'
-                        required
                       />
                       <ErrorMessage name='price' />
                     </FormControl>
@@ -229,9 +225,25 @@ export const AdminProductsUpdate = ({ match, props }) => {
                         margin='normal'
                         fullWidth
                         id='mainPicture'
-                        required
                       />
                       <ErrorMessage name='mainPicture' />
+                    </FormControl>
+                    {/*-----------------------------------------videoLink ---------------------------------------*/}
+                    <FormControl className={classes.formControl}>
+                      <InputLabel style={{ fontSize: 15 }}>
+                        رابط الفيديو
+                      </InputLabel>
+
+                      <Field
+                        component={TextField}
+                        name='videoLink'
+                        autoComplete='false'
+                        variant='filled'
+                        margin='normal'
+                        fullWidth
+                        id='videoLink'
+                      />
+                      <ErrorMessage name='videoLink' />
                     </FormControl>
                     {/*-----------------------------------------Pictures ---------------------------------------*/}
                     <FormControl className={classes.formControl}>

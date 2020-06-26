@@ -32,7 +32,7 @@ router.get('/:reviewId', adminAuth, async (req, res) => {
 })
 
 //?get POST_REVIEWS !admin
-router.get('/product/:productId', async (req, res) => {
+router.get('/product/:productId', adminAuth, async (req, res) => {
     try {
         let reviews = await Review.findAll({ where: { productId: req.params.productId } })
         res.status(200).json(reviews)
@@ -64,7 +64,7 @@ router.delete('/:reviewId', adminAuth, async (req, res) => {
 //?post REVIEW
 router.post('/:productId', auth, async (req, res) => {
     try {
-        const review = {
+        const reviewBody = {
             id: uniqid(),
             userId: req.user.id,
             productId: req.params.productId,
@@ -73,9 +73,10 @@ router.post('/:productId', auth, async (req, res) => {
             time: new Date().toISOString()
         }
 
-        const { id, userId, productId, review, rating, time } = review
-        let product = await Product.findOne({ where: { id: productId })
-        if(!product) res.status(404).json({message:"Product not found"})
+        const { id, userId, productId, review, rating, time } = reviewBody
+        let product = await Product.findOne({ where: { id: productId } })
+
+        if (!product) res.status(404).json({ message: "Product not found" })
         let user = await User.findOne({ where: { id: userId }, attributes: ['name'], })
         let reviewPosted = await Review.create({
             name: user.name,

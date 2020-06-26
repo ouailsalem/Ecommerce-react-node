@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from 'react'
+import React, { useEffect} from 'react'
 import {
   makeStyles,
   Grid,
@@ -18,7 +18,6 @@ export const Header = () => {
         container
         className={classes.hero}
         xs={12}
-        container
         item
         direction='column'
         justify='center'

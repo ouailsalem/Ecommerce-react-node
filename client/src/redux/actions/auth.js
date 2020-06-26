@@ -18,18 +18,10 @@ export const loadUser = () => async dispatch => {
 
         try {
             const res = await Axios.get('/auth')
-            if (res.status === 200) {
-                dispatch({
-                    type: USER_LOADED,
-                    payload: res.data.user
-                })
-            }
-            else {
-                dispatch({
-                    type: AUTH_ERROR
-                })
-            }
-
+            dispatch({
+                type: USER_LOADED,
+                payload: res.data.user
+            })
 
         } catch (err) {
             dispatch({
@@ -42,8 +34,6 @@ export const loadUser = () => async dispatch => {
         })
     }
 }
-
-//Login
 
 
 
@@ -78,6 +68,9 @@ export const register = ({ name, email, password }) => async dispatch => {
     }
 }
 
+
+//Login
+
 export const login = ({ email, password }) => async dispatch => {
     const config = {
         headers: {
@@ -94,7 +87,6 @@ export const login = ({ email, password }) => async dispatch => {
         localStorage.setItem('token', res.data.token);
 
         dispatch(setAlert("مرحبًا بك", "success", true, 3000))
-        dispatch(loadUser())
     } catch (err) {
         if (err.response.status === 400) {
             dispatch(setAlert("المعلومات المدخلة غير مطابقـة", "error", true, 4000))

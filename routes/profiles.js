@@ -44,20 +44,22 @@ router.get('/:userId', adminAuth, async (req, res) => {
 //?update MY_PROFILE 
 
 router.put('/update', auth, async (req, res) => {
+    console.log(req.body)
+    console.log(req.user.id)
     try {
         await Profile
             .update({
-                wilaya: req.body.wilaya || "",
-                dayra: req.body.dayra || "",
-                phoneNumber: req.body.phoneNumber || ""
+                wilaya: req.body.wilaya,
+                dayra: req.body.dayra,
+                phoneNumber: req.body.phoneNumber
             }, {
                 where: {
-                    id: req.user.id
+                    userId: req.user.id
                 }
             });
         res.status(200).json('profile updated')
     } catch (err) {
-        res.status(500).json({ error: err })
+        res.status(500).json({ error: "something went wrong" })
     }
 })
 

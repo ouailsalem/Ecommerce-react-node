@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import {
   Drawer,
@@ -11,8 +11,15 @@ import {
   ListItemText,
 } from '@material-ui/core'
 
-import HomeIcon from '@material-ui/icons/Home'
-import InfoIcon from '@material-ui/icons/Info'
+import {
+  Home,
+  InfoRounded,
+  Storefront,
+  Toc,
+  Group,
+  InsertComment,
+  WebAsset,
+} from '@material-ui/icons/'
 
 const useStyles = makeStyles((theme) => ({
   drawerPaper: { width: 'inherit' },
@@ -26,7 +33,7 @@ export const AppDrawer = () => {
   const classes = useStyles()
   return (
     <Drawer
-      style={{ width: '220px' ,direction:"ltr"}}
+      style={{ width: '220px', direction: 'ltr' }}
       variant='persistent'
       anchor='left'
       open={true}
@@ -36,15 +43,18 @@ export const AppDrawer = () => {
         <Link to='/admin/' className={classes.link}>
           <ListItem button>
             <ListItemIcon>
-              <HomeIcon />
+              <Home />
             </ListItemIcon>
-            <ListItemText style={{ textAlign: 'right' }} primary={'الرئيسيـة'} />
+            <ListItemText
+              style={{ textAlign: 'right' }}
+              primary={'الرئيسيـة'}
+            />
           </ListItem>
         </Link>
         <Link to='/admin/products' className={classes.link}>
           <ListItem button>
             <ListItemIcon>
-              <HomeIcon />
+              <Storefront />
             </ListItemIcon>
             <ListItemText style={{ textAlign: 'right' }} primary={'المنتجات'} />
           </ListItem>
@@ -52,7 +62,7 @@ export const AppDrawer = () => {
         <Link to='/admin/orders' className={classes.link}>
           <ListItem button>
             <ListItemIcon>
-              <InfoIcon />
+              <Toc />
             </ListItemIcon>
             <ListItemText style={{ textAlign: 'right' }} primary={'الطلبات'} />
           </ListItem>
@@ -60,7 +70,7 @@ export const AppDrawer = () => {
         <Link to='/admin/members' className={classes.link}>
           <ListItem button>
             <ListItemIcon>
-              <InfoIcon />
+              <Group />
             </ListItemIcon>
             <ListItemText style={{ textAlign: 'right' }} primary={'الأعضاء'} />
           </ListItem>
@@ -68,11 +78,22 @@ export const AppDrawer = () => {
         <Link to='/admin/reviews' className={classes.link}>
           <ListItem button>
             <ListItemIcon>
-              <InfoIcon />
+              <InsertComment />
             </ListItemIcon>
             <ListItemText
               style={{ textAlign: 'right' }}
               primary={'التعليقات'}
+            />
+          </ListItem>
+        </Link>
+        <Link to='/' className={classes.link}>
+          <ListItem button>
+            <ListItemIcon>
+              <WebAsset />
+            </ListItemIcon>
+            <ListItemText
+              style={{ textAlign: 'right' }}
+              primary={'معاينة الموقع'}
             />
           </ListItem>
         </Link>

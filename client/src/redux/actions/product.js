@@ -32,9 +32,9 @@ export const getProduct = (productId) => async dispatch => {
                 original: manyPics[4],
                 thumbnail: manyPics[4],
             },
-            
+
         ]
-        
+
         let filtredPictures = pictures.filter((img) => img.original !== "")
 
         dispatch({
@@ -48,10 +48,10 @@ export const getProduct = (productId) => async dispatch => {
         if (err.response.status === 404) {
             dispatch(setAlert("المنتج غير موجود", "error", true, 3000))
             dispatch({ type: NOT_FOUND })
-        }else{
+        } else {
 
-        dispatch(setAlert("مشكلـة غير متوقعـة ، حاول لاحقا", "error", true, 3000))
-        dispatch({ type: LOAD_ERROR })
+            dispatch(setAlert("مشكلـة غير متوقعـة ، حاول لاحقا", "error", true, 3000))
+            dispatch({ type: LOAD_ERROR })
         }
 
     }

@@ -1,9 +1,7 @@
 import React, { useEffect, Fragment } from 'react'
 import { makeStyles, Grid, Button, Typography } from '@material-ui/core'
 import { Link } from 'react-router-dom'
-import { mainFont } from '../customize/font'
-import { ShoppingCart } from '@material-ui/icons/'
-import { Explaining } from './Explaining'
+
 import { notFoundReset } from '../redux/actions/notFound'
 import { useDispatch } from 'react-redux'
 
@@ -13,14 +11,13 @@ export const NotFound = () => {
   useEffect(() => {
     window.scrollTo(0, 0)
     dispatch(notFoundReset())
-  }, [])
+  }, [dispatch])
   return (
     <Fragment>
       <Grid
         container
         className={classes.hero}
         xs={12}
-        container
         item
         direction='column'
         justify='center'

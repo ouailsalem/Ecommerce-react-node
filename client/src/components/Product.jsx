@@ -34,35 +34,41 @@ const useStyles = makeStyles({
 export const Product = (props) => {
   const classes = useStyles()
   return (
-    <Grid item lg={3} md={4} sm={6} xs={10}>
-      <Paper elevation={5}>
-        <Card>
-          <CardMedia className={classes.media} image={props.imageUrl} />
-          <CardContent>
-            <Typography style={{ textAlign: 'center' }} variant='h5'>
-              {props.name}
-            </Typography>
-            <Typography
-              style={{ textAlign: 'center' }}
-              variant='h6'
-              color='textSecondary'
-              component='p'
-            >
-              {props.price} دج
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button
-              className={classes.button}
-              size='small'
-              component={Link}
-              to={`/products/${props.id}`}
-            >
-              معلومات أكثر
-            </Button>
-          </CardActions>
-        </Card>
-      </Paper>
+    <Grid item md={4} sm={6} xs={12}>
+      <Card
+        elevation='8'
+        style={{
+          maxWidth: '400px',
+          maxHeight: '400px',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        <CardMedia className={classes.media} image={props.imageUrl} />
+        <CardContent>
+          <Typography style={{ textAlign: 'center' }} variant='h5'>
+            {props.name}
+          </Typography>
+          <Typography
+            style={{ textAlign: 'center' }}
+            variant='h6'
+            color='textSecondary'
+            component='p'
+          >
+            {props.price} دج
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button
+            className={classes.button}
+            size='small'
+            component={Link}
+            to={`/products/${props.id}`}
+          >
+            معلومات أكثر
+          </Button>
+        </CardActions>
+      </Card>
     </Grid>
   )
 }
