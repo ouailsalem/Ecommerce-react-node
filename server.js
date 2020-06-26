@@ -28,9 +28,7 @@ app.use(bodyParser.json())
 app.use('/client/public', express.static(path.join(__dirname, 'public')))
 
 // main
-app.get('/', (req, res) => {
-    res.send('hello from express')
-})
+
 //
 app.use('/products', require('./routes/products'))
 app.use('/users', require('./routes/users'))
