@@ -49,7 +49,6 @@ export const Allproducts = () => {
         style={{ marginTop: '3%', marginBottom: '3%' }}
       >
         {products.map((product) => (
-          <Fragment>
             <Product
               key={product.id}
               id={product.id}
@@ -59,16 +58,6 @@ export const Allproducts = () => {
               smallDescription={product.smallDescription}
               price={product.price}
             />
-            <Product
-              key={product.id}
-              id={product.id}
-              name={product.name}
-              imageUrl={product.mainPicture}
-              available={product.available}
-              smallDescription={product.smallDescription}
-              price={product.price}
-            />
-          </Fragment>
         ))}
       </Grid>
     </Container>
