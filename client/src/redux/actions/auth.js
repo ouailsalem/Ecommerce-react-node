@@ -17,7 +17,7 @@ export const loadUser = () => async dispatch => {
         setAuthToken(localStorage.token)
 
         try {
-            const res = await Axios.get('/auth')
+            const res = await Axios.get('/apiv2/auth')
             dispatch({
                 type: USER_LOADED,
                 payload: res.data.user
@@ -46,7 +46,7 @@ export const register = ({ name, email, password }) => async dispatch => {
     }
     const body = { name, email, password }
     try {
-        const res = await Axios.post('/users/register', body, config)
+        const res = await Axios.post('/apiv2/users/register', body, config)
         dispatch({
             type: REGISTER_SUCCESS,
             payload: res.data
@@ -79,7 +79,7 @@ export const login = ({ email, password }) => async dispatch => {
     }
     const body = { email, password }
     try {
-        const res = await Axios.post('/users/login', body, config)
+        const res = await Axios.post('/apiv2/users/login', body, config)
         dispatch({
             type: LOGIN_SUCCESS,
             payload: res.data

@@ -29,11 +29,11 @@ app.use(bodyParser.json())
 // main
 
 //
-app.use('/products', require('./routes/products'))
-app.use('/users', require('./routes/users'))
-app.use('/auth', require('./routes/auth'))
-app.use('/profile', require('./routes/profiles'))
-app.use('/reviews', require('./routes/reviews'))
+app.use('/apiv2/products', require('./routes/products'))
+app.use('/apiv2/users', require('./routes/users'))
+app.use('/apiv2/auth', require('./routes/auth'))
+app.use('/apiv2/profile', require('./routes/profiles'))
+app.use('/apiv2/reviews', require('./routes/reviews'))
 
 
 

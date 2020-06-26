@@ -23,7 +23,7 @@ export const getOrders = () => async dispatch => {
     dispatch({type: GET_ORDERS_LOADING})
 
     try {
-        const res = await Axios.get('/products/orders/all')
+        const res = await Axios.get('/apiv2/products/orders/all')
         dispatch({
             type: GET_ORDERS_SUCCESS,
             payload: res.data
@@ -60,7 +60,7 @@ export const updateOrder = (product, quantity, name, phoneNumber, address, wilay
         status
     }
     try {
-        await Axios.put(`/products/orders/all/${orderId}`, body, config)
+        await Axios.put(`/apiv2/products/orders/all/${orderId}`, body, config)
         dispatch({type: UPDATE_ORDER_SUCCESS})
         dispatch(setAlert("تم تعديل الطلب بنجاح", "success", true, 3000))
 
@@ -78,7 +78,7 @@ export const resetOrder = () => async dispatch => {
 export const deleteOrder = (orderId) => async dispatch => {
     dispatch({type: REMOVE_ORDER_LOADING})
     try {
-        await Axios.delete(`/products/orders/all/${orderId}`)
+        await Axios.delete(`/apiv2/products/orders/all/${orderId}`)
         dispatch({ type: REMOVE_ORDER_SUCCESS})
         dispatch(setAlert("تم حذف الـطلب", "success", true, 3000))
 

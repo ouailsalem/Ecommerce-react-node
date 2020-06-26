@@ -24,7 +24,7 @@ export const addOrder = (productId, product, quantity, name, phoneNumber, addres
         dispatch({
             type: POSTING_ORDER
         })
-        await Axios.post(`/products/order/${productId}/${refer}`, body, config)
+        await Axios.post(`/apiv2/products/order/${productId}/${refer}`, body, config)
         dispatch({
             type: ADD_ORDER,
             posted: true,
@@ -51,7 +51,7 @@ export const getOrder = (orderId) => async dispatch => {
         type: GET_SINGLE_ORDER_LOADING
     })
     try {
-        const res = await Axios.get(`/products/orders/all/${orderId}`)
+        const res = await Axios.get(`/apiv2/products/orders/all/${orderId}`)
 
         dispatch({
             type: GET_SINGLE_ORDER_SUCCESS,

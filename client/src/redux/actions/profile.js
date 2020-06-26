@@ -14,7 +14,7 @@ import { setAlert } from "./alert"
 export const getProfile = () => async dispatch => {
     dispatch({type:GET_PROFILE_LOADING})
     try {
-        const res = await Axios.get("/profile")
+        const res = await Axios.get("/apiv2/profile")
         dispatch({
             type: GET_PROFILE_SUCCESS,
             payload: res.data
@@ -43,7 +43,7 @@ export const updateProfile = (values) => async dispatch => {
     }
 
     try {
-        await Axios.put(`/profile/update/`, body, config)
+        await Axios.put(`/apiv2/profile/update/`, body, config)
         dispatch({ type: UPDATE_PROFILE_SUCCESS })
         dispatch(setAlert("تم تعديل الطلب بنجاح", "success", true, 3000))
 
