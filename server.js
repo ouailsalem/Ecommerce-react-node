@@ -25,7 +25,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-app.use('/client/public', express.static(path.join(__dirname, 'public')))
 
 // main
 
@@ -38,10 +37,7 @@ app.use('/reviews', require('./routes/reviews'))
 
 
 
-app.use('*', async (req, res) => {
-    res.status(404).json({ message: "page not found" })
 
-})
 const PORT=process.env.PORT || 5000
 
 // serve our static assests
