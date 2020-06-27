@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { loadUser } from '../../redux/actions/auth'
@@ -7,7 +7,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   const { isAuthenticated, loading } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   useEffect(() => {
-    store.dispatch(loadUser())
+    dispatch(loadUser())
   }, [dispatch])
   return (
     // Show the component only when the user is logged in
