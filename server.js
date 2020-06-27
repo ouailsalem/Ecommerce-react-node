@@ -34,10 +34,7 @@ app.use('/apiv2/reviews', require('./routes/reviews'))
 
 
 
-app.use('*', async (req, res) => {
-    res.status(404).json({ message: "page not found" })
 
-})
 const PORT = process.env.PORT || 5000
 // serve our static assests
 if (process.env.NODE_ENV === "production") {
