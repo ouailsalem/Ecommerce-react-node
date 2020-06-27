@@ -23,7 +23,7 @@ export const removeProduct = (productId) => async dispatch => {
         type: REMOVE_PRODUCT_LOADING,
     })
     try {
-        await Axios.delete(`products/${productId}`)
+        await Axios.delete(`/products/${productId}`)
         dispatch({
             type: REMOVE_PRODUCT_SUCCESS
         })
@@ -58,7 +58,7 @@ export const addProduct = (values) => async dispatch => {
         available: true,
     }
     try {
-        await Axios.post(`products/add`, body, config)
+        await Axios.post(`/products/add`, body, config)
         dispatch({
             type: ADD_PRODUCT_SUCCESS,
             posted: true
@@ -96,7 +96,7 @@ export const updateProduct = (values) => async dispatch => {
         available: true,
     }
     try {
-        await Axios.put(`products/${values.productId}`, body, config)
+        await Axios.put(`/products/${values.productId}`, body, config)
         dispatch({
             type: UPDATE_PRODUCT_SUCCESS,
         })

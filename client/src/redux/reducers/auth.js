@@ -1,4 +1,4 @@
-import { REGISTER_FAIL, REGISTER_SUCCESS, USER_LOADED, AUTH_ERROR, LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT } from "../actions/actionTypes"
+import { REGISTER_FAIL, REGISTER_SUCCESS, USER_LOADED, USER_LOADING,AUTH_ERROR, LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT } from "../actions/actionTypes"
 
 
 
@@ -12,6 +12,11 @@ const initialState = {
 export default function (state = initialState, action) {
     const { type, payload } = action
     switch (type) {
+        case USER_LOADING:
+            return {
+                ...state,
+                loading: true,
+            }
         case USER_LOADED:
             return {
                 ...state,

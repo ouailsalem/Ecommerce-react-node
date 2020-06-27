@@ -20,7 +20,7 @@ import { setAlert } from "./alert"
 export const getUsers = () => async dispatch => {
     dispatch({ type: GET_USERS_LOADING })
     try {
-        const res = await Axios.get('users')
+        const res = await Axios.get('/users')
         dispatch({
             type: GET_USERS_SUCCESS,
             payload: res.data

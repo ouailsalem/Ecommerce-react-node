@@ -25,12 +25,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-app.use('/client/public', express.static(path.join(__dirname, 'public')))
-
-// main
-app.get('/', (req, res) => {
-    res.send('hello from express')
-})
 //
 app.use('/apiv2/products', require('./routes/products'))
 app.use('/apiv2/users', require('./routes/users'))

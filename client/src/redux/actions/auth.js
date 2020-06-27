@@ -3,6 +3,7 @@ import {
     REGISTER_SUCCESS,
     REGISTER_FAIL,
     USER_LOADED,
+    USER_LOADING,
     AUTH_ERROR,
     LOGIN_SUCCESS,
     LOGIN_FAIL,
@@ -15,7 +16,9 @@ import setAuthToken from "../../utils/setAuthToken"
 export const loadUser = () => async dispatch => {
     if (localStorage.token) {
         setAuthToken(localStorage.token)
-
+        dispatch({
+            type:USER_LOADING
+        })
         try {
             const res = await Axios.get('auth')
             dispatch({
@@ -85,8 +88,8 @@ export const login = ({ email, password }) => async dispatch => {
             payload: res.data
         })
         localStorage.setItem('token', res.data.token);
-
         dispatch(setAlert("مرحبًا بك", "success", true, 3000))
+        dispatch(loadUser())
     } catch (err) {
         if (err.response.status === 400) {
             dispatch(setAlert("المعلومات المدخلة غير مطابقـة", "error", true, 4000))
