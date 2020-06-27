@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { Loading } from '../Loading'
@@ -7,8 +7,8 @@ import { loadUser } from '../../redux/actions/auth'
 const PrivateAdminRoute = ({ component: Component, ...rest }) => {
   const dispatch = useDispatch()
   useEffect(() => {
-    store.dispatch(loadUser())
-  }, [dispatch])
+    dispatch(loadUser())
+  }, [])
 
   const { isAuthenticated, loading, user } = useSelector((state) => state.auth)
   return (
