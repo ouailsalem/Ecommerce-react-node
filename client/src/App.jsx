@@ -102,7 +102,6 @@ export default function App() {
             <Switch>
               <PrivateAdminRoute path='/admin'>
                 <div style={{ display: 'flex' }}>
-                  <AppDrawer />
                   <Switch>
                     <PrivateAdminRoute
                       exact

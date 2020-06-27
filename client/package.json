@@ -47,11 +47,11 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5000",
+  "proxy": "http://localhost:8080",
   "devDependencies": {
     "css-loader": "^3.6.0",
     "postcss-loader": "^3.0.0",
     "style-loader": "^1.2.1"
   },
-  "homepage" : "https://ecommercewahab.herokuapp.com/"
+  "homepage" : "http://ecommercewahab.herokuapp.com/"
 }

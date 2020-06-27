@@ -88,7 +88,7 @@ export const AdminMembersUpdate = ({ match, props }) => {
             </Grid>
             <Grid item container justify={'flex-end'} md={6} xs={12}>
               <Link
-                to='/admin/products'
+                to='/admin/members'
                 variant='body2'
                 style={{ marginLeft: 30 }}
               >
@@ -113,7 +113,7 @@ export const AdminMembersUpdate = ({ match, props }) => {
                     userId: match.params.userId,
                     name: user.name,
                     email: user.email,
-                    money: user.description,
+                    money: user.money,
                   }}
                 >
                   <Form

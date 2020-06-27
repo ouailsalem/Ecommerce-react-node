@@ -11,7 +11,7 @@ import {
     RESET_USER_UPDATE,
 } from "../actions/actionTypes"
 
-const initialState = { loadingUser: false, posted: false, users: null}
+const initialState = { loadingUser: false, posted: false, users: []}
 export default (state = initialState, action) => {
     const { type, payload } = action
     switch (type) {

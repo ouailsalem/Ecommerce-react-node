@@ -1,33 +1,32 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-import { Loading } from '../Loading'
-import { loadUser } from '../../redux/actions/auth'
+import { useSelector } from 'react-redux'
+import { Loading } from '../Loading';
+const PrivateAdminRoute = ({ component: Component, ...otherProps }) => {
 
-const PrivateAdminRoute = ({ component: Component, ...rest }) => {
-  const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(loadUser())
-  }, [])
+  const { user, loading, isAuthenticated } = useSelector(state => state.auth);
 
-  const { isAuthenticated, loading, user } = useSelector((state) => state.auth)
   return (
-    // Otherwise, redirect the user to /signin page
-
     <Route
-      {...rest}
-      render={
-        loading
-          ? (props) => <Loading />
-          : (props) =>
-              !isAuthenticated || user.name !== 'admin' ? (
-                <Redirect to='/404' />
-              ) : (
-                <Component {...props} />
+      {...otherProps}
+      render={props => (
+        !loading
+          ?
+          (
+            isAuthenticated
+              ?
+              (user.name === "admin" ?
+                <Component {...props} /> :
+                <Redirect to={otherProps.redirectTo ? otherProps.redirectTo : '/404'} />
               )
-      }
+              :
+              <Redirect to={otherProps.redirectTo ? otherProps.redirectTo : '/404'} />
+          )
+          :
+          <Loading />
+      )}
     />
   )
-}
 
+}
 export default PrivateAdminRoute
