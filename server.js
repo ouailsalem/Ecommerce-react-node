@@ -25,9 +25,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
+app.use('/client/public', express.static(path.join(__dirname, 'public')))
 
 // main
-
+app.get('/', (req, res) => {
+    res.send('hello from express')
+})
 //
 app.use('/apiv2/products', require('./routes/products'))
 app.use('/apiv2/users', require('./routes/users'))
@@ -37,9 +40,11 @@ app.use('/apiv2/reviews', require('./routes/reviews'))
 
 
 
+app.use('*', async (req, res) => {
+    res.status(404).json({ message: "page not found" })
 
-const PORT=process.env.PORT || 5000
-
+})
+const PORT = process.env.PORT || 5000
 // serve our static assests
 if (process.env.NODE_ENV === "production") {
     app.use(express.static('client/build'))
@@ -48,6 +53,7 @@ if (process.env.NODE_ENV === "production") {
     })
 }
 
-app.listen(process.env.PORT, () => {
-    console.log('connected ' + process.env.PORT)
+
+app.listen(PORT, () => {
+    console.log('connected' + process.env.PORT)
 })
