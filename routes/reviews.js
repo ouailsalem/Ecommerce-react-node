@@ -32,7 +32,7 @@ router.get('/:reviewId', adminAuth, async (req, res) => {
 })
 
 //?get POST_REVIEWS !admin
-router.get('/product/:productId', adminAuth, async (req, res) => {
+router.get('/product/:productId',  async (req, res) => {
     try {
         let reviews = await Review.findAll({ where: { productId: req.params.productId } })
         res.status(200).json(reviews)
