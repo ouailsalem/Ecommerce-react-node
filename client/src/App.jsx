@@ -100,51 +100,51 @@ export default function App() {
           <Fragment>
             <CssBaseline />
             <Switch>
-              <PrivateAdminRoute path='/admin'>
+              <Route path='/admin'>
                 <div style={{ display: 'flex' }}>
                   <AppDrawer />
                   <Switch>
-                    <PrivateAdminRoute
+                    <Route
                       exact
                       path='/admin'
                       component={Dashboard}
                     />
-                    <PrivateAdminRoute
+                    <Route
                       exact
                       path='/admin/products'
                       component={AdminProducts}
                     />
-                    <PrivateAdminRoute
+                    <Route
                       exact
                       path='/admin/products/add'
                       component={AdminProductsAdd}
                     />
-                    <PrivateAdminRoute
+                    <Route
                       exact
                       path='/admin/products/edit/:productId'
                       component={AdminProductsUpdate}
                     />
-                    <PrivateAdminRoute
+                    <Route
                       exact
                       path='/admin/orders'
                       component={AdminOrders}
                     />
-                    <PrivateAdminRoute
+                    <Route
                       exact
                       path='/admin/orders/edit/:orderId'
                       component={AdminOrdersUpdate}
                     />
-                    <PrivateAdminRoute
+                    <Route
                       exact
                       path='/admin/members'
                       component={AdminMembers}
                     />
-                    <PrivateAdminRoute
+                    <Route
                       exact
                       path='/admin/members/edit/:userId'
                       component={AdminMembersUpdate}
                     />
-                    <PrivateAdminRoute
+                    <Route
                       exact
                       path='/admin/reviews'
                       component={AdminReviews}
@@ -152,7 +152,7 @@ export default function App() {
                     <Route component={NotFound} />
                   </Switch>
                 </div>
-              </PrivateAdminRoute>
+              </Route>
 
               <Route path='/'>
                 <Navbar />
@@ -172,7 +172,7 @@ export default function App() {
                     path='/profile/update'
                     component={ProfileUpdate}
                   />
-                  <PrivateRoute exact path='/affiliate' component={Affiliate} />
+                  <Route exact path='/affiliate' component={Affiliate} />
                   <Route
                     exact
                     path='/order/:productId/:refer'
