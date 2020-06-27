@@ -9,7 +9,7 @@ import { setAlert } from "./alert"
 export const getProducts = () => async dispatch => {
 
     try {
-        const res = await Axios.get('/products')
+        const res = await Axios.get('/apiv2/products')
         dispatch({
             type: GET_PRODUCTS,
             payload: res.data

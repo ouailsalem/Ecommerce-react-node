@@ -8,7 +8,7 @@ import { setAlert } from "./alert"
 export const getProduct = (productId) => async dispatch => {
 
     try {
-        const res = await Axios.get(`/products/${productId}`)
+        const res = await Axios.get(`/apiv2/products/${productId}`)
         let imgdata = res.data.payload.product.pictures
         let manyPics = imgdata.split(",")
         const pictures = [

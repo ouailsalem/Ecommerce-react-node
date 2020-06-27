@@ -12,7 +12,7 @@ import { setAlert } from "./alert"
 export const getReviews = () => async dispatch => {
 
     try {
-        const res = await Axios.get('/reviews')
+        const res = await Axios.get('/apiv2/reviews')
         dispatch({
             type: GET_ALL_REVIEWS_SUCCESS,
             payload: res.data
@@ -30,7 +30,7 @@ export const removeReview = (reviewId) => async dispatch => {
     })
     
     try {
-        await Axios.delete(`/reviews/${reviewId}`)
+        await Axios.delete(`/apiv2/reviews/${reviewId}`)
         dispatch({
             type: REMOVE_REVIEW_SUCCESS
         })
