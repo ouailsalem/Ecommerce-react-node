@@ -13,7 +13,6 @@ import {
 
 import {
   Home,
-  InfoRounded,
   Storefront,
   Toc,
   Group,
