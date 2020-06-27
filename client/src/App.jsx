@@ -166,8 +166,8 @@ export default function App() {
                   />
                   <Route exact path='/login' component={Login} />
                   <Route exact path='/register' component={Register} />
-                  <PrivateRoute exact path='/profile' component={Profile} />
-                  <PrivateRoute
+                  <Route exact path='/profile' component={Profile} />
+                  <Route
                     exact
                     path='/profile/update'
                     component={ProfileUpdate}
