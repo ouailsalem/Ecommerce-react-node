@@ -16,7 +16,7 @@ db
         console.error('Unable to connect to the database:', err);
     });
 
-
+const PORT = process.env.PORT || 8080
 //db.sequelize.sync({ force: true }).then(() => console.log('done'))
 
 
@@ -34,8 +34,6 @@ app.use('/apiv2/reviews', require('./routes/reviews'))
 
 
 
-
-const PORT = process.env.PORT || 5000
 // serve our static assests
 if (process.env.NODE_ENV === "production") {
     app.use(express.static('client/build'))
@@ -46,5 +44,5 @@ if (process.env.NODE_ENV === "production") {
 
 
 app.listen(PORT, () => {
-    console.log('connected' + process.env.PORT)
+    console.log('connected' + PORT)
 })
