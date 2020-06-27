@@ -14,13 +14,13 @@ import setAuthToken from "../../utils/setAuthToken"
 
 // Load user
 export const loadUser = () => async dispatch => {
+    dispatch({
+        type: USER_LOADING
+    })
     if (localStorage.token) {
         setAuthToken(localStorage.token)
-        dispatch({
-            type:USER_LOADING
-        })
         try {
-            const res = await Axios.get('auth')
+            const res = await Axios.get('/apiv2/auth')
             dispatch({
                 type: USER_LOADED,
                 payload: res.data.user
