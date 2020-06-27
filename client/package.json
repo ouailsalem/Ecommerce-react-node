@@ -1,29 +1,26 @@
 {
   "name": "client",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@material-ui/core": "^4.10.2",
     "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.56",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
-    "bootstrap": "^4.5.0",
-    "clsx": "^1.1.1",
     "formik": "^2.1.4",
-    "moment": "^2.26.0",
+    "material-table": "^1.62.0",
+    "material-ui-formik-components": "^0.7.1",
     "react": "^16.13.1",
-    "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
     "react-image-gallery": "^1.0.7",
-    "react-moment": "^0.9.7",
+    "react-player": "^2.3.1",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
-    "react-slick": "^0.26.1",
     "redux": "^4.0.5",
-    "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
     "uuid": "^8.1.0",
     "yup": "^0.29.1"
@@ -49,10 +46,12 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5000",
+  "proxy": "http://localhost:5000/apiv2/",
+  "secure": false,
   "devDependencies": {
     "css-loader": "^3.6.0",
     "postcss-loader": "^3.0.0",
+    "redux-devtools-extension": "^2.13.8",
     "style-loader": "^1.2.1"
   }
 }

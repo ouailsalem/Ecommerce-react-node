@@ -6,7 +6,7 @@ import { setAlert } from "./alert"
 export const getUser = (userId) => async dispatch => {
 
     try {
-        const res = await Axios.get(`/apiv2/users/${userId}`)
+        const res = await Axios.get(`/users/${userId}`)
         dispatch({
             type: GET_USER_SUCCESS,
             payload: res.data,

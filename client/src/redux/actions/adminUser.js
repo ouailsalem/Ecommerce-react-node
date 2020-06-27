@@ -20,7 +20,7 @@ import { setAlert } from "./alert"
 export const getUsers = () => async dispatch => {
     dispatch({ type: GET_USERS_LOADING })
     try {
-        const res = await Axios.get('/apiv2/users')
+        const res = await Axios.get('users')
         dispatch({
             type: GET_USERS_SUCCESS,
             payload: res.data
@@ -39,7 +39,7 @@ export const removeUser = (userId) => async dispatch => {
         type: REMOVE_USER_LOADING,
     })
     try {
-        await Axios.delete(`/apiv2/users/${userId}`)
+        await Axios.delete(`/users/${userId}`)
         dispatch({
             type: REMOVE_USER_SUCCESS
         })
@@ -75,7 +75,7 @@ export const updateUser = (values) => async dispatch => {
     }
 
     try {
-        let res = await Axios.put(`/apiv2/users/${values.userId}`, body, config)
+        let res = await Axios.put(`/users/${values.userId}`, body, config)
         console.log(res)
         dispatch({
             type: UPDATE_USER_SUCCESS,

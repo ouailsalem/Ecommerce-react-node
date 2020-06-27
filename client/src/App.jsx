@@ -96,7 +96,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <MuiThemeProvider theme={theme}>
-        <Router>
+        <Router >
           <Fragment>
             <CssBaseline />
             <Switch>

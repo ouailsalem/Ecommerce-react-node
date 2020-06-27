@@ -11,7 +11,7 @@ export const getReviews = (productId) => async dispatch => {
         }
     }
     try {
-        const res = await Axios.get(`/apiv2/reviews/product/${productId}`, config)
+        const res = await Axios.get(`/reviews/product/${productId}`, config)
         dispatch({
             type: GET_REVIEWS,
             payload: res.data
@@ -35,7 +35,7 @@ export const addReview = ({ review, rating, productId }) => async dispatch => {
     }
     const body = { review, rating }
     try {
-        await Axios.post(`/apiv2/reviews/${productId}`, body, config)
+        await Axios.post(`/reviews/${productId}`, body, config)
 
         dispatch({
             type: ADD_REVIEW,
