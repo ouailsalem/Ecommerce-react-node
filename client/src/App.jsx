@@ -89,7 +89,7 @@ export default function App() {
   /*----------------------------------------- React Hooks -------------------------------------------*/
   useEffect(() => {
     store.dispatch(loadUser())
-  }, [])
+  }, [dispatch])
 
   /*----------------------------------------- Main App     -------------------------------------------*/
 
@@ -100,51 +100,51 @@ export default function App() {
           <Fragment>
             <CssBaseline />
             <Switch>
-              <Route path='/admin'>
+              <PrivateAdminRoute path='/admin'>
                 <div style={{ display: 'flex' }}>
                   <AppDrawer />
                   <Switch>
-                    <Route
+                    <PrivateAdminRoute
                       exact
                       path='/admin'
                       component={Dashboard}
                     />
-                    <Route
+                    <PrivateAdminRoute
                       exact
                       path='/admin/products'
                       component={AdminProducts}
                     />
-                    <Route
+                    <PrivateAdminRoute
                       exact
                       path='/admin/products/add'
                       component={AdminProductsAdd}
                     />
-                    <Route
+                    <PrivateAdminRoute
                       exact
                       path='/admin/products/edit/:productId'
                       component={AdminProductsUpdate}
                     />
-                    <Route
+                    <PrivateAdminRoute
                       exact
                       path='/admin/orders'
                       component={AdminOrders}
                     />
-                    <Route
+                    <PrivateAdminRoute
                       exact
                       path='/admin/orders/edit/:orderId'
                       component={AdminOrdersUpdate}
                     />
-                    <Route
+                    <PrivateAdminRoute
                       exact
                       path='/admin/members'
                       component={AdminMembers}
                     />
-                    <Route
+                    <PrivateAdminRoute
                       exact
                       path='/admin/members/edit/:userId'
                       component={AdminMembersUpdate}
                     />
-                    <Route
+                    <PrivateAdminRoute
                       exact
                       path='/admin/reviews'
                       component={AdminReviews}
@@ -152,7 +152,7 @@ export default function App() {
                     <Route component={NotFound} />
                   </Switch>
                 </div>
-              </Route>
+              </PrivateAdminRoute>
 
               <Route path='/'>
                 <Navbar />
@@ -166,13 +166,13 @@ export default function App() {
                   />
                   <Route exact path='/login' component={Login} />
                   <Route exact path='/register' component={Register} />
-                  <Route exact path='/profile' component={Profile} />
-                  <Route
+                  <PrivateRoute exact path='/profile' component={Profile} />
+                  <PrivateRoute
                     exact
                     path='/profile/update'
                     component={ProfileUpdate}
                   />
-                  <Route exact path='/affiliate' component={Affiliate} />
+                  <PrivateRoute exact path='/affiliate' component={Affiliate} />
                   <Route
                     exact
                     path='/order/:productId/:refer'
