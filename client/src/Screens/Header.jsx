@@ -58,7 +58,7 @@ export const Header = () => {
         <Button
           component={Link}
           color='primary'
-          to='/products'
+          to='/affiliate'
           variant='contained'
           size='small'
           style={{
